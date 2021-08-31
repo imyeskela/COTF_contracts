@@ -3,15 +3,23 @@ from django.urls import reverse
 
 
 class Contract(models.Model):
+    """Модель для Контрактов"""
+
     class Statuses(models.TextChoices):
+        """Модель выборы Статуса"""
+
         actual = 'Актуально'
         outdated = 'Устарело'
 
     class Types(models.TextChoices):
+        """Модель выборы Типов"""
+
         basic = 'Основной'
         renewal = 'Продление'
 
     class Companies(models.TextChoices):
+        """Модель выборы Компании"""
+
         CMS = 'ООО "Комьюнити Менеджмент Солюшнз"'
         DC = 'ООО "ДЕЛОВОЙ КЛУБ"'
 
@@ -32,6 +40,8 @@ class Contract(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+        """Переопределение метода save для имени и слага"""
+
         self.name = str(self.type + ' ' + self.company)
         self.slug = self.pk
         super(Contract, self).save(*args, **kwargs)
