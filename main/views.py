@@ -9,4 +9,4 @@ class ContractListView(ContractListMixin, View):
     """Отображение всех контрактов"""
 
     queryset = get_contracts()
-    template_name = 'templates/contracts_list.html'
+    template_name = 'contracts_list.html'

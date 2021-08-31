@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-
+{% for contract in contract_list %}
+    {{ contract.name }}
+{% endfor %}
 </body>
 </html>
