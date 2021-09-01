@@ -5,8 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-{% for contract in contract_list %}
-    {{ contract.name }}
+{% for contracts in contract_list %}
+
+    <p>{{ contracts.name }}, {{ contracts.template_of_contract }}</p>
 {% endfor %}
+<a href="contract-creation/">creat </a>
 </body>
 </html>

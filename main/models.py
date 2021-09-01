@@ -1,11 +1,22 @@
+import uuid
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
+from django.template.defaultfilters import slugify
 
 
 def check_format_of_file(value):
     if not value.name.endswith('.docx'):
         raise ValidationError(u'Выберите файл с форматом .docx')
+
+
+def get_number_from_slug():
+    return Contract.objects.last().slug
+
+
+def get_slug_for_new_contract():
+    return int(get_number_from_slug()) + 1
 
 
 class Contract(models.Model):
@@ -30,7 +41,7 @@ class Contract(models.Model):
         DC = 'ООО "ДЕЛОВОЙ КЛУБ"'
 
     name = models.CharField('Название', null=False, max_length=50, blank=True)
-    slug = models.SlugField('Url', unique=True, blank=True)
+    slug = models.SlugField('Url', unique=True)
     template_of_contract = models.FileField('Шаблон договора', null=False, upload_to='upload/', validators=[check_format_of_file])
     amount = models.PositiveIntegerField('Сумма', null=True)
     status = models.CharField('Статус', choices=Statuses.choices, default=Statuses.actual, max_length=50)
@@ -42,18 +53,18 @@ class Contract(models.Model):
         verbose_name = 'Контракт'
         verbose_name_plural = 'Контракты'
 
-    def __str__(self):
-        return self.name
-
     def save(self, *args, **kwargs):
         """Переопределение метода save для имени и слага"""
 
         self.name = str(self.type + ' ' + self.company)
-        self.slug = self.pk
+        self.slug = slugify(str(get_slug_for_new_contract()))
         super(Contract, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('contract_detail', kwargs={'contract_id': self.pk})
+        return reverse('contract_detail', kwargs={'contract_id': self.slug})
+
+    def __str__(self):
+        return self.name
 
 
 class Branch(models.Model):

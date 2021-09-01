@@ -9,4 +9,5 @@ class ContractListMixin:
     template_name = None
 
     def get(self, request):
+
         return render(request, self.template_name, {'contract_list': self.queryset})
