@@ -41,7 +41,7 @@ class Contract(models.Model):
         DC = 'ООО "ДЕЛОВОЙ КЛУБ"'
 
     name = models.CharField('Название', null=False, max_length=50, blank=True)
-    slug = models.SlugField('Url', unique=True)
+    slug = models.SlugField('Url', unique=True, default='24546799')
     template_of_contract = models.FileField('Шаблон договора', null=False, upload_to='upload/', validators=[check_format_of_file])
     amount = models.PositiveIntegerField('Сумма', null=True)
     status = models.CharField('Статус', choices=Statuses.choices, default=Statuses.actual, max_length=50)

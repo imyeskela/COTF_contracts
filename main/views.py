@@ -1,20 +1,20 @@
 import os
 from pathlib import Path
 
+from django.db.models.fields.files import FieldFile
 from django.http import HttpResponse, FileResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View
 import io
 from io import BytesIO
-
 from docxtpl import DocxTemplate
+import docx
 from django.views.generic import CreateView
 
 from cotf_contracts.settings import BASE_DIR, MEDIA_URL
 from services.main_logic import get_contracts
-from services.file_logic import get_path
 from main.utils import ContractListMixin
-from main.forms import TemplateUploadForm
+from main.forms import ContractCreateForm
 from main.models import Contract
 
 
@@ -27,9 +27,24 @@ class ContractListView(ContractListMixin, View):
 
 class ContractCreateView(CreateView):
 
-    model = Contract
-    template_name = 'contract_creation.html'
-    form_class = TemplateUploadForm
+    def get(self, request, *args, **kwargs):
+        context = {'form': ContractCreateForm()}
+        # if 'update' in request.GET:
+        #
+        #     print(request.POST)
+        return render(request, 'contract_creation.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = ContractCreateForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form = form.save(commit=False)
+            # if 'update' in request.GET:
+            #     doc = DocxTemplate(os.path.join(BASE_DIR, 'upload\\upload\Продление_МСК_КМСпеременные_Z5PiVvo.docx'))
+            #     print(form.request.FILES)
+            form.save()
+        return render(request, 'contract_creation.html', {'form': form})
+
 
 
 # def doc_test(request):
@@ -51,3 +66,8 @@ class ContractCreateView(CreateView):
 #     response["Content-Type"] = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 #
 #     return response
+
+def doc_test(request):
+    doc = DocxTemplate(os.path.join(BASE_DIR, 'upload\\upload\Продление_МСК_КМСпеременные_Z5PiVvo.docx'))
+
+    return print(doc.undeclared_template_variables)
