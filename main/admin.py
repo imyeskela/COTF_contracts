@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from main.models import Contract
+from main.models import ContractTemplate
 
-admin.site.register(Contract)
+admin.site.register(ContractTemplate)

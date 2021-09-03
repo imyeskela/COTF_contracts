@@ -1,12 +1,12 @@
 from django.core.exceptions import ValidationError
 
-from main.models import Contract
+from main.models import ContractTemplate
 
 
 def get_contracts():
     """Получаем все контракты"""
 
-    return Contract.objects.all()
+    return ContractTemplate.objects.all()
 
 
 def _is_valid(value):

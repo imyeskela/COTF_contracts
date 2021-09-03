@@ -4,13 +4,13 @@ import os
 from docxtpl import DocxTemplate
 from pathlib import Path, WindowsPath
 
-from main.models import Contract
+from main.models import ContractTemplate
 
 
 class ContractCreateForm(forms.ModelForm):
 
     class Meta:
-        model = Contract
+        model = ContractTemplate
         fields = ['template_of_contract', 'amount', 'status', 'type', 'company', 'name']
 
     def clean(self):

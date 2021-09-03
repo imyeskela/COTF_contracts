@@ -15,7 +15,7 @@ from cotf_contracts.settings import BASE_DIR, MEDIA_URL
 from services.main_logic import get_contracts
 from main.utils import ContractListMixin
 from main.forms import ContractCreateForm
-from main.models import Contract
+from main.models import ContractTemplate
 
 
 class ContractListView(ContractListMixin, View):
