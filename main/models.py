@@ -96,7 +96,7 @@ class Contract(models.Model):
     def save(self, *args, **kwargs):
         """Переопределение метода save для имени и слага"""
 
-        self.name = str(self.contract_template.type + ' ' + self.full_name + '' + str(self.date_created))
+        self.name = str(self.full_name + '' + str(self.date_created))
         super(Contract, self).save(*args, **kwargs)
 
     def __str__(self):

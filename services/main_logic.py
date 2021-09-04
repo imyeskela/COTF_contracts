@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 
 from main.models import ContractTemplate
+from main.forms import ContractTemplateCreateForm, ContractCreateForm
 
 
 def get_contracts():
@@ -9,15 +10,8 @@ def get_contracts():
     return ContractTemplate.objects.all()
 
 
-def _is_valid(value):
-    """Проверка на пустое поле"""
-
-    return value != '' and value is not None
+def get_form_contract_template():
+    return ContractCreateForm
 
 
-def check_file_for_vars(self):
-    update = self.request.GET.get('update')
-
-    if _is_valid(update):
-        pass
 

@@ -12,30 +12,31 @@ import docx
 from django.views.generic import CreateView
 
 from cotf_contracts.settings import BASE_DIR, MEDIA_URL
-from services.main_logic import get_contracts
+from services.main_logic import get_contracts, get_form_contract_template
 from main.utils import ContractListMixin
-from main.forms import ContractCreateForm
+from main.forms import ContractTemplateCreateForm
 from main.models import ContractTemplate
 
 
-class ContractListView(ContractListMixin, View):
+class ContractTemplateListAndCreateView(ContractListMixin, View):
     """Отображение всех контрактов"""
 
     queryset = get_contracts()
+    form = get_form_contract_template()
     template_name = 'contracts_list.html'
 
 
 class ContractCreateView(CreateView):
 
     def get(self, request, *args, **kwargs):
-        context = {'form': ContractCreateForm()}
+        context = {'form': ContractTemplateCreateForm()}
         # if 'update' in request.GET:
         #
         #     print(request.POST)
         return render(request, 'contract_creation.html', context)
 
     def post(self, request, *args, **kwargs):
-        form = ContractCreateForm(request.POST, request.FILES)
+        form = ContractTemplateCreateForm(request.POST, request.FILES)
 
         if form.is_valid():
             form = form.save(commit=False)

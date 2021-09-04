@@ -7,7 +7,23 @@
 <body>
 {% for contracts in contract_list %}
 
-    <p>{{ contracts.name }}, {{ contracts.template_of_contract }}</p>
+    <p>
+        {{ contracts.name }}, {{ contracts.pk }}  <form action="" method="post" enctype="multipart/form-data">
+
+
+
+    <input type="hidden" name="contract_template" value="{{ contracts.pk }}">
+    {% if contracts.amount != 0 %}
+        <input name="amount_bitch" value="{{ contracts.amount }}">
+    {% else %}
+
+    {% endif %}
+                <form>{% csrf_token %}
+
+                {{ form.as_p }}
+            <button type="submit">Создать</button></form>
+</form>
+    </p>
 {% endfor %}
 <a href="contract-creation/">creat </a>
 </body>
