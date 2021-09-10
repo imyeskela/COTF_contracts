@@ -1,5 +1,36 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from io import StringIO, BytesIO
+from django.shortcuts import render
+import os
+from docxtpl import DocxTemplate
+from babel.dates import format_date
+from docx2pdf import convert
+import PyPDF2
+from cotf_contracts.settings import BASE_DIR
+from services.main_logic import generator_num_contract
+
+
+class ContractTemplateListAndCreateContractMixin:
+    """Миксин для отображения всех шаблонов контрактов"""
+
+    queryset = None
+    template_name = None
+    form = None
+
+    def get(self, request):
+        return render(request, self.template_name, {'contract_template_list': self.queryset, 'form': self.form, })
+
+    def post(self, request):
+        form = self.form(request.POST)
+        if form.is_valid():
+            contact_template_id = int(request.POST.get('contract_template'))
+            contract_template = self.queryset.get(id=contact_template_id)
+            form = form.save(commit=False)
+            form.amount = int(request.POST.get('amount_bitch'))
+            form.contract_template = contract_template
+            form.number = generator_num_contract()
+            form.save()
+
+        return render(request, self.template_name, {'form': form})
 
 
 class ContractListMixin:
@@ -7,20 +38,86 @@ class ContractListMixin:
 
     queryset = None
     template_name = None
-    form = None
 
     def get(self, request):
-        return render(request, self.template_name, {'contract_list': self.queryset, 'form': self.form, })
+        queryset = self.queryset
+        template_name = self.template_name
+        return render(request, template_name, {'contract_list': queryset})
 
-    def post(self, request):
+
+class FillingQuestionnaireMixin:
+    """Миксин для формы анкета"""
+
+    form = None
+    contract = None
+    template_name = None
+
+    def get(self, request, contract_number):
+        return render(request, self.template_name, {'form': self.form, 'contract': self.contract})
+
+    def post(self, request, contract_number):
         form = self.form(request.POST)
-        if form.is_valid():
-            contact_template_id = int(request.POST.get('contract_template'))
-            contract_template = self.queryset.get(id=contact_template_id)
-            print(contract_template)
-            form = form.save(commit=False)
-            form.amount = int(request.POST.get('amount_bitch'))
-            form.contract_template = contract_template
-            form.save()
+        contract = self.contract()
+        if form.is_valid:
+            docx = DocxTemplate(os.path.join(BASE_DIR, contract.contract_template.template_of_contract.path))
+            # basic_vars = ['email', 'passport', 'signature', 'full_name',
+            #               'id', 'generated_date', 'short_name', 'phone']
+            #
+            # renewal_vars = ['sum', 'email', 'passport', 'signature', 'text_sum',
+            #                 'full_name', 'id', 'generated_date', 'short_name', 'phone']
+            last_name = request.POST['last_name']
+            name = request.POST['name']
+            sur_name = request.POST['sur_name']
+            full_name = last_name.title() + ' ' + name.title() + ' ' + sur_name.title()
+            generated_date = format_date(contract.date_created, 'd MMMM yyyy', locale='ru')
+            phone = str(request.POST['phone'])
+            passport = request.POST['passport']
+            email = request.POST['email']
 
-        return render(request, 'contracts_list.html', {'form': form})
+            if sur_name:
+                short_name = last_name + ' ' + name[0] + '.' + sur_name[0] + '.'
+            else:
+                short_name = last_name + ' ' + name[0] + '.'
+
+            id_contract = str(contract.number)
+            path_docx = os.path.join(BASE_DIR, 'upload\\tmp\\' + id_contract + '.docx')
+
+            if str(contract.contract_template.type) == 'Основной':
+                basic_vars = {'email': email,
+                              'full_name': full_name,
+                              'id': id_contract,
+                              'short_name': short_name,
+                              'generated_date': generated_date,
+                              'phone': phone,
+                              'passport': passport}
+                docx.render(basic_vars)
+
+                docx.save(path_docx)
+            else:
+                pass
+            path_pdf = os.path.join(BASE_DIR, 'upload\\tmp\\' + id_contract + '.pdf')
+
+
+            # в функции window в файле библиотеки docx2pdf был добавлен pythoncom.CoInitialize()
+            # def windows(paths, keep_active):
+            #     import win32com.client
+            #     pythoncom.CoInitialize()
+
+            print(path_docx)
+            convert(path_docx, path_pdf)
+            os.remove(path_docx)
+
+            tmp = BytesIO()
+            output = PyPDF2.PdfFileWriter()
+            pdf = open(path_pdf, 'r').read().encode("base64")
+            pdfOne = PyPDF2.PdfFileReader(pdf)
+            for page in range(pdfOne.getNumPages()):
+                output.addPage(pdfOne.getPage(page))
+
+
+            output.write(tmp)
+            os.remove(path_pdf)
+            print(tmp.read().decode('base64'))
+
+
+        return render(request, self.template_name, {'form': form})

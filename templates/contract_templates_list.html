@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-{% for contracts in contract_list %}
+{% for contracts in contract_template_list %}
 
     <p>
         {{ contracts.name }}, {{ contracts.pk }}  <form action="" method="post" enctype="multipart/form-data">
@@ -25,6 +25,9 @@
 </form>
     </p>
 {% endfor %}
-<a href="contract-creation/">creat </a>
+<a href="{% url 'tem_form' %}">Создать шаблон контракта</a>
+<a href="{% url 'contract_list' %}">Клиенты</a>
+
+<a></a>
 </body>
 </html>

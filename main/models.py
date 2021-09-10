@@ -3,23 +3,40 @@ import uuid
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
-from django.template.defaultfilters import slugify
 from django.utils import timezone
+from babel.dates import format_date
 
 
 def check_format_of_file(value):
+    """Проверка формата на docx"""
+
     if not value.name.endswith('.docx'):
         raise ValidationError(u'Выберите файл с форматом .docx')
 
 
 def check_format_of_payment(value):
+    """Проверка формата на xlsx"""
+
     if not value.name.endswith('.xlsx'):
         raise ValidationError(u'Выберите файл с форматом .xlsx')
 
 
 def check_format_signed_contract(value):
+    """Проверка формата на pdf"""
+
     if not value.name.endswith('.pdf'):
         raise ValidationError(u'Выберите файл с форматом .pdf')
+
+
+def _generator_num_contract():
+    """Генератор номера договора"""
+
+    try:
+        contract = Contract.objects.last()
+        contract_num = getattr(contract, 'number')
+        return contract_num
+    except AttributeError:
+        return 24546799
 
 
 class ContractTemplate(models.Model):
@@ -76,31 +93,35 @@ class Contract(models.Model):
         canceled = 'Отменен'
         refusal = 'Отказ'
 
-    number = models.PositiveBigIntegerField('Номер договора', default=str(24546799), null=False)
+    number = models.PositiveBigIntegerField('Номер договора', default=24546799, null=False)
     contract_template = models.ForeignKey(ContractTemplate, on_delete=models.CASCADE, null=False)
     payment = models.FileField('Счет на оплату', null=True, upload_to='payment/',
-                               validators=[check_format_of_payment])
+                               validators=[check_format_of_payment], blank=True)
     signed_contract = models.FileField('Подписанный договор', upload_to='signed_contract/',
-                                       null=True, validators=[check_format_signed_contract])
-    date_created = models.DateField('Дата генерации', auto_now_add=True)
+                                       null=True)
+    date_created = models.DateField('Дата генерации', default=timezone.now())
     date_signed = models.DateField('Дата подписания', blank=True, null=True)
     status = models.CharField('Статус', choices=Statuses.choices, default=Statuses.directed, max_length=50)
     full_name = models.CharField('ФИО', null=False, max_length=150)
     amount = models.PositiveIntegerField('Сумма', null=True)
-    name = models.CharField('Название', max_length=200, null=False)
+    name = models.CharField('Название', max_length=300, null=False)
 
     class Meta:
         verbose_name = 'Контракт'
         verbose_name_plural = 'Контракты'
 
     def save(self, *args, **kwargs):
-        """Переопределение метода save для имени и слага"""
+        """Переопределение метода save для имени и номера договора"""
 
-        self.name = str(self.full_name + '' + str(self.date_created))
+        self.name = str(self.full_name + ' ' + self.contract_template.type + ' ' +
+                        format_date(self.date_created, 'd MMMM yyyy', locale='ru'))
         super(Contract, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('contract_detail', kwargs={'contract_number': str(self.number)})
+
     def __str__(self):
-        return self.number
+        return str(self.number)
 
 
 class Branch(models.Model):

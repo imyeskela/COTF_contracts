@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ contract.number }}
+<form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+    <h4> Фамилия{{ form.last_name }}</h4>
+    <h4> Имя{{ form.name }}</h4>
+    <h4> Отчество{{ form.sur_name }}</h4>
+    <h4> Паспорт{{ form.passport }}</h4>
+    <h4> Почта{{ form.email }}</h4>
+    <h4> Телефон{{ form.phone }}</h4>
+            <button type="submit">Сформировать договор</button>
+
+ </form>
+</body>
+</html>
