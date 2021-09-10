@@ -1,5 +1,5 @@
-from django.core.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
+
 
 from main.models import ContractTemplate, Contract
 from main.forms import ContractTemplateCreateForm, ContractCreateForm, FillingQuestionnaireForm
@@ -42,4 +42,5 @@ def generator_num_contract():
         return contract_num + 1
     except AttributeError:
         return 24546799
+
 

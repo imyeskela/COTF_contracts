@@ -1,10 +1,10 @@
-from io import StringIO, BytesIO
 from django.shortcuts import render
 import os
 from docxtpl import DocxTemplate
 from babel.dates import format_date
-from docx2pdf import convert
-import PyPDF2
+
+import base64
+
 from cotf_contracts.settings import BASE_DIR
 from services.main_logic import generator_num_contract
 
@@ -95,29 +95,13 @@ class FillingQuestionnaireMixin:
                 docx.save(path_docx)
             else:
                 pass
-            path_pdf = os.path.join(BASE_DIR, 'upload\\tmp\\' + id_contract + '.pdf')
 
-
-            # в функции window в файле библиотеки docx2pdf был добавлен pythoncom.CoInitialize()
-            # def windows(paths, keep_active):
-            #     import win32com.client
-            #     pythoncom.CoInitialize()
-
-            print(path_docx)
-            convert(path_docx, path_pdf)
+            docx_open = open(path_docx, 'rb')
+            docx_read = docx_open.read()
+            docx_base = base64.b64encode(docx_read)
+            docx_open.close()
             os.remove(path_docx)
+            return render(request, self.template_name, {'form': form, 'base64': docx_base})
+        else:
+            form = self.form()
 
-            tmp = BytesIO()
-            output = PyPDF2.PdfFileWriter()
-            pdf = open(path_pdf, 'r').read().encode("base64")
-            pdfOne = PyPDF2.PdfFileReader(pdf)
-            for page in range(pdfOne.getNumPages()):
-                output.addPage(pdfOne.getPage(page))
-
-
-            output.write(tmp)
-            os.remove(path_pdf)
-            print(tmp.read().decode('base64'))
-
-
-        return render(request, self.template_name, {'form': form})
