@@ -9,7 +9,7 @@ class ContractTemplateCreateForm(forms.ModelForm):
 
     class Meta:
         model = ContractTemplate
-        fields = ['template_of_contract', 'amount', 'status', 'type', 'company', 'name']
+        fields = ['template_of_contract', 'amount', 'status', 'type', 'company']
 
     def clean(self):
         cleaned_data = super(ContractTemplateCreateForm, self).clean()
@@ -27,12 +27,14 @@ class ContractTemplateCreateForm(forms.ModelForm):
         if type_of_contr == 'Основной':
             for basic in basic_vars:
                 if basic not in vars_in_docx:
-                    raise ValidationError('IS NOT NIGGER')
+                    raise ValidationError('Отсутствуют или внесены неверно переменные <переменные> Пожалуйста, '
+                                          'загрузите исправленный документ и выполните проверку повторно')
 
         elif type_of_contr == 'Продление':
             for renewal in renewal_vars:
                 if renewal not in vars_in_docx:
-                    raise ValidationError('IS NOT NIGGER')
+                    raise ValidationError('Отсутствуют или внесены неверно переменные <переменные> Пожалуйста, '
+                                          'загрузите исправленный документ и выполните проверку повторно')
         return cleaned_data
 
 
@@ -46,12 +48,22 @@ class ContractCreateForm(forms.ModelForm):
 
 
 class FillingQuestionnaireForm(forms.Form):
-    last_name = forms.CharField(help_text='Фамилия')
-    name = forms.CharField(help_text='Имя')
-    sur_name = forms.CharField(help_text='Отчество', required=False)
-    passport = forms.CharField(help_text='Серия и номер паспорта')
-    email = forms.EmailField(help_text='электронная почта')
-    phone = forms.IntegerField(help_text='Номер телефона')
+    last_name = forms.CharField(help_text='Фамилия', label='last_name')
+    name = forms.CharField(help_text='Имя', label='name')
+    sur_name = forms.CharField(help_text='Отчество', required=False, label='sur_name')
+    passport = forms.CharField(help_text='Серия и номер паспорта', max_length=11, label='passport')
+    email = forms.EmailField(help_text='электронная почта', label='email')
+    phone = forms.CharField(help_text='Номер телефона', label='phone')
+
+    def clean(self):
+        cleaned_data = super(FillingQuestionnaireForm, self).clean()
+        last_name = str(self.cleaned_data['last_name'])
+        print(last_name + ' edsad')
+        if last_name[0] == '.':
+            raise ValidationError('Недопустимые симпволы')
+        return cleaned_data
+
+
 
 
 

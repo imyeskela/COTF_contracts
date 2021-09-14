@@ -6,17 +6,35 @@
 </head>
 <body>
 {{ contract.number }}
+
 <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-    <h4> Фамилия{{ form.last_name }}</h4>
-    <h4> Имя{{ form.name }}</h4>
-    <h4> Отчество{{ form.sur_name }}</h4>
-    <h4> Паспорт{{ form.passport }}</h4>
-    <h4> Почта{{ form.email }}</h4>
-    <h4> Телефон{{ form.phone }}</h4>
-            <button type="submit">Сформировать договор</button>
+    <p><label for="last_name">Фамилия </label>
+<input id="last_name" type="text" name="last_name" maxlength="100"></p>
 
- </form>
+    <p><label for="name">Имя </label>
+<input id="name" type="text" name="name" maxlength="100"></p>
 
+    <p><label for="sur_name">Отчество </label>
+<input id="sur_name" type="text" name="sur_name" maxlength="100"></p>
+
+    <p><label for="passport">Паспорт </label>
+<input id="passport" type="text" name="passport" maxlength="100"></p>
+
+    <p><label for="email">Почта </label>
+<input id="email" type="text" name="email" maxlength="100"></p>
+
+    <p><label for="phone">Телефон </label>
+<input id="phone" type="text" name="phone" maxlength="100"></p>
+
+
+
+
+
+    <button type="submit" name="one">Сформировать договор</button>
+
+
+
+</form>
 </body>
 </html>

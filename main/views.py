@@ -1,10 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views.generic import CreateView
 
 from main.models import Contract
-from services.main_logic import get_template_contracts, get_form_contract_template, get_contracts, get_contact, \
-    docx_base64
+from services.main_logic import get_template_contracts, get_form_contract_template, get_contracts, get_contact
 from main.utils import ContractTemplateListAndCreateContractMixin, ContractListMixin, FillingQuestionnaireMixin
 from main.forms import ContractTemplateCreateForm, FillingQuestionnaireForm
 
@@ -29,6 +28,7 @@ class ContractCreateView(CreateView):
         if form.is_valid():
             form = form.save(commit=False)
             form.save()
+            return redirect('contract_template_list')
         return render(request, 'contract_template_creation.html', {'form': form})
 
 

@@ -45,25 +45,27 @@ class ContractTemplate(models.Model):
     class Statuses(models.TextChoices):
         """Модель выборы Статуса"""
 
-        actual = 'Актуально'
-        outdated = 'Устарело'
+        actual = 'Актуально', 'Актуально'
+        outdated = 'Устарело', 'Устарело'
 
     class Types(models.TextChoices):
         """Модель выборы Типов"""
 
-        basic = 'Основной'
-        renewal = 'Продление'
+        basic = 'Основной', 'Основной'
+        renewal = 'Продление', 'Продление'
 
     class Companies(models.TextChoices):
         """Модель выборы Компании"""
 
-        CMS = 'ООО "Комьюнити Менеджмент Солюшнз"'
-        DC = 'ООО "ДЕЛОВОЙ КЛУБ"'
+        CMS = 'ООО "КМС"', ('ООО "КМС"')
+        DC = 'ООО "ДЕЛОВОЙ КЛУБ"', ('ООО "ДЕЛОВОЙ КЛУБ"')
+
+
 
     name = models.CharField('Название', null=False, max_length=50, blank=True)
     template_of_contract = models.FileField('Шаблон договора', null=False, upload_to='upload/', validators=[check_format_of_file])
     amount = models.PositiveIntegerField('Сумма', null=True)
-    status = models.CharField('Статус', choices=Statuses.choices, default=Statuses.actual, max_length=50)
+    status = models.CharField('Статус', choices=Statuses.choices, default=Statuses.actual, max_length=100)
     type = models.CharField('Тип', choices=Types.choices, null=False, max_length=50)
     # branch = models.ForeignKey('Branch', on_delete=models.CASCADE, blank=True)
     company = models.CharField('Компания', choices=Companies.choices, null=False, max_length=50)
@@ -88,10 +90,10 @@ class Contract(models.Model):
     class Statuses(models.TextChoices):
         """Модель выборы Статуса"""
 
-        directed = 'Направлен'
-        signed = 'Подписан'
-        canceled = 'Отменен'
-        refusal = 'Отказ'
+        directed = 'Направлен', 'Направлен'
+        signed = 'Подписан', 'Подписан'
+        canceled = 'Отменен', 'Отменен'
+        refusal = 'Отказ', 'Отказ'
 
     number = models.PositiveBigIntegerField('Номер договора', default=24546799, null=False)
     contract_template = models.ForeignKey(ContractTemplate, on_delete=models.CASCADE, null=False)
