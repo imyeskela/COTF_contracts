@@ -1,6 +1,5 @@
 from io import BytesIO
 
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
 import os
 from docxtpl import DocxTemplate
@@ -10,11 +9,13 @@ from PIL import Image
 from docx import Document
 from docx.shared import Mm, Inches, Pt
 import qrcode
+from openpyxl import load_workbook
+from openpyxl.drawing.image import Image
 
-
+from django.core.mail import EmailMessage
 import base64
 
-from cotf_contracts.settings import BASE_DIR
+from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER
 from services.main_logic import generator_num_contract
 from services.num_to_text import num2text
 
@@ -71,15 +72,11 @@ class FillingQuestionnaireMixin:
         return render(request, self.template_name, {'form': self.form, 'contract': self.contract})
 
     def post(self, request, contract_number):
+        global purpose, sum
         form = self.form(request.POST)
         contract = self.contract()
         if form.is_valid:
             docx = DocxTemplate(os.path.join(BASE_DIR, contract.contract_template.template_of_contract.path))
-            # basic_vars = ['email', 'passport', 'signature', 'full_name',
-            #               'id', 'generated_date', 'short_name', 'phone']
-            #
-            # renewal_vars = ['sum', 'email', 'passport', 'signature', 'text_sum',
-            #                 'full_name', 'id', 'generated_date', 'short_name', 'phone']
             last_name = request.POST['last_name']
             name = request.POST['name']
             sur_name = request.POST['sur_name']
@@ -110,8 +107,8 @@ class FillingQuestionnaireMixin:
 
                 docx.save(path_docx)
             else:
-                sum = contract.amount
-                text_sum = num2text(sum) + ' рублей'
+                sum_c = contract.amount
+                text_sum = num2text(sum_c) + ' рублей'
                 renewal_vars = {'email': email,
                                 'full_name': full_name,
                                 'id': id_contract,
@@ -119,7 +116,7 @@ class FillingQuestionnaireMixin:
                                 'generated_date': generated_date,
                                 'phone': phone,
                                 'passport': passport,
-                                'sum': str(sum),
+                                'sum': str(sum_c),
                                 'text_sum': text_sum
                                 }
                 docx.render(renewal_vars)
@@ -132,40 +129,97 @@ class FillingQuestionnaireMixin:
             docx_open.close()
             os.remove(path_docx)
 
-            if request.method and 'one' in request.POST:
-                company = contract.contract_template.company
-                generated_date_qr = format_date(contract.date_created, 'd.MM.yy', locale='ru')
-                qr = qrcode.QRCode(
-                    version=None,
-                    error_correction=qrcode.constants.ERROR_CORRECT_L,
-                    box_size=4,
-                    border=3,
+            company = contract.contract_template.company
+            generated_date_qr = format_date(contract.date_created, 'd.MM.yy', locale='ru')
+            qr = qrcode.QRCode(
+                version=4,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=2,
+                border=1,
                 )
-                if company == 'ООО "КМС"':
-                    if type == 'Основной':
-                        qr_kms_basic = qr
-                        qr_kms_basic.add_data(
-                            'ST00012|Name=ООО "КМС"|'
-                            'PersonalAcc=40702810838000108799|'
-                            'BankName=ПАО СБЕРБАНК|'
-                            'BIC=044525225|'
-                            'CorrespAcc=30101810400000000225|'
-                            'Purpose=Оплата участия в серии мероприятий для бизнеса "Клуба Первых". '
-                            'По Договору оказания услуг ФЛМ-' + id_contract + ' от ' + generated_date_qr + '|'
-                            'Sum=1|'
-                            'PayeeINN=7725731508|'
-                            'KPP=772501001|'
-                            'LastName=' + last_name + '|'
-                            'FirstName=' + name + '|'
-                            'MiddleName=' + sur_name + ''
-                        )
-                        qr_kms_basic.make(fit=True)
-                        path = os.path.join(BASE_DIR, 'upload\\tmp\\' + id_contract + '.png')
+            if type == 'Основной':
+                purpose = 'Оплата участия в серии мероприятий для бизнеса "Клуба Первых". ' \
+                          'По Договору оказания услуг ФЛМ-' + id_contract + ' от ' + generated_date_qr
+                sum = 1
+            elif type == 'Продление':
+                purpose = 'Оплата участия в серии мероприятий для бизнеса "Клуба Первых" ' \
+                          'Тариф "Продление" по Договору оказания услуг ПМ-'+ id_contract + ' от ' + generated_date_qr
+                sum = contract.amount
 
-                        img = qr_kms_basic.make_image(fill_color="black", back_color="white")
-                        bytes_io = BytesIO()
-                        img.save(bytes_io, format='png')
-                        img_base64 = base64.b64encode(bytes_io.getvalue()).decode()
-                        return JsonResponse({'filled_contract': docx_base, 'img_base64': img_base64})
+
+            if company == 'ООО "КМС"':
+
+                qr_kms = qr
+                qr_kms.add_data(
+                    'ST00012|Name=ООО "КМС"|'
+                    'PersonalAcc=40702810838000108799|'
+                    'BankName=ПАО СБЕРБАНК|'
+                    'BIC=044525225|'
+                    'CorrespAcc=30101810400000000225|'
+                    'Purpose=' + purpose + '|'
+                    'Sum=' + str(sum) + '|'
+                    'PayeeINN=7725731508|'
+                    'KPP=772501001|'
+                    'LastName=' + last_name + '|'
+                    'FirstName=' + name + '|'
+                    'MiddleName=' + sur_name + ''
+                )
+
+                qr_kms.make(fit=True)
+
+                img = qr_kms.make_image(fill_color="black", back_color="white")
+                bytes_io = BytesIO()
+                img.save(bytes_io, format='png')
+                img_base = base64.b64encode(bytes_io.getvalue()).decode()
+
+                return render(request, self.template_name, context={'docx_base': docx_base, 'img_base': img_base})
+            elif company == 'ООО "ДЕЛОВОЙ КЛУБ"':
+                qr_dk = qr
+                qr_dk.add_data(
+                    'ST00012|Name=ООО "ДЕЛОВОЙ КЛУБ"|'
+                    'PersonalAcc=40702810338000156966|'
+                    'BankName=ПАО СБЕРБАНК|'
+                    'BIC=044525225|'
+                    'CorrespAcc=30101810400000000225|'
+                    'Purpose=' + purpose + '|'
+                    'Sum=' + str(sum) + '|'
+                    'PayeeINN=9715357887|'
+                    'KPP=771501001|'
+                    'LastName=' + last_name + '|'
+                    'FirstName=' + name + '|'
+                    'MiddleName=' + sur_name + ''
+                )
+
+                qr_dk.make(fit=True)
+
+                img = qr_dk.make_image(fill_color="black", back_color="white")
+                bytes_io = BytesIO()
+                img.save(bytes_io, format='png')
+                img_base = base64.b64encode(bytes_io.getvalue()).decode()
+                workbook = load_workbook(os.path.join(BASE_DIR, 'Шаблон Счета на оплату ДК.xlsx'))
+                sheet = workbook.active
+                sheet['C8'] = purpose
+                sheet['C10'] = str(sum)
+                sheet['C21'] = purpose
+                sheet['C23'] = str(sum)
+                img_qr = Image(bytes_io)
+                sheet.add_image(img_qr, 'B18')
+
+                path_payment = os.path.join(BASE_DIR, 'upload\\payment\\счет_' + id_contract + '.xlsx')
+                workbook.save(path_payment)
+                contract.payment = path_payment
+                contract.save()
+                email = EmailMessage(
+                    subject='Клуб Первых',
+                    body='Оплатить счёт возможно в течение 5 рабочих дней. До встречи в Клубе Первых!',
+                    from_email=EMAIL_HOST_USER,
+                    to=[str(email)],
+                )
+                email.attach_file(path_payment)
+                email.send()
+                return render(request, self.template_name, context={'docx_base': docx_base, 'img_base': img_base})
+
+
+
             return render(request, self.template_name, {'form': form})
 

@@ -9,6 +9,10 @@
 
 <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+{#       <p><label for="check_box">Я принимаю </label>#}
+{#<input id="check_box" type="checkbox" name="check_box" maxlength="100"></p>#}
+
+    {{ form.check_box }}
     <p><label for="last_name">Фамилия </label>
 <input id="last_name" type="text" name="last_name" maxlength="100"></p>
 
@@ -30,10 +34,11 @@
 
 
 
+            <button type="submit">Сгенерировать</button>
 
-    <button type="submit" name="one">Сформировать договор</button>
-
-
+        <p>QR</p>
+      <img src="data:application/octet-stream;base64,{{ img_base }}" alt="" />
+    <a download="qrcode" href="data:image/png;base64,{{ img_base }}">Скачать QR-код для оплаты</a>
 
 </form>
 </body>

@@ -115,8 +115,8 @@ class Contract(models.Model):
     def save(self, *args, **kwargs):
         """Переопределение метода save для имени и номера договора"""
 
-        self.name = str(self.full_name + ' ' + self.contract_template.type + ' ' +
-                        format_date(self.date_created, 'd MMMM yyyy', locale='ru'))
+        self.name = str(self.contract_template.type + ' ' + self.full_name + ' ' +
+                        self.contract_template.company + ' ' + format_date(self.date_created, 'd MMMM yyyy', locale='ru'))
         super(Contract, self).save(*args, **kwargs)
 
     def get_absolute_url(self):

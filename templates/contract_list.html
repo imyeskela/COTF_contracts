@@ -6,7 +6,7 @@
 </head>
 <body>
 {% for contracts in contract_list %}
-    <p>{{ contracts.number }}, {{ contracts.full_name }}, {{ contracts.name }}, {{ contracts.amount }} руб.
+    <p>{{ contracts.name }}
     <h3><a href="{{ contracts.get_absolute_url }}">Анкета</a></h3>
 
     </p>
