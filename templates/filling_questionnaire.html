@@ -9,10 +9,9 @@
 
 <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-{#       <p><label for="check_box">Я принимаю </label>#}
-{#<input id="check_box" type="checkbox" name="check_box" maxlength="100"></p>#}
+       <p><label for="check_box">Я принимаю </label>
+<input id="check_box" type="checkbox" name="check_box" maxlength="100"></p>
 
-    {{ form.check_box }}
     <p><label for="last_name">Фамилия </label>
 <input id="last_name" type="text" name="last_name" maxlength="100"></p>
 

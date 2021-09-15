@@ -54,13 +54,14 @@ class FillingQuestionnaireForm(forms.Form):
     passport = forms.CharField(help_text='Серия и номер паспорта', max_length=11, label='passport')
     email = forms.EmailField(help_text='электронная почта', label='email')
     phone = forms.CharField(help_text='Номер телефона', label='phone')
-    check_box = forms.BooleanField(label='checkbox')
+    check_box = forms.BooleanField(label='check_box')
+
 
     def clean(self):
-        check_box = self.cleaned_data.get('check_box')
+        check_box = self.data.get('check_box')
         print(check_box)
-        if check_box is False:
-            raise forms.ValidationError('Недопустимые симпволы')
+        if check_box is None:
+            raise ValidationError('Недопустимые симпволы')
         return self.cleaned_data
 
 

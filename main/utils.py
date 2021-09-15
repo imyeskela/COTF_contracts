@@ -11,6 +11,7 @@ from docx.shared import Mm, Inches, Pt
 import qrcode
 from openpyxl import load_workbook
 from openpyxl.drawing.image import Image
+from docx2pdf import convert
 
 from django.core.mail import EmailMessage
 import base64
@@ -93,32 +94,33 @@ class FillingQuestionnaireMixin:
             id_contract = str(contract.number)
             path_docx = os.path.join(BASE_DIR, 'upload\\tmp\\' + id_contract + '.docx')
             type = str(contract.contract_template.type)
+            basic_vars = {'email': email,
+                          'full_name': full_name,
+                          'id': id_contract,
+                          'short_name': short_name,
+                          'generated_date': str(generated_date),
+                          'phone': phone,
+                          'passport': passport,
+                          }
+            sum_c = contract.amount
+            text_sum = num2text(sum_c) + ' рублей'
+            renewal_vars = {'email': email,
+                            'full_name': full_name,
+                            'id': id_contract,
+                            'short_name': short_name,
+                            'generated_date': str(generated_date),
+                            'phone': phone,
+                            'passport': passport,
+                            'sum': str(sum_c),
+                            'text_sum': text_sum
+                            }
             if type == 'Основной':
-                basic_vars = {'email': email,
-                              'full_name': full_name,
-                              'id': id_contract,
-                              'short_name': short_name,
-                              'generated_date': generated_date,
-                              'phone': phone,
-                              'passport': passport,
 
-                              }
                 docx.render(basic_vars)
 
                 docx.save(path_docx)
             else:
-                sum_c = contract.amount
-                text_sum = num2text(sum_c) + ' рублей'
-                renewal_vars = {'email': email,
-                                'full_name': full_name,
-                                'id': id_contract,
-                                'short_name': short_name,
-                                'generated_date': generated_date,
-                                'phone': phone,
-                                'passport': passport,
-                                'sum': str(sum_c),
-                                'text_sum': text_sum
-                                }
+
                 docx.render(renewal_vars)
 
                 docx.save(path_docx)
@@ -146,7 +148,8 @@ class FillingQuestionnaireMixin:
                           'Тариф "Продление" по Договору оказания услуг ПМ-'+ id_contract + ' от ' + generated_date_qr
                 sum = contract.amount
 
-
+            new_path_docx = os.path.join(BASE_DIR, 'upload\\signed_contract\\' + id_contract + '.docx')
+            path_pdf = os.path.join(BASE_DIR, 'upload\\signed_contract\\' + id_contract + '.pdf')
             if company == 'ООО "КМС"':
 
                 qr_kms = qr
@@ -172,6 +175,42 @@ class FillingQuestionnaireMixin:
                 img.save(bytes_io, format='png')
                 img_base = base64.b64encode(bytes_io.getvalue()).decode()
 
+                workbook = load_workbook(os.path.join(BASE_DIR, 'Шаблон Счета на оплату КМС.xlsx'))
+                sheet = workbook.active
+                sheet['C8'] = purpose
+                sheet['C10'] = str(sum)
+                sheet['C21'] = purpose
+                sheet['C23'] = str(sum)
+                img_qr = Image(bytes_io)
+                sheet.add_image(img_qr, 'B18')
+
+                path_payment = os.path.join(BASE_DIR, 'upload\\payment\\счет_' + id_contract + '.xlsx')
+                workbook.save(path_payment)
+                if type == 'Основной':
+                    basic_vars['signature'] = 'signature'
+                    print(basic_vars)
+                    docx.render(basic_vars)
+
+                    docx.save(new_path_docx)
+                else:
+                    renewal_vars = renewal_vars.update({'signature': 'signature'})
+                    docx.render(renewal_vars)
+
+                    docx.save(new_path_docx)
+                convert(new_path_docx, path_pdf)
+                os.remove(new_path_docx)
+                contract.payment = path_payment
+                contract.signed_contract = path_pdf
+                contract.save()
+                email = EmailMessage(
+                    subject='Клуб Первых',
+                    body='Оплатить счёт возможно в течение 5 рабочих дней. До встречи в Клубе Первых!',
+                    from_email=EMAIL_HOST_USER,
+                    to=[str(email)],
+                )
+                email.attach_file(path_payment)
+                email.attach_file(path_pdf)
+                email.send()
                 return render(request, self.template_name, context={'docx_base': docx_base, 'img_base': img_base})
             elif company == 'ООО "ДЕЛОВОЙ КЛУБ"':
                 qr_dk = qr
@@ -207,7 +246,21 @@ class FillingQuestionnaireMixin:
 
                 path_payment = os.path.join(BASE_DIR, 'upload\\payment\\счет_' + id_contract + '.xlsx')
                 workbook.save(path_payment)
+
+                if type == 'Основной':
+                    basic_vars['signature'] = 'signature'
+                    print(basic_vars)
+                    docx.render(basic_vars)
+                    docx.save(new_path_docx)
+                else:
+                    renewal_vars['signature'] = 'signature'
+                    docx.render(renewal_vars)
+                    docx.save(new_path_docx)
+
+                convert(new_path_docx, path_pdf)
+                os.remove(new_path_docx)
                 contract.payment = path_payment
+                contract.signed_contract = path_pdf
                 contract.save()
                 email = EmailMessage(
                     subject='Клуб Первых',
@@ -216,10 +269,9 @@ class FillingQuestionnaireMixin:
                     to=[str(email)],
                 )
                 email.attach_file(path_payment)
+                email.attach_file(path_pdf)
                 email.send()
                 return render(request, self.template_name, context={'docx_base': docx_base, 'img_base': img_base})
-
-
 
             return render(request, self.template_name, {'form': form})
 
