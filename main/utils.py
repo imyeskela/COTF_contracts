@@ -68,8 +68,6 @@ class FillingQuestionnaireMixin:
     template_name = None
 
     def get(self, request, contract_number):
-        if request.GET.get('ready') == 'ready':
-            print('user clicked summary')
         return render(request, self.template_name, {'form': self.form, 'contract': self.contract})
 
     def post(self, request, contract_number):
@@ -193,7 +191,7 @@ class FillingQuestionnaireMixin:
 
                     docx.save(new_path_docx)
                 else:
-                    renewal_vars = renewal_vars.update({'signature': 'signature'})
+                    renewal_vars['signature'] = 'signature'
                     docx.render(renewal_vars)
 
                     docx.save(new_path_docx)
@@ -273,5 +271,5 @@ class FillingQuestionnaireMixin:
                 email.send()
                 return render(request, self.template_name, context={'docx_base': docx_base, 'img_base': img_base})
 
-            return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form})
 

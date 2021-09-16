@@ -35,7 +35,7 @@ class ContractTemplateCreateForm(forms.ModelForm):
                 if renewal not in vars_in_docx:
                     raise ValidationError('Отсутствуют или внесены неверно переменные <переменные> Пожалуйста, '
                                           'загрузите исправленный документ и выполните проверку повторно')
-        return cleaned_data
+        return self.cleaned_data
 
 
 class ContractCreateForm(forms.ModelForm):
@@ -47,6 +47,14 @@ class ContractCreateForm(forms.ModelForm):
         widgets = {'contract_template': forms.HiddenInput, 'amount_bitch': forms.IntegerField}
 
 
+def valida(value):
+    symbols = [".", "-", "'", " "]
+    print(value)
+    for symbol in symbols:
+        if symbol == value[0]:
+            raise ValidationError('Недопустимый символ')
+
+
 class FillingQuestionnaireForm(forms.Form):
     last_name = forms.CharField(help_text='Фамилия', label='last_name')
     name = forms.CharField(help_text='Имя', label='name')
@@ -55,15 +63,6 @@ class FillingQuestionnaireForm(forms.Form):
     email = forms.EmailField(help_text='электронная почта', label='email')
     phone = forms.CharField(help_text='Номер телефона', label='phone')
     check_box = forms.BooleanField(label='check_box')
-
-
-    def clean(self):
-        check_box = self.data.get('check_box')
-        print(check_box)
-        if check_box is None:
-            raise ValidationError('Недопустимые симпволы')
-        return self.cleaned_data
-
 
 
 
