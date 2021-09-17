@@ -12,9 +12,11 @@ import qrcode
 from openpyxl import load_workbook
 from openpyxl.drawing.image import Image
 from docx2pdf import convert
-
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 from django.core.mail import EmailMessage
 import base64
+import convertapi
 
 from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER
 from services.main_logic import generator_num_contract
@@ -128,148 +130,159 @@ class FillingQuestionnaireMixin:
             docx_base = base64.b64encode(docx_read)
             docx_open.close()
             os.remove(path_docx)
-
-            company = contract.contract_template.company
-            generated_date_qr = format_date(contract.date_created, 'd.MM.yy', locale='ru')
-            qr = qrcode.QRCode(
-                version=4,
-                error_correction=qrcode.constants.ERROR_CORRECT_L,
-                box_size=2,
-                border=1,
-                )
-            if type == 'Основной':
-                purpose = 'Оплата участия в серии мероприятий для бизнеса "Клуба Первых". ' \
-                          'По Договору оказания услуг ФЛМ-' + id_contract + ' от ' + generated_date_qr
-                sum = 1
-            elif type == 'Продление':
-                purpose = 'Оплата участия в серии мероприятий для бизнеса "Клуба Первых" ' \
-                          'Тариф "Продление" по Договору оказания услуг ПМ-'+ id_contract + ' от ' + generated_date_qr
-                sum = contract.amount
-
-            new_path_docx = os.path.join(BASE_DIR, 'upload\\signed_contract\\' + id_contract + '.docx')
-            path_pdf = os.path.join(BASE_DIR, 'upload\\signed_contract\\' + id_contract + '.pdf')
-            if company == 'ООО "КМС"':
-
-                qr_kms = qr
-                qr_kms.add_data(
-                    'ST00012|Name=ООО "КМС"|'
-                    'PersonalAcc=40702810838000108799|'
-                    'BankName=ПАО СБЕРБАНК|'
-                    'BIC=044525225|'
-                    'CorrespAcc=30101810400000000225|'
-                    'Purpose=' + purpose + '|'
-                    'Sum=' + str(sum) + '|'
-                    'PayeeINN=7725731508|'
-                    'KPP=772501001|'
-                    'LastName=' + last_name + '|'
-                    'FirstName=' + name + '|'
-                    'MiddleName=' + sur_name + ''
-                )
-
-                qr_kms.make(fit=True)
-
-                img = qr_kms.make_image(fill_color="black", back_color="white")
-                bytes_io = BytesIO()
-                img.save(bytes_io, format='png')
-                img_base = base64.b64encode(bytes_io.getvalue()).decode()
-
-                workbook = load_workbook(os.path.join(BASE_DIR, 'Шаблон Счета на оплату КМС.xlsx'))
-                sheet = workbook.active
-                sheet['C8'] = purpose
-                sheet['C10'] = str(sum)
-                sheet['C21'] = purpose
-                sheet['C23'] = str(sum)
-                img_qr = Image(bytes_io)
-                sheet.add_image(img_qr, 'B18')
-
-                path_payment = os.path.join(BASE_DIR, 'upload\\payment\\счет_' + id_contract + '.xlsx')
-                workbook.save(path_payment)
+            if request.method == 'POST' and 'qr_code' in request.POST:
+                company = contract.contract_template.company
+                generated_date_qr = format_date(contract.date_created, 'd.MM.yy', locale='ru')
+                qr = qrcode.QRCode(
+                    version=4,
+                    error_correction=qrcode.constants.ERROR_CORRECT_L,
+                    box_size=2,
+                    border=1,
+                    )
                 if type == 'Основной':
-                    basic_vars['signature'] = 'signature'
-                    print(basic_vars)
-                    docx.render(basic_vars)
+                    purpose = 'Оплата участия в серии мероприятий для бизнеса "Клуба Первых". ' \
+                              'По Договору оказания услуг ФЛМ-' + id_contract + ' от ' + generated_date_qr
+                    sum = 1
+                elif type == 'Продление':
+                    purpose = 'Оплата участия в серии мероприятий для бизнеса "Клуба Первых" ' \
+                              'Тариф "Продление" по Договору оказания услуг ПМ-'+ id_contract + ' от ' + generated_date_qr
+                    sum = contract.amount
 
-                    docx.save(new_path_docx)
-                else:
-                    renewal_vars['signature'] = 'signature'
-                    docx.render(renewal_vars)
+                new_path_docx = os.path.join(BASE_DIR, 'upload\\signed_contract\\' + id_contract + '.docx')
+                path_pdf = os.path.join(BASE_DIR, 'upload\\signed_contract\\' + id_contract + '.pdf')
+                if company == 'ООО "КМС"':
 
-                    docx.save(new_path_docx)
-                convert(new_path_docx, path_pdf)
-                os.remove(new_path_docx)
-                contract.payment = path_payment
-                contract.signed_contract = path_pdf
-                contract.save()
-                email = EmailMessage(
-                    subject='Клуб Первых',
-                    body='Оплатить счёт возможно в течение 5 рабочих дней. До встречи в Клубе Первых!',
-                    from_email=EMAIL_HOST_USER,
-                    to=[str(email)],
-                )
-                email.attach_file(path_payment)
-                email.attach_file(path_pdf)
-                email.send()
-                return render(request, self.template_name, context={'docx_base': docx_base, 'img_base': img_base})
-            elif company == 'ООО "ДЕЛОВОЙ КЛУБ"':
-                qr_dk = qr
-                qr_dk.add_data(
-                    'ST00012|Name=ООО "ДЕЛОВОЙ КЛУБ"|'
-                    'PersonalAcc=40702810338000156966|'
-                    'BankName=ПАО СБЕРБАНК|'
-                    'BIC=044525225|'
-                    'CorrespAcc=30101810400000000225|'
-                    'Purpose=' + purpose + '|'
-                    'Sum=' + str(sum) + '|'
-                    'PayeeINN=9715357887|'
-                    'KPP=771501001|'
-                    'LastName=' + last_name + '|'
-                    'FirstName=' + name + '|'
-                    'MiddleName=' + sur_name + ''
-                )
+                    qr_kms = qr
+                    qr_kms.add_data(
+                        'ST00012|Name=ООО "КМС"|'
+                        'PersonalAcc=40702810838000108799|'
+                        'BankName=ПАО СБЕРБАНК|'
+                        'BIC=044525225|'
+                        'CorrespAcc=30101810400000000225|'
+                        'Purpose=' + purpose + '|'
+                        'Sum=' + str(sum) + '|'
+                        'PayeeINN=7725731508|'
+                        'KPP=772501001|'
+                        'LastName=' + last_name + '|'
+                        'FirstName=' + name + '|'
+                        'MiddleName=' + sur_name + ''
+                    )
 
-                qr_dk.make(fit=True)
+                    qr_kms.make(fit=True)
 
-                img = qr_dk.make_image(fill_color="black", back_color="white")
-                bytes_io = BytesIO()
-                img.save(bytes_io, format='png')
-                img_base = base64.b64encode(bytes_io.getvalue()).decode()
-                workbook = load_workbook(os.path.join(BASE_DIR, 'Шаблон Счета на оплату ДК.xlsx'))
-                sheet = workbook.active
-                sheet['C8'] = purpose
-                sheet['C10'] = str(sum)
-                sheet['C21'] = purpose
-                sheet['C23'] = str(sum)
-                img_qr = Image(bytes_io)
-                sheet.add_image(img_qr, 'B18')
+                    img = qr_kms.make_image(fill_color="black", back_color="white")
+                    bytes_io = BytesIO()
+                    img.save(bytes_io, format='png')
+                    img_base = base64.b64encode(bytes_io.getvalue()).decode()
 
-                path_payment = os.path.join(BASE_DIR, 'upload\\payment\\счет_' + id_contract + '.xlsx')
-                workbook.save(path_payment)
+                    workbook = load_workbook(os.path.join(BASE_DIR, 'Шаблон Счета на оплату КМС.xlsx'))
+                    sheet = workbook.active
+                    sheet['C8'] = purpose
+                    sheet['C10'] = str(sum)
+                    sheet['C21'] = purpose
+                    sheet['C23'] = str(sum)
+                    img_qr = Image(bytes_io)
+                    sheet.add_image(img_qr, 'B18')
 
-                if type == 'Основной':
-                    basic_vars['signature'] = 'signature'
-                    print(basic_vars)
-                    docx.render(basic_vars)
-                    docx.save(new_path_docx)
-                else:
-                    renewal_vars['signature'] = 'signature'
-                    docx.render(renewal_vars)
-                    docx.save(new_path_docx)
+                    path_payment = os.path.join(BASE_DIR, 'upload\\payment\\счет_' + id_contract + '.xlsx')
+                    workbook.save(path_payment)
+                    if type == 'Основной':
+                        basic_vars['signature'] = InlineImage(docx, os.path.join(BASE_DIR, 'image (1).png'), width=Mm(20),
+                                                              height=Mm(10))
+                        docx.render(basic_vars)
 
-                convert(new_path_docx, path_pdf)
-                os.remove(new_path_docx)
-                contract.payment = path_payment
-                contract.signed_contract = path_pdf
-                contract.save()
-                email = EmailMessage(
-                    subject='Клуб Первых',
-                    body='Оплатить счёт возможно в течение 5 рабочих дней. До встречи в Клубе Первых!',
-                    from_email=EMAIL_HOST_USER,
-                    to=[str(email)],
-                )
-                email.attach_file(path_payment)
-                email.attach_file(path_pdf)
-                email.send()
-                return render(request, self.template_name, context={'docx_base': docx_base, 'img_base': img_base})
+                        docx.save(new_path_docx)
+                    else:
+                        renewal_vars['signature'] = InlineImage(docx, os.path.join(BASE_DIR, 'image (1).png'), width=Mm(20),
+                                                              height=Mm(10))
+                        docx.render(renewal_vars)
+
+                        docx.save(new_path_docx)
+                    convertapi.api_secret = 'iP4B37Pw0h0xIn9Y'
+
+                    result = convertapi.convert('pdf', {'File': new_path_docx})
+
+                    result.file.save(path_pdf)
+                    os.remove(new_path_docx)
+                    contract.payment = path_payment
+                    contract.signed_contract = path_pdf
+                    contract.save()
+                    email = EmailMessage(
+                        subject='Клуб Первых',
+                        body='Оплатить счёт возможно в течение 5 рабочих дней. До встречи в Клубе Первых!',
+                        from_email=EMAIL_HOST_USER,
+                        to=[str(email)],
+                    )
+                    email.attach_file(path_payment)
+                    email.attach_file(path_pdf)
+                    # email.send()
+                    return render(request, self.template_name, context={'docx_base': docx_base, 'img_base': img_base})
+                elif company == 'ООО "ДЕЛОВОЙ КЛУБ"':
+                    qr_dk = qr
+                    qr_dk.add_data(
+                        'ST00012|Name=ООО "ДЕЛОВОЙ КЛУБ"|'
+                        'PersonalAcc=40702810338000156966|'
+                        'BankName=ПАО СБЕРБАНК|'
+                        'BIC=044525225|'
+                        'CorrespAcc=30101810400000000225|'
+                        'Purpose=' + purpose + '|'
+                        'Sum=' + str(sum) + '|'
+                        'PayeeINN=9715357887|'
+                        'KPP=771501001|'
+                        'LastName=' + last_name + '|'
+                        'FirstName=' + name + '|'
+                        'MiddleName=' + sur_name + ''
+                    )
+
+                    qr_dk.make(fit=True)
+
+                    img = qr_dk.make_image(fill_color="black", back_color="white")
+                    bytes_io = BytesIO()
+                    img.save(bytes_io, format='png')
+                    img_base = base64.b64encode(bytes_io.getvalue()).decode()
+                    workbook = load_workbook(os.path.join(BASE_DIR, 'Шаблон Счета на оплату ДК.xlsx'))
+                    sheet = workbook.active
+                    sheet['C8'] = purpose
+                    sheet['C10'] = str(sum)
+                    sheet['C21'] = purpose
+                    sheet['C23'] = str(sum)
+                    img_qr = Image(bytes_io)
+                    sheet.add_image(img_qr, 'B18')
+
+                    path_payment = os.path.join(BASE_DIR, 'upload\\payment\\счет_' + id_contract + '.xlsx')
+                    workbook.save(path_payment)
+
+                    if type == 'Основной':
+                        basic_vars['signature'] = InlineImage(docx, os.path.join(BASE_DIR, 'image (1).png'), width=Mm(20),
+                                                              height=Mm(10))
+                        print(basic_vars)
+                        docx.render(basic_vars)
+                        docx.save(new_path_docx)
+                    else:
+                        renewal_vars['signature'] = InlineImage(docx, os.path.join(BASE_DIR, 'image (1).png'), width=Mm(20),
+                                                              height=Mm(10))
+                        docx.render(renewal_vars)
+                        docx.save(new_path_docx)
+
+                    convertapi.api_secret = 'iP4B37Pw0h0xIn9Y'
+
+                    result = convertapi.convert('pdf', {'File': new_path_docx})
+
+                    result.file.save(path_pdf)
+                    os.remove(new_path_docx)
+                    contract.payment = path_payment
+                    contract.signed_contract = path_pdf
+                    contract.save()
+                    email = EmailMessage(
+                        subject='Клуб Первых',
+                        body='Оплатить счёт возможно в течение 5 рабочих дней. До встречи в Клубе Первых!',
+                        from_email=EMAIL_HOST_USER,
+                        to=[str(email)],
+                    )
+                    email.attach_file(path_payment)
+                    email.attach_file(path_pdf)
+                    # email.send()
+                    return render(request, self.template_name, context={'docx_base': docx_base, 'img_base': img_base})
 
         return render(request, self.template_name, {'form': form})
 
