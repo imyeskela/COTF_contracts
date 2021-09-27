@@ -3,7 +3,8 @@ from django.views.generic import View
 from django.views.generic import CreateView
 
 from main.models import Contract
-from services.main_logic import get_template_contracts, get_form_contract_template, get_contracts, get_contact
+from services.main_logic import get_template_contracts, get_form_contract_template, get_contracts, \
+    get_contract, get_filling_questionnaire_form
 from main.utils import ContractTemplateListAndCreateContractMixin, ContractListMixin, FillingQuestionnaireMixin
 from main.forms import ContractTemplateCreateForm, FillingQuestionnaireForm
 
@@ -41,9 +42,10 @@ class ContractListView(ContractListMixin, View):
 
 class FillingQuestionnaireView(FillingQuestionnaireMixin, View):
     """Вью для отображения формы"""
-    contract = get_contact
+    contract = get_contract
     template_name = 'filling_questionnaire.html'
     form = FillingQuestionnaireForm
+
 
 
 

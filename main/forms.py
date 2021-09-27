@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db.models import Model
 from docxtpl import DocxTemplate
 
 from main.models import ContractTemplate, Contract

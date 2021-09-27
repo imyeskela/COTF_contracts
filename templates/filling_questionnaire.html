@@ -6,39 +6,23 @@
 </head>
 <body>
 {{ contract.number }}
-
 <form action="" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-       <p><label for="check_box">Я принимаю </label>
-<input id="check_box" type="checkbox" name="check_box" maxlength="100"></p>
+                    {% csrf_token %}
+    <p>{{ form.check_box }}</p>
+     <p>{{ form.last_name }}</p>
+     <p>{{ form.name }}</p>
+     <p>{{ form.sur_name }}</p>
+     <p>{{ form.passport }}</p>
+     <p>{{ form.email }}</p>
+     <p>{{ form.phone }}</p>
 
-    <p><label for="last_name">Фамилия </label>
-<input id="last_name" type="text" name="last_name" maxlength="100"></p>
+    <button type="submit" name="docx" >Сгенерировать</button>
+    {{ docx_base }}
+    <button type="submit" name="qr_code">Подписать</button>
+    <p>QR</p>
+    <img src="data:application/octet-stream;base64,{{ img_base }}" alt="" />
 
-    <p><label for="name">Имя </label>
-<input id="name" type="text" name="name" maxlength="100"></p>
-
-    <p><label for="sur_name">Отчество </label>
-<input id="sur_name" type="text" name="sur_name" maxlength="100"></p>
-
-    <p><label for="passport">Паспорт </label>
-<input id="passport" type="text" name="passport" maxlength="100"></p>
-
-    <p><label for="email">Почта </label>
-<input id="email" type="text" name="email" maxlength="100"></p>
-
-    <p><label for="phone">Телефон </label>
-<input id="phone" type="text" name="phone" maxlength="100"></p>
-
-
-
-
-            <button type="submit" name="qr_code">Сгенерировать</button>
-            <button type="button" name="qr_code">Подписать</button>
-        <p>QR</p>
-      <img src="data:application/octet-stream;base64,{{ img_base }}" alt="" />
     <a download="qrcode" href="data:image/png;base64,{{ img_base }}">Скачать QR-код для оплаты</a>
-
 </form>
 </body>
 </html>
