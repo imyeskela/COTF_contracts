@@ -19,6 +19,7 @@ from django.core.mail import EmailMessage
 import base64
 import convertapi
 from requests import Response
+import docx2txt
 
 from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER
 from services.main_logic import generator_num_contract
@@ -141,9 +142,8 @@ def create_docx(self, request, contract_number):
 
 def form_questionnaire(self, request, contract_number):
     docx_path = create_docx(self, request, contract_number)
-    docx_base = base64.b64encode(docx_path.read())
-    print(docx_base)
-    return docx_base
+    text = docx2txt.process(docx_path)
+    return text
 
 
 def finally_rich(self, request, contract_number):
