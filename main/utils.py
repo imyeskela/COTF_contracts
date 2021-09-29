@@ -120,29 +120,29 @@ def renewal_vars(self, request, contract_number):
     return vars
 
 
-def form_questionnaire(self, request, contract_number):
-
+def create_docx(self, request, contract_number):
     contract = get_contract(self)
     docx = DocxTemplate(os.path.join(BASE_DIR, contract.contract_template.template_of_contract.path))
-
-    path_docx = os.path.join(BASE_DIR, 'upload\\tmp\\' + get_data_from_forms(self, request, contract_number).get('id_contract') + '.docx')
-
+    path_docx = BytesIO()
     if get_data_from_forms(self, request, contract_number).get('type') == 'Основной':
 
         docx.render(basic_vars(self, request, contract_number))
+        print('Основной')
 
         docx.save(path_docx)
-    else:
+    elif get_data_from_forms(self, request, contract_number).get('type') == 'Продление':
 
         docx.render(renewal_vars(self, request, contract_number))
-
+        print('Продление')
         docx.save(path_docx)
+    path_docx.seek(0)
+    return path_docx
 
-    docx_open = open(path_docx, 'rb')
-    docx_read = docx_open.read()
-    docx_base = base64.b64encode(docx_read)
-    docx_open.close()
-    os.remove(path_docx)
+
+def form_questionnaire(self, request, contract_number):
+    docx_path = create_docx(self, request, contract_number)
+    docx_base = base64.b64encode(docx_path.read())
+    print(docx_base)
     return docx_base
 
 
@@ -349,9 +349,8 @@ class FillingQuestionnaireMixin:
         if 'docx' in request.POST:
             docx_base = form_questionnaire(self, request, contract_number)
             return render(request, 'filling_questionnaire.html', {'docx_base': docx_base, 'form': form})
+
         elif 'qr_code' in request.POST:
-            print('hi!')
-            print(get_data_from_forms(self, request, contract_number))
             img_base = finally_rich(self, request, contract_number)
             return render(request, 'filling_questionnaire.html', {'img_base': img_base})
 
