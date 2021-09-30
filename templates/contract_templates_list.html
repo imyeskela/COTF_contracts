@@ -8,13 +8,14 @@
 {% for contracts in contract_template_list %}
 
     <p>
-        {{ contracts.name }}, {{ contracts.pk }}  <form action="" method="post" enctype="multipart/form-data">
+        {{ contracts.name }}, {{ contracts.pk }}
+    <form action="" method="post" enctype="multipart/form-data">
 
 
 
     <input type="hidden" name="contract_template" value="{{ contracts.pk }}">
     {% if contracts.amount != 0 %}
-        <input name="amount_bitch" value="{{ contracts.amount }}">
+        <input name="amount" value="{{ contracts.amount }}">
     {% else %}
 
     {% endif %}

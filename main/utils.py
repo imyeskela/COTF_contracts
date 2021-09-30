@@ -43,7 +43,7 @@ class ContractTemplateListAndCreateContractMixin:
             contact_template_id = int(request.POST.get('contract_template'))
             contract_template = self.queryset.get(id=contact_template_id)
             form = form.save(commit=False)
-            form.amount = int(request.POST.get('amount_bitch'))
+            form.amount = int(request.POST.get('amount'))
             form.contract_template = contract_template
             form.number = generator_num_contract()
             form.save()

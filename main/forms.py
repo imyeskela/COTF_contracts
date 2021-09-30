@@ -45,7 +45,7 @@ class ContractCreateForm(forms.ModelForm):
         model = Contract
 
         fields = ['full_name']
-        widgets = {'contract_template': forms.HiddenInput, 'amount_bitch': forms.IntegerField}
+        widgets = {'contract_template': forms.HiddenInput, 'amount': forms.IntegerField}
 
 
 def valida(value):
