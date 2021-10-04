@@ -1,29 +1,240 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Title {{ contract.number }}</title>
+    <link rel="stylesheet" href="{% static 'mobile.css' %}" class="css" />
 </head>
 <body>
-{{ contract.number }}
-<form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-    <p>{{ form.check_box }}</p>
-     <p>{{ form.last_name }}</p>
-     <p>{{ form.name }}</p>
-     <p>{{ form.sur_name }}</p>
-     <p>{{ form.passport }}</p>
-     <p>{{ form.email }}</p>
-     <p>{{ form.phone }}</p>
 
-    <button type="submit" name="docx" >Сгенерировать</button>
-    {{ docx_base }}
-    <button type="submit" name="unsigned_contract" >Прислать на почту</button>
-    <button type="submit" name="qr_code">Подписать</button>
-    <p>QR</p>
-    <img src="data:application/octet-stream;base64,{{ img_base }}" alt="" />
+<div class="app">
 
-    <a download="qrcode" href="data:image/png;base64,{{ img_base }}">Скачать QR-код для оплаты</a>
+<form action="" method="post" enctype="multipart/form-data" id="main_mobile_form">
+
+    {% csrf_token %}
+
+    <div class="page_title">Договор оказания услуг</div>
+
+    <div class="filling_form"
+    
+        {% if not docx_base and not img_base %}
+            style="display: block;"
+        {% else %}
+            style="display: none;"
+        {% endif %}
+    
+    >
+
+        <div class="progress_bar">
+            <div class="progress_bar_title">
+                Шаг 1/4. Заполнение анкеты
+            </div>
+            <div class="progress_bar_bar">
+                <div class="progress_bar_bar_item progress_bar_bar_item_active">1</div>
+                <div class="progress_bar_bar_item">2</div>
+                <div class="progress_bar_bar_item">3</div>
+                <div class="progress_bar_bar_item">4</div>
+            </div>
+        </div>
+
+        <div class="filling_form_item">
+            <div class="fillinf_form_item_label">Фамилия*</div>
+            <div class="fillinf_form_item_input">{{ form.last_name }}</div>
+        </div>
+
+        <div class="filling_form_item">
+            <div class="fillinf_form_item_label">Имя*</div>
+            <div class="fillinf_form_item_input">{{ form.name }}</div>
+        </div>
+
+        <div class="filling_form_item">
+            <div class="fillinf_form_item_label">Отчество</div>
+            <div class="fillinf_form_item_input">{{ form.sur_name }}</div>
+        </div>
+
+        <div class="filling_form_item">
+            <div class="fillinf_form_item_label">Серия и номер паспорта*</div>
+            <div class="fillinf_form_item_input">{{ form.passport }}</div>
+        </div>
+
+        <div class="filling_form_item">
+            <div class="fillinf_form_item_label">Email*</div>
+            <div class="fillinf_form_item_input">{{ form.email }}</div>
+        </div>
+
+        <div class="filling_form_item">
+            <div class="fillinf_form_item_label">Мобильный телефон*</div>
+            <div class="fillinf_form_item_input">{{ form.phone }}</div>
+        </div>
+
+        <div class="filling_form_item item_checkbox">
+            <!-- <div class="fillinf_form_item_checkbox_input">{{ form.check_box }}</div> -->
+            <!-- <div class="fillinf_form_item_checkbox_label">Я согласен на <span style="color:#BD2971;">обработку персональных данных</span></div> -->
+            <label class="myCheckbox">
+                {{ form.check_box }}
+                <span class="mySuperSpan"></span>
+            </label>
+            <div class="fillinf_form_item_checkbox_label">Я согласен на <span style="color:#BD2971;">обработку персональных данных</span></div>
+        </div>
+        
+        <button type="submit" name="docx" class="mobile_btn" >Сформировать договор</button>
+
+    </div>
+
+    <div class="contract_preview_and_sign" id="contract_preview_and_sign"
+    
+        {% if docx_base %}
+            style="display: block;"
+        {% else %}
+            style="display: none;"
+        {% endif %}
+    
+    >
+
+        <div class="progress_bar">
+            <div class="progress_bar_title">
+                    Шаг 2/4. Договор
+            </div>
+            <div class="progress_bar_bar">
+                <div class="progress_bar_bar_item progress_bar_bar_item_active"><img src="{% static 'mobile/progress_check.png' %}"></div>
+                <div class="progress_bar_bar_item progress_bar_bar_item_active">2</div>
+                <div class="progress_bar_bar_item">3</div>
+                <div class="progress_bar_bar_item">4</div>
+            </div>
+        </div>
+
+        <div class="contract">
+            {{ docx_base }}
+        </div>
+
+        <button onclick='accep_contract(event)' class="mobile_btn">Принимаю условия договора</button>
+
+    </div>
+
+    <div class="contract_sign" id="contract_sign" style="display: none;" >
+
+        <div class="progress_bar">
+            <div class="progress_bar_title">
+                    Шаг 3/4. Подпись
+            </div>
+            <div class="progress_bar_bar">
+                <div class="progress_bar_bar_item progress_bar_bar_item_active"><img src="{% static 'mobile/progress_check.png' %}"></div>
+                <div class="progress_bar_bar_item progress_bar_bar_item_active"><img src="{% static 'mobile/progress_check.png' %}"></div>
+                <div class="progress_bar_bar_item progress_bar_bar_item_active">3</div>
+                <div class="progress_bar_bar_item">4</div>
+            </div>
+        </div>
+
+        <div class="canvas_container">
+            <div class="canvas_title">Поставьте свою подпись, используя сенсорный ввод</div>
+            <div class="canvas_content" id="sketch"><canvas id="paint"></canvas></div>
+            <div class="clear_canvas" onclick="onclear()">Стереть</div>
+            <input id="sign_img_base64" type="hidden" name="sign">
+            <button type="submit" name="qr_code" class="mobile_btn">Подписать договор</button>
+        </div>
+    </div>
+
+    <div class="qr_code_page"
+    
+        {% if img_base %}
+            style="display: block;"
+        {% else %}
+            style="display: none;"
+        {% endif %}
+    
+    >
+
+        <div class="progress_bar">
+            <div class="progress_bar_title">
+                Шаг 4/4. Получение счета
+            </div>
+            <div class="progress_bar_bar">
+                <div class="progress_bar_bar_item progress_bar_bar_item_active"><img src="{% static 'mobile/progress_check.png' %}"></div>
+                <div class="progress_bar_bar_item progress_bar_bar_item_active"><img src="{% static 'mobile/progress_check.png' %}"></div>
+                <div class="progress_bar_bar_item progress_bar_bar_item_active"><img src="{% static 'mobile/progress_check.png' %}"></div>
+                <div class="progress_bar_bar_item progress_bar_bar_item_active">4</div>
+            </div>
+        </div>
+
+        <div class="contract_sended">Договор отправлен на указанную вами почту.</div>
+        <div class="pay_contract_info">Оплатить счет вы можете в течение 5 рабочих дней по данному QR-коду (полная версия счета отправлена на почту).</div>
+        <div class="greetings">До встречи в Клубе Первых!</div>
+        <img src="data:application/octet-stream;base64,{{ img_base }}" alt="" />
+        <a download="qrcode" href="data:image/png;base64,{{ img_base }}" class="mobile_btn_link">Скачать QR-код для оплаты</a>
+    </div>
+
 </form>
+
+</div>
+
+<script>
+    function accep_contract(event) {
+        event.preventDefault()
+        let $contract_preview_and_sign = document.getElementById('contract_preview_and_sign')
+        let $contract_sign = document.getElementById('contract_sign')
+
+        $contract_preview_and_sign.style.display = 'none'
+        $contract_sign.style.display = 'block'
+        init_canvas()
+    }
+
+    let ctx = ''
+    let canvas = ''
+
+    function onclear() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function init_canvas() {
+
+        canvas = document.querySelector('#paint');
+        ctx = canvas.getContext('2d');
+    
+        let sketch = document.querySelector('#sketch');
+        let sketch_style = getComputedStyle(sketch);
+        canvas.width = parseInt(sketch_style.getPropertyValue('width'));
+        canvas.height = parseInt(sketch_style.getPropertyValue('height'));
+
+        let mouse = {x: 0, y: 0};
+        let last_mouse = {x: 0, y: 0};
+    
+        /* Mouse Capturing Work */
+        canvas.addEventListener('mousemove', function(e) {
+            last_mouse.x = mouse.x;
+            last_mouse.y = mouse.y;
+        
+            mouse.x = e.pageX - this.offsetLeft;
+            mouse.y = e.pageY - this.offsetTop - 137;
+        }, false);
+    
+    
+        /* Drawing on Paint App */
+        ctx.lineWidth = 5;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = 'black';
+    
+        canvas.addEventListener('mousedown', function(e) {
+            canvas.addEventListener('mousemove', onPaint, false);
+        }, false);
+    
+        canvas.addEventListener('mouseup', function() {
+            canvas.removeEventListener('mousemove', onPaint, false);
+            document.getElementById('sign_img_base64').value = canvas.toDataURL()
+        }, false);
+    
+        let onPaint = function() {
+            ctx.beginPath();
+            ctx.moveTo(last_mouse.x, last_mouse.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.closePath();
+            ctx.stroke();
+        };
+    
+    }
+
+</script>
+
 </body>
 </html>

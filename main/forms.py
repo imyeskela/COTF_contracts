@@ -65,6 +65,8 @@ class FillingQuestionnaireForm(forms.Form):
     phone = forms.CharField(help_text='Номер телефона', label='phone')
     check_box = forms.BooleanField(label='check_box')
 
+    widgets = {''}
+
 
 
 

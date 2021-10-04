@@ -1,34 +1,168 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'admin.css' %}" class="css" />
 </head>
 <body>
-{% for contracts in contract_template_list %}
 
-    <p>
-        {{ contracts.name }}, {{ contracts.pk }}
-    <form action="" method="post" enctype="multipart/form-data">
+    <div class="admin_navbar">
+        <div class="admin_navbar_logo"><img src="{% static 'admin_img/cotf_logo.png' %}"></div>
+        <div class="admin_navbar_menu">
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/news.png' %}"></div>
+                <div class="item_link">Лента клуба</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/merop.png' %}"></div>
+                <div class="item_link">Мероприятия</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/messages.png' %}"></div>
+                <div class="item_link">Сообщения</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/forums.png' %}"></div>
+                <div class="item_link">Форумы</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/projs.png' %}"></div>
+                <div class="item_link">Проекты</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/travels.png' %}"></div>
+                <div class="item_link">Путешествия</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/pay.png' %}"></div>
+                <div class="item_link">Оплата</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/tasks.png' %}"></div>
+                <div class="item_link">Задачи</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator item_indicator_active"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/administration.png' %}"></div>
+                <div class="item_link item_link_active">Администрирование</div>
+            </div>
+        </div>
+    </div>
 
+    <div class="admin_content">
 
+        <div class="searchbar">
+            <div class="admin_panel_search">
 
-    <input type="hidden" name="contract_template" value="{{ contracts.pk }}">
-    {% if contracts.amount != 0 %}
-        <input name="amount" value="{{ contracts.amount }}">
-    {% else %}
+                <div class="admin_search_box">
+                    <div><img src="{% static 'admin_img/topabr/search_search.png' %}"></div>
+                    <input type="text" placeholder="Поиск...">
+                </div>
 
-    {% endif %}
-                <form>{% csrf_token %}
+                <div class="admin_search_control">
+                    <div><img src="{% static 'admin_img/topabr/peoples_search.png' %}"></div>
+                    <div><img src="{% static 'admin_img/topabr/calendar_search.png' %}"></div>
+                    <div><img src="{% static 'admin_img/topabr/news_search.png' %}"></div>
+                </div>
 
-                {{ form.as_p }}
-            <button type="submit">Создать</button></form>
-</form>
-    </p>
-{% endfor %}
-<a href="{% url 'tem_form' %}">Создать шаблон контракта</a>
-<a href="{% url 'contract_list' %}">Клиенты</a>
+            </div>
 
-<a></a>
+            <div class="admin_panel_cab_link">
+                <div class="cab_link_col"><img src="{% static 'admin_img/topabr/colocol.png' %}"></div>
+                <div class="cab_link_photo"><img src="{% static 'admin_img/topabr/photo.png' %}"></div>
+                <div class="cab_link_dropdown"><img src="{% static 'admin_img/topabr/dropdown.png' %}"></div>
+            </div>
+        </div>
+
+        <div class="main_content">
+
+            <div class="admin_content_title">Договоры</div>
+
+            <div class="admin_content_control_panel">
+
+                <div class="admin_search" >
+                    <input type="text" placeholder="Поиск..." />
+                    <button><img src="{% static 'admin_img/search.png' %}"></button>
+                </div>
+
+                <div class="admin_template_link active_link" ><a href="/">Договоры</a></div>
+                <div class="admin_contract_link" ><a href="{% url 'contract_list' %}">Клиенты</a></div>
+
+                <div class="admin_create_template" ><a href="{% url 'tem_form' %}">+</a></div>
+
+            </div>
+
+            <div class="all_templates">
+
+                <div class="template_table_header">
+                    <div class="template_table_header_td first_td">Название</div>
+                    <div class="template_table_header_td second_td">Договор</div>
+                    <div class="template_table_header_td third_td">Статус</div>
+                    <div class="template_table_header_td fourth_td">Идентификатор</div>
+                    <div class="template_table_header_td fifth_td">Сумма</div>
+                </div>
+
+                {% for contracts in contract_template_list %}
+
+                <div class="template_table_row">
+
+                    <form action="" method="post" enctype="multipart/form-data">
+
+                        <div class="template_table_cell first_td">{{ contracts.name }}</div>
+                        <div class="template_table_cell second_td">{{ contracts.pk }}</div>
+                        <div class="template_table_cell third_td">{{ contracts.status }}</div>
+                        <!-- <div class="template_table_cell"><input type="hidden" name="contract_template" value="{{ contracts.pk }}"></div> -->
+                        <input type="hidden" name="contract_template" value="{{ contracts.pk }}">
+
+                        <div class="template_table_cell fourth_td">{{ form.full_name }}</div>
+
+                        {% if contracts.amount != 0 %}
+                        <div class="template_table_cell fifth_td"><input name="amount_bitch" value="{{ contracts.amount }}"></div>
+                        {% endif %}
+
+                        <!-- <form> -->
+
+                            {% csrf_token %}
+
+                            <!-- {{ form.as_p }} -->
+                            
+                            <!-- {{ form.amount_bitch }} -->
+
+                            <div class="template_table_cell create_template_btn"><button type="submit">
+                                <img src="{% static 'admin_img/link_templ_creation.png' %}">
+                            </button></div>
+
+                        <!-- </form> -->
+
+                    </form>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <div class="admin_template_paginator">
+                <div class="paginator_prev page_prev">&lt;Пред.</div>
+                <div class="page_number active_page">1</div>
+                <div class="page_number">2</div>
+                <div class="page_number">3</div>
+                <div class="paginator_next page_next">След.&gt;</div>
+            </div>
+
+        </div>
+
+    </div>
+
 </body>
 </html>

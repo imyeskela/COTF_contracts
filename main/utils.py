@@ -1,6 +1,7 @@
 import uuid
 from io import BytesIO
 from django.utils import timezone
+from django.core.files.base import ContentFile
 
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
@@ -23,7 +24,7 @@ import convertapi
 from requests import Response
 import docx2txt
 from fpdf import FPDF
-from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER
+from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER, CONVERT_API_SECRET
 from services.main_logic import generator_num_contract
 from services.num_to_text import num2text
 from main.forms import FillingQuestionnaireForm
@@ -130,13 +131,11 @@ def create_docx(self, request, contract_number):
     if get_data_from_forms(self, request, contract_number).get('type') == 'Основной':
 
         docx.render(basic_vars(self, request, contract_number))
-        print('Основной')
 
         docx.save(path_docx)
     elif get_data_from_forms(self, request, contract_number).get('type') == 'Продление':
 
         docx.render(renewal_vars(self, request, contract_number))
-        print('Продление')
         docx.save(path_docx)
     path_docx.seek(0)
     return path_docx
@@ -147,37 +146,13 @@ def form_questionnaire(self, request, contract_number):
     text = docx2txt.process(docx)
     return text
 
-def send_unsigned_contract(self, request, contract_number):
-    txt = form_questionnaire(self, request, contract_number)
-    text_latina = txt.encode('latin-1', 'replace').decode('latin-1')
-    pdf = BytesIO()
 
-    pdf_create = FPDF()
-    pdf_create.add_page()
-    pdf_create.add_page()
-    pdf_create.add_page()
-    pdf_create.add_page()
-    pdf_create.add_page()
-    pdf_create.add_page()
-    pdf_create.add_page()
-    pdf_create.set_font("Arial", size=15)
-    pdf_create.cell(w=5, txt=txt)
-    val = uuid.uuid4().hex
-    content = pdf_create.output(val + ".pdf", 'S')
-
-    email = get_data_from_forms(self, request, contract_number).get('email')
-
-    email_send = EmailMessage(
-        subject='Клуб Первых',
-        body='Оплатить счёт возможно в течение 5 рабочих дней. До встречи в Клубе Первых!',
-        from_email=EMAIL_HOST_USER,
-        to=[str(email)],
-    )
-    pdf.seek(0)
-
-    email_send.attach('contract.pdf', content)
-    email_send.send()
-    return content
+def get_sign_img(self, request, contract_number):
+    if request.method == 'POST':
+        img = request.POST['sign']
+        img = img[22:]
+        print(img)
+        return img
 
 
 def finally_rich(self, request, contract_number):
@@ -196,7 +171,7 @@ def finally_rich(self, request, contract_number):
     if type == 'Основной':
         purpose = 'Оплата участия в серии мероприятий для бизнеса "Клуба Первых". ' \
                   'По Договору оказания услуг ФЛМ-' + id_contract + ' от ' + generated_date_qr
-        sum = 1
+        sum = get_data_from_forms(self, request, contract_number).get('sum_c')
     elif type == 'Продление':
         purpose = 'Оплата участия в серии мероприятий для бизнеса "Клуба Первых" ' \
                   'Тариф "Продление" по Договору оказания услуг ПМ-' + id_contract + ' от ' + generated_date_qr
@@ -269,19 +244,20 @@ def finally_rich(self, request, contract_number):
 
         path_payment = os.path.join(BASE_DIR, 'upload\\payment\\счет_' + id_contract + '.xlsx')
         workbook.save(path_payment)
+        sign_img_base = get_sign_img(self, request, contract_number)
+        sign_img = ContentFile(base64.b64decode(sign_img_base))
         if type == 'Основной':
-            basic_vars['signature'] = InlineImage(docx, os.path.join(BASE_DIR, 'image (1).png'),
-                                                                                  width=Mm(20), height=Mm(10))
+
+            basic_vars['signature'] = InlineImage(docx, sign_img, width=Mm(30), height=Mm(20))
             docx.render(basic_vars)
 
             docx.save(new_path_docx)
         else:
-            renewal_vars['signature'] = InlineImage(docx, os.path.join(BASE_DIR, 'image (1).png'),
-                                                                                    width=Mm(20), height=Mm(10))
+            renewal_vars['signature'] = InlineImage(docx, sign_img, width=Mm(30), height=Mm(20))
             docx.render(renewal_vars)
 
             docx.save(new_path_docx)
-        convertapi.api_secret = 'iP4B37Pw0h0xIn9Y'
+        convertapi.api_secret = CONVERT_API_SECRET
 
         result = convertapi.convert('pdf', {'File': new_path_docx})
 
@@ -299,8 +275,8 @@ def finally_rich(self, request, contract_number):
         )
         email_send.attach_file(path_payment)
         email_send.attach_file(path_pdf)
-        # email_send.send()
-        return render(request, template_name='filling_questionnaire.html', context={'img_base': img_base})
+        email_send.send()
+        return img_base
     elif company == 'ООО "ДЕЛОВОЙ КЛУБ"':
         qr_dk = qr
         qr_dk.add_data(
@@ -319,7 +295,6 @@ def finally_rich(self, request, contract_number):
         )
 
         qr_dk.make(fit=True)
-
         img = qr_dk.make_image(fill_color="black", back_color="white")
         bytes_io = BytesIO()
         img.save(bytes_io, format='png')
@@ -335,19 +310,18 @@ def finally_rich(self, request, contract_number):
 
         path_payment = os.path.join(BASE_DIR, 'upload\\payment\\счет_' + id_contract + '.xlsx')
         workbook.save(path_payment)
-
+        sign_img_base = get_sign_img(self, request, contract_number)
+        sign_img = ContentFile(base64.b64decode(sign_img_base))
         if type == 'Основной':
-            basic_vars['signature'] = InlineImage(docx, os.path.join(BASE_DIR, 'image (1).png'),
-                                                                                  width=Mm(20), height=Mm(10))
+            basic_vars['signature'] = InlineImage(docx, sign_img, width=Mm(30), height=Mm(20))
             docx.render(basic_vars)
             docx.save(new_path_docx)
         else:
-            renewal_vars['signature'] = InlineImage(docx, os.path.join(BASE_DIR, 'image (1).png'),
-                                                                                    width=Mm(20), height=Mm(10))
+            renewal_vars['signature'] = InlineImage(docx, sign_img, width=Mm(30), height=Mm(20))
             docx.render(renewal_vars)
             docx.save(new_path_docx)
 
-        convertapi.api_secret = 'iP4B37Pw0h0xIn9Y'
+        convertapi.api_secret = CONVERT_API_SECRET
 
         result = convertapi.convert('pdf', {'File': new_path_docx})
 
@@ -365,7 +339,7 @@ def finally_rich(self, request, contract_number):
         )
         email_send.attach_file(path_payment)
         email_send.attach_file(path_pdf)
-        # email_send.send()
+        email_send.send()
         return img_base
 
 
@@ -381,16 +355,13 @@ class FillingQuestionnaireMixin:
 
     def post(self, request, contract_number):
         form = self.form(request.POST)
-        d = {}
         if 'docx' in request.POST:
             docx_base = form_questionnaire(self, request, contract_number)
             return render(request, 'filling_questionnaire.html', {'docx_base': docx_base, 'form': form})
-        # elif 'unsigned_contract' in request.POST:
-        #     pdf = send_unsigned_contract(self, request, contract_number)
-        #     return render(request, 'filling_questionnaire.html', {'pdf': pdf})
 
         elif 'qr_code' in request.POST:
             img_base = finally_rich(self, request, contract_number)
+            get_sign_img(self, request, contract_number)
             return render(request, 'filling_questionnaire.html', {'img_base': img_base})
 
         return render(request, 'filling_questionnaire.html', {'form': form})

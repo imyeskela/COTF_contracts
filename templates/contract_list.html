@@ -1,16 +1,162 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'admin.css' %}" class="css" />
 </head>
 <body>
-{% for contracts in contract_list %}
-    <p>{{ contracts.name }}
-    <h3><a href="{{ contracts.get_absolute_url }}">Анкета</a></h3>
 
-    </p>
+    <div class="admin_navbar">
+        <div class="admin_navbar_logo"><img src="{% static 'admin_img/cotf_logo.png' %}"></div>
+        <div class="admin_navbar_menu">
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/news.png' %}"></div>
+                <div class="item_link">Лента клуба</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/merop.png' %}"></div>
+                <div class="item_link">Мероприятия</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/messages.png' %}"></div>
+                <div class="item_link">Сообщения</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/forums.png' %}"></div>
+                <div class="item_link">Форумы</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/projs.png' %}"></div>
+                <div class="item_link">Проекты</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/travels.png' %}"></div>
+                <div class="item_link">Путешествия</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/pay.png' %}"></div>
+                <div class="item_link">Оплата</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/tasks.png' %}"></div>
+                <div class="item_link">Задачи</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator item_indicator_active"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/administration.png' %}"></div>
+                <div class="item_link item_link_active">Администрирование</div>
+            </div>
+        </div>
+    </div>
 
-{% endfor %}
+    <div class="admin_content">
+
+        <div class="searchbar">
+            <div class="admin_panel_search">
+
+                <div class="admin_search_box">
+                    <div><img src="{% static 'admin_img/topabr/search_search.png' %}"></div>
+                    <input type="text" placeholder="Поиск...">
+                </div>
+
+                <div class="admin_search_control">
+                    <div><img src="{% static 'admin_img/topabr/peoples_search.png' %}"></div>
+                    <div><img src="{% static 'admin_img/topabr/calendar_search.png' %}"></div>
+                    <div><img src="{% static 'admin_img/topabr/news_search.png' %}"></div>
+                </div>
+
+            </div>
+
+            <div class="admin_panel_cab_link">
+                <div class="cab_link_col"><img src="{% static 'admin_img/topabr/colocol.png' %}"></div>
+                <div class="cab_link_photo"><img src="{% static 'admin_img/topabr/photo.png' %}"></div>
+                <div class="cab_link_dropdown"><img src="{% static 'admin_img/topabr/dropdown.png' %}"></div>
+            </div>
+        </div>
+
+        <div class="main_content">
+
+            <div class="admin_content_title">Договоры</div>
+
+            <div class="admin_content_control_panel">
+
+                <div class="admin_search" >
+                    <input type="text" placeholder="Поиск..." />
+                    <button><img src="{% static 'admin_img/search.png' %}"></button>
+                </div>
+
+                <div class="admin_template_link" ><a href="/">Договоры</a></div>
+                <div class="admin_contract_link active_link" ><a href="{% url 'contract_list' %}">Клиенты</a></div>
+
+                <div class="admin_create_template" ><a href="{% url 'tem_form' %}">+</a></div>
+
+            </div>
+
+            <div class="all_contract_wrapper">
+
+                <div class="all_contract">
+
+                    <div class="contract_table_header">
+                        <div class="contract_table_header_td">№ договора</div>
+                        <div class="contract_table_header_td">Идентификатор</div>
+                        <div class="contract_table_header_td">ФИО</div>
+                        <div class="contract_table_header_td">Паспортные данные</div>
+                        <div class="contract_table_header_td">Email</div>
+                        <div class="contract_table_header_td">Мобильный телефон</div>
+                        <div class="contract_table_header_td">Договор</div>
+                        <div class="contract_table_header_td">Сумма</div>
+                        <div class="contract_table_header_td">Дата создания</div>
+                        <div class="contract_table_header_td">Дата подписания</div>
+                        <div class="contract_table_header_td">Статус</div>
+                    </div>
+
+                    {% for contracts in contract_list %}
+
+                    <div class="contract_table_row">
+
+                        <div class="contract_table_cell">
+                            <a href="{{ contracts.get_absolute_url }}">
+                                <img src="{% static 'admin_img/link_templ_creation.png' %}">
+                            </a>
+                        </div>
+
+                        <div class="contract_table_cell">{{ contracts.number }}</div>
+                        <div class="contract_table_cell">{{ contracts.name }}</div>
+                        <div class="contract_table_cell">{{ contracts.full_name }}</div>
+                        <div class="contract_table_cell">{{ contracts.amount }}</div>
+                        <div class="contract_table_cell">{{ contracts.date_created }}</div>
+                        <div class="contract_table_cell">{{ contracts.date_signed }}</div>
+                        <div class="contract_table_cell">{{ contracts.status }}</div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <div class="admin_template_paginator">
+                <div class="paginator_prev page_prev">&lt;Пред.</div>
+                <div class="page_number active_page">1</div>
+                <div class="page_number">2</div>
+                <div class="page_number">3</div>
+                <div class="paginator_next page_next">След.&gt;</div>
+            </div>
+
+        </div>
+
+    </div>
+
 </body>
 </html>
