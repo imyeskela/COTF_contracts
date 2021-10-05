@@ -29,6 +29,8 @@ from services.main_logic import generator_num_contract
 from services.num_to_text import num2text
 from main.forms import FillingQuestionnaireForm
 from services.main_logic import get_contract
+from django.core.paginator import Paginator
+
 
 class ContractTemplateListAndCreateContractMixin:
     """Миксин для отображения всех шаблонов контрактов"""
@@ -38,7 +40,10 @@ class ContractTemplateListAndCreateContractMixin:
     form = None
 
     def get(self, request):
-        return render(request, self.template_name, {'contract_template_list': self.queryset, 'form': self.form, })
+        paginator = Paginator(self.queryset, 5)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, self.template_name, {'contract_template_list': page_obj, 'form': self.form, })
 
     def post(self, request):
         form = self.form(request.POST)
@@ -64,9 +69,11 @@ class ContractListMixin:
     template_name = None
 
     def get(self, request):
-        queryset = self.queryset
+        paginator = Paginator(self.queryset, 5)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
         template_name = self.template_name
-        return render(request, template_name, {'contract_list': queryset})
+        return render(request, template_name, {'contract_list': page_obj})
 
 
 def get_data_from_forms(self, request, contract_number):
@@ -263,6 +270,10 @@ def finally_rich(self, request, contract_number):
 
         result.file.save(path_pdf)
         os.remove(new_path_docx)
+        contract.identifier = get_data_from_forms(self, request, contract_number).get('short_name')
+        contract.email = email
+        contract.passport = get_data_from_forms(self, request, contract_number).get('passport')
+        contract.phone = get_data_from_forms(self, request, contract_number).get('phone')
         contract.payment = path_payment
         contract.signed_contract = path_pdf
         contract.date_created = timezone.now()
@@ -327,6 +338,10 @@ def finally_rich(self, request, contract_number):
 
         result.file.save(path_pdf)
         os.remove(new_path_docx)
+        contract.identifier = get_data_from_forms(self, request, contract_number).get('short_name')
+        contract.email = email
+        contract.passport = get_data_from_forms(self, request, contract_number).get('passport')
+        contract.phone = get_data_from_forms(self, request, contract_number).get('phone')
         contract.payment = path_payment
         contract.date_signed = timezone.now()
         contract.signed_contract = path_pdf
