@@ -51,7 +51,7 @@ class ContractTemplateListAndCreateContractMixin:
             contact_template_id = int(request.POST.get('contract_template'))
             contract_template = self.queryset.get(id=contact_template_id)
             form = form.save(commit=False)
-            form.amount = int(request.POST.get('amount'))
+            form.amount = int(request.POST.get('amount_bitch'))
             form.contract_template = contract_template
             form.number = generator_num_contract()
             form.save()
@@ -158,7 +158,6 @@ def get_sign_img(self, request, contract_number):
     if request.method == 'POST':
         img = request.POST['sign']
         img = img[22:]
-        print(img)
         return img
 
 
@@ -265,7 +264,6 @@ def finally_rich(self, request, contract_number):
 
             docx.save(new_path_docx)
         convertapi.api_secret = CONVERT_API_SECRET
-
         result = convertapi.convert('pdf', {'File': new_path_docx})
 
         result.file.save(path_pdf)
@@ -276,7 +274,7 @@ def finally_rich(self, request, contract_number):
         contract.phone = get_data_from_forms(self, request, contract_number).get('phone')
         contract.payment = path_payment
         contract.signed_contract = path_pdf
-        contract.date_created = timezone.now()
+        contract.date_signed = timezone.now()
         contract.save()
         email_send = EmailMessage(
             subject='Клуб Первых',
@@ -286,7 +284,7 @@ def finally_rich(self, request, contract_number):
         )
         email_send.attach_file(path_payment)
         email_send.attach_file(path_pdf)
-        email_send.send()
+        # email_send.send()
         return img_base
     elif company == 'ООО "ДЕЛОВОЙ КЛУБ"':
         qr_dk = qr
@@ -354,7 +352,7 @@ def finally_rich(self, request, contract_number):
         )
         email_send.attach_file(path_payment)
         email_send.attach_file(path_pdf)
-        email_send.send()
+        # email_send.send()
         return img_base
 
 
