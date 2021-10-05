@@ -1,33 +1,25 @@
-import uuid
 from io import BytesIO
 from django.utils import timezone
 from django.core.files.base import ContentFile
 
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 import os
 from docxtpl import DocxTemplate
 from docxtpl import InlineImage
 from babel.dates import format_date
 from PIL import Image
-from docx import Document
 from docx.shared import Mm, Inches, Pt
 import qrcode
 from openpyxl import load_workbook
 from openpyxl.drawing.image import Image
-from docx2pdf import convert
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
+
 from django.core.mail import EmailMessage
 import base64
 import convertapi
-from requests import Response
 import docx2txt
-from fpdf import FPDF
 from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER, CONVERT_API_SECRET
 from services.main_logic import generator_num_contract
 from services.num_to_text import num2text
-from main.forms import FillingQuestionnaireForm
 from services.main_logic import get_contract
 from django.core.paginator import Paginator
 
