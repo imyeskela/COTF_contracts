@@ -34,10 +34,14 @@ def get_template_contracts():
     return ContractTemplate.objects.all()
 
 
-def get_form_contract_template():
+def get_contract_form():
     """Получаем форму для создания Контракта"""
 
     return ContractCreateForm
+
+
+def get_contract_template_form():
+    return ContractTemplateCreateForm
 
 
 def get_contracts():

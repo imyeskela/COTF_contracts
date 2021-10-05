@@ -3,8 +3,8 @@ from django.views.generic import View
 from django.views.generic import CreateView
 
 from main.models import Contract
-from services.main_logic import get_template_contracts, get_form_contract_template, get_contracts, \
-    get_contract, get_filling_questionnaire_form
+from services.main_logic import get_template_contracts, get_contract_form, get_contracts, \
+    get_contract, get_filling_questionnaire_form, get_contract_template_form
 from main.utils import ContractTemplateListAndCreateContractMixin, ContractListMixin, FillingQuestionnaireMixin
 from main.forms import ContractTemplateCreateForm, FillingQuestionnaireForm
 
@@ -13,7 +13,8 @@ class ContractTemplateListAndCreateView(ContractTemplateListAndCreateContractMix
     """Отображение всех контрактов"""
 
     queryset = get_template_contracts()
-    form = get_form_contract_template()
+    form_contract = get_contract_form()
+    form_contract_template = get_contract_template_form()
     template_name = 'contract_templates_list.html'
 
 
