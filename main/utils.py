@@ -194,7 +194,7 @@ def finally_rich(self, request, contract_number):
         sum = get_data_from_forms(self, request, contract_number).get('sum_c')
 
     new_path_docx = os.path.join(BASE_DIR, 'upload/signed_contract/' + id_contract + '.docx')
-    path_pdf = os.path.join(BASE_DIR, MEDIA_URL, 'signed_contract/' + id_contract + '.pdf')
+    path_pdf = os.path.join(BASE_DIR + MEDIA_URL + 'signed_contract/' + id_contract + '.pdf')
     last_name = get_data_from_forms(self, request, contract_number).get('last_name')
     name = get_data_from_forms(self, request, contract_number).get('name')
     sur_name = get_data_from_forms(self, request, contract_number).get('sur_name')
