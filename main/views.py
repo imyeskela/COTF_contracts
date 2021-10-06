@@ -39,6 +39,7 @@ class ContractListView(ContractListMixin, View):
 
     queryset = Contract.objects.all()
     template_name = 'contract_list.html'
+    form_contract_template = get_contract_template_form()
 
 
 class FillingQuestionnaireView(FillingQuestionnaireMixin, View):
