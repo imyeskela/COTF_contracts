@@ -98,18 +98,18 @@
                 <div class="admin_template_link active_link" ><a href="/">Договоры</a></div>
                 <div class="admin_contract_link" ><a href="{% url 'contract_list' %}">Клиенты</a></div>
 
-{#                <div class="admin_create_template" ><a href="{% url 'tem_form' %}">+</a></div>#}
+                <div class="admin_create_template" onclick="open_new_template_popup()" ><a>+</a></div>
 
             </div>
 
             <div class="all_templates">
 
                 <div class="template_table_header">
-                    <div class="template_table_header_td first_td">Название</div>
-                    <div class="template_table_header_td second_td">Договор</div>
-                    <div class="template_table_header_td third_td">Статус</div>
-                    <div class="template_table_header_td fourth_td">Идентификатор</div>
-                    <div class="template_table_header_td fifth_td">Сумма</div>
+                    <div class="template_table_header_td first_col_template first_td">Название</div>
+                    <div class="template_table_header_td second_col_template second_td">Договор</div>
+                    <div class="template_table_header_td third_col_template third_td">Статус</div>
+                    <div class="template_table_header_td fourth_col_template fourth_td">Идентификатор</div>
+                    <div class="template_table_header_td fifth_col_template fifth_td">Сумма</div>
                 </div>
 
                 {% for contracts in contract_template_list %}
@@ -118,16 +118,24 @@
 
                     <form action="" method="post" enctype="multipart/form-data">
 
-                        <div class="template_table_cell first_td">{{ contracts.name }}</div>
-                        <div class="template_table_cell second_td">{{ contracts.pk }}</div>
-                        <div class="template_table_cell third_td">{{ contracts.status }}</div>
+                        <div class="template_table_cell first_col_template first_td">{{ contracts.name }}</div>
+                        <div class="template_table_cell second_col_template second_td">{{ contracts.pk }}</div>
+
+                        <!-- <div class="template_table_cell third_col_template third_td">{{ contracts.status }}</div> -->
+                        <div class="template_table_cell third_col_template third_td">
+                            <select name="status" id="status">
+                                <option value="actual">Актуальное</option>
+                                <option value="outdated">Устарело</option>
+                            </select>
+                        </div>
+
                         <!-- <div class="template_table_cell"><input type="hidden" name="contract_template" value="{{ contracts.pk }}"></div> -->
                         <input type="hidden" name="contract_template" value="{{ contracts.pk }}">
 
-                        <div class="template_table_cell fourth_td">{{ form.full_name }}</div>
+                        <div class="template_table_cell fourth_col_template fourth_td">{{ form.full_name }}</div>
 
                         {% if contracts.amount != 0 %}
-                        <div class="template_table_cell fifth_td"><input name="amount_bitch" value="{{ contracts.amount }}"></div>
+                        <div class="template_table_cell fifth_col_template fifth_td"><input name="amount_bitch" value="{{ contracts.amount }}"></div>
                         {% endif %}
 
                         <!-- <form> -->
@@ -153,26 +161,50 @@
             </div>
 
             <div class="admin_template_paginator">
-                {% if contract_template_list.has_previous  %}
-                <div class="paginator_prev page_prev">
-                    <a href="?page={{ contract_template_list.previous_page_number  }}"> &lt;Пред.</a>
-                </div>
-                {% endif %}
+                <div class="paginator_prev page_prev">&lt;Пред.</div>
                 <div class="page_number active_page">1</div>
                 <div class="page_number">2</div>
                 <div class="page_number">3</div>
-
-                {% if contract_template_list.has_next   %}
-                    <div class="paginator_next page_next">
-                    <a  href="?page={{ contract_template_list.next_page_number }}">След.&gt;</a>
-
-                    </div>
-                {% endif %}
+                <div class="paginator_next page_next">След.&gt;</div>
             </div>
 
         </div>
 
     </div>
+
+    <div class="new_template_popup" id="new_template_popup">
+        <div class="template_popup">
+            <div class="template_popup_title">Создать договор</div>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form_contract_template_field">{{ form_contract_template.amount }}</div>
+                <div class="form_contract_template_field">{{ form_contract_template.status }}</div>
+                <div class="form_contract_template_field">{{ form_contract_template.type }}</div>
+                <div class="form_contract_template_field">{{ form_contract_template.company }}</div>
+
+                <div class="form_contract_template_field template_of_contract">
+                    <label for="id_template_of_contract">+ Загрузить договор</label>
+                    {{ form_contract_template.template_of_contract }}
+                </div>
+
+                <div class="popup_btn_div">
+                    <div onclick="close_new_template_popup()" class="cancel_btn">Отмена</div>
+                    <button type="submit" class="send_template_btn">Отправить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function open_new_template_popup() {
+            document.getElementById('new_template_popup').style.display = 'flex';
+        }
+
+        function close_new_template_popup() {
+            document.getElementById('new_template_popup').style.display = 'none';
+        }
+    </script>
 
 </body>
 </html>

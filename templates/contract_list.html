@@ -98,7 +98,7 @@
                 <div class="admin_template_link" ><a href="/">Договоры</a></div>
                 <div class="admin_contract_link active_link" ><a href="{% url 'contract_list' %}">Клиенты</a></div>
 
-{#                <div class="admin_create_template" ><a href="{% url 'tem_form' %}">+</a></div>#}
+                <div class="admin_create_template" onclick="open_new_template_popup()" ><a>+</a></div>
 
             </div>
 
@@ -107,6 +107,7 @@
                 <div class="all_contract">
 
                     <div class="contract_table_header">
+                        <div class="contract_table_cell_link contract_table_cell"></div>
                         <div class="contract_table_header_td">№ договора</div>
                         <div class="contract_table_header_td">Идентификатор</div>
                         <div class="contract_table_header_td">ФИО</div>
@@ -124,7 +125,7 @@
 
                     <div class="contract_table_row">
 
-                        <div class="contract_table_cell">
+                        <div class="contract_table_cell_link contract_table_cell">
                             <a href="{{ contracts.get_absolute_url }}">
                                 <img src="{% static 'admin_img/link_templ_creation.png' %}">
                             </a>
@@ -161,6 +162,31 @@
         </div>
 
     </div>
+
+    <div class="new_template_popup" id="new_template_popup">
+        <div class="template_popup">
+            <div class="template_popup_title">Создать договор</div>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form_contract_template.as_p }}
+                <div class="popup_btn_div">
+                    <div onclick="close_new_template_popup()" class="cancel_btn">Отмена</div>
+                    <button type="submit" class="send_template_btn">Отправить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function open_new_template_popup() {
+            document.getElementById('new_template_popup').style.display = 'flex';
+        }
+
+        function close_new_template_popup() {
+            document.getElementById('new_template_popup').style.display = 'none';
+        }
+    </script>
+
 
 </body>
 </html>

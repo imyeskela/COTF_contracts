@@ -121,6 +121,7 @@ body {
 
 .template_table_header {
     height: 39px;
+    padding-left: 17px;
 }
 
 .template_table_header_td {
@@ -128,7 +129,7 @@ body {
     line-height: 39px;
     width: calc(18%);
     color: #6A728A;
-    padding-left: 17px;
+    /* padding-left: 17px; */
 }
 
 .template_table_row {
@@ -150,7 +151,7 @@ body {
     cursor: pointer;
 }
 
-.first_td {
+/* .first_td {
     width: 320px!important;
 }
 
@@ -169,7 +170,7 @@ body {
 
 .fifth_td {
     width: 260px!important;
-}
+} */
 
 .admin_template_paginator {
     float: right;
@@ -202,11 +203,14 @@ body {
     display: inline-block;
     line-height: 39px;
     color: #6A728A;
-    padding-left: 17px;   
+    padding-left: 17px;
 }
 
 .contract_table_cell{
     display: inline-block;
+    line-height: 39px;
+    color: #6A728A;
+    padding-left: 17px;
 }
 
 .all_contract {
@@ -319,4 +323,247 @@ body {
 .admin_search_box > div {
     padding-top: 5px;
     padding-right: 10px;
+}
+
+.admin_create_template {
+    cursor: pointer;
+}
+
+.new_template_popup {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.template_popup {
+    width: 470px;
+    background-color: white;
+    border: 1px solid #888888;
+}
+
+.template_popup_title{
+/* H2 18 px */
+    font-family: Styrene A Web;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height, or 122% */
+
+
+    /* Active color */
+
+    color: #171619;
+    padding-left: 62px;
+    padding-top: 26px;
+    padding-bottom: 33px;
+}
+
+
+.template_popup_title input {
+
+    width: 336px;
+    height: 32px;
+    background: #F7F9FB;
+    border: 1px solid rgba(216, 222, 236, 0.8);
+    box-sizing: border-box;
+    border-radius: 2px;
+
+}
+
+.cancel_btn{
+    cursor: pointer;
+    width: 93px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border: 1px solid rgba(216, 222, 236, 0.45);
+    box-sizing: border-box;
+    border-radius: 2px;
+}
+
+.send_template_btn {
+    color: white!important;
+    font-weight: normal;
+    display: block;
+    text-align: center;
+    width: 136px;
+    height: 32px;
+    color: white;
+    height: 32px;
+    line-height: 30px;
+    /* gradient */
+    background: linear-gradient(71.59deg, #60326B 0%, #BD2971 100%);
+    border-radius: 2px;   
+    border: none;
+    outline: none;
+    margin-right: 62px;
+    margin-left: 10px;
+}
+
+.popup_btn_div {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 28px;
+    justify-content: flex-end;
+}
+
+
+.first_col_template{ width: 19% !important; }
+.second_col_template{ width: 19% !important; }
+.third_col_template{ width: 19% !important; }
+.fourth_col_template{ width: 19% !important; }
+.fifth_col_template{ width: 19% !important; }
+
+
+
+
+
+
+
+
+.fourth_col_template input , .fifth_col_template input 
+{
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+ 
+
+    position: absolute; */
+    padding-left: 12px;
+    width: 200px;
+    height: 32px;
+    /* left: calc(50% - 200px/2 + 166.5px); */
+    /* top: calc(50% - 32px/2); */
+
+    /* bg_color */
+
+    background: #F7F9FB;
+    /* thin_graphic */
+
+    border: 1px solid rgba(216, 222, 236, 0.8);
+    box-sizing: border-box;
+    border-radius: 0px 2px 2px 0px;
+}
+
+.third_col_template select  {
+
+    font-family: Styrene A Web;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 12px;
+    /* identical to box height, or 120% */
+
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+    background: #40A4B1;
+    border-radius: 4px;
+    border: none;
+    height: 28px;
+    padding-left: 8px;
+    padding-right: 8px;
+    outline: none;
+}
+
+.contract_table_header, .contract_table_row {
+    padding-left: 17px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+}
+
+.contract_table_row {
+    border-top: 1px solid #f5f5f5;
+}
+
+.contract_table_cell_link {
+    width: 20px!important;
+}
+
+
+
+/* 
+.contract_table_cell, .contract_table_header_td {
+    width: 300px!important;
+    border: 1px solid red;
+}
+
+.contract_table_cell_link {
+    width: 20px!important;
+} */
+
+/*
+.contract_table_row {
+    height: 72px;
+    border-top: 1px solid #f5f5f5;
+    line-height: 72px;
+    padding-left: 17px;
+}
+
+
+
+.contract_table_cell, .contract_table_header_td {
+    width: 200px;
+    height: 72px!important;
+    border: 1px solid red;
+}*/
+
+
+.form_contract_template_field{
+    padding-left: 62px;
+    padding-bottom: 20px;
+}
+
+.form_contract_template_field input {
+
+    width: 336px;
+    height: 32px;
+    background: #F7F9FB;
+    border: 1px solid rgba(216, 222, 236, 0.8);
+    box-sizing: border-box;
+    border-radius: 2px;
+    outline: none;
+    padding-left: 10px;
+
+}
+
+.form_contract_template_field select {
+
+    width: 336px;
+    height: 32px;
+    background: #F7F9FB;
+    border: 1px solid rgba(216, 222, 236, 0.8);
+    box-sizing: border-box;
+    border-radius: 2px;
+    outline: none;
+    padding-left: 10px;
+
+}
+
+.template_of_contract button {
+    background-color: red;
+}
+
+.form_contract_template_field > label {
+    cursor: pointer;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    letter-spacing: 0.02em;
+    color: #171619;
+}
+
+.template_of_contract input {
+    display: none;
 }
