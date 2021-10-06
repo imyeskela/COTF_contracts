@@ -152,11 +152,42 @@
             </div>
 
             <div class="admin_template_paginator">
-                <div class="paginator_prev page_prev">&lt;Пред.</div>
-                <div class="page_number active_page">1</div>
-                <div class="page_number">2</div>
-                <div class="page_number">3</div>
-                <div class="paginator_next page_next">След.&gt;</div>
+                    {% if contract_list.has_previous %}
+                        <div class="paginator_prev page_prev">
+                                    <a href="?page={{ contract_list.previous_page_number }}">&lt;Пред.</a>
+                        </div>
+                    {% endif %}
+
+
+
+                    <div class="page_number active_page">
+                        {{ contract_list.number }}
+                    </div>
+
+                        <div class="page_number">
+                            {% if contract_list.has_next %}
+                            <a href="?page={{ contract_list.number|add:1 }}">
+                                {{ contract_list.number|add:1 }}
+                            </a>
+                            {% endif %}
+                    </div>
+
+
+
+                    <div class="page_number">
+                        {% if contract_list.has_next %}
+                            <a href="?page={{ contract_list.number|add:2 }}">
+                                {{ contract_list.number|add:2 }}
+                            </a>
+                        {% endif %}
+                    </div>
+
+
+                {% if contract_list.has_next %}
+                    <div class="paginator_next page_next">
+                         <a href="?page={{ contract_list.next_page_number }}">След.&gt;</a>
+                    </div>
+                {% endif %}
             </div>
 
         </div>

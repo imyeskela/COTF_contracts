@@ -43,20 +43,29 @@ class ContractTemplateListAndCreateContractMixin:
 
     def post(self, request):
         form_contract = self.form_contract(request.POST)
-        form_contract_template = self.form_contract_template(request.POST)
-        if form_contract.is_valid():
-            contact_template_id = int(request.POST.get('contract_template'))
-            contract_template = self.queryset.get(id=contact_template_id)
-            form_contract = form_contract.save(commit=False)
-            form_contract.amount = int(request.POST.get('amount_bitch'))
-            form_contract.contract_template = contract_template
-            form_contract.number = generator_num_contract()
-            form_contract.save()
-            return redirect('contract_list')
-        if form_contract_template.is_valid():
-            form_contract_template = form_contract_template.save(commit=False)
-            form_contract_template.save()
-            return redirect('contract_template_list')
+        form_contract_template = self.form_contract_template(request.POST, request.FILES)
+        if 'form_contract' in request.POST:
+            if form_contract.is_valid():
+                contact_template_id = int(request.POST.get('contract_template'))
+                contract_template = self.queryset.get(id=contact_template_id)
+                form_contract = form_contract.save(commit=False)
+                form_contract.amount = int(request.POST.get('amount_bitch'))
+                form_contract.contract_template = contract_template
+                form_contract.number = generator_num_contract()
+                print('fc')
+                form_contract.save()
+                return redirect('contract_list')
+            else:
+                return render(request, self.template_name, {'form_contract': form_contract, 'form_contract_template': form_contract_template})
+        if 'form_contract_template' in request.POST:
+            if form_contract_template.is_valid():
+                form_contract_template = form_contract_template.save(commit=False)
+                form_contract_template.save()
+                return redirect('contract_template_list')
+            else:
+                return render(request, self.template_name,
+                              {'form_contract_template': form_contract_template})
+
         return render(request, self.template_name, {'form_contract': form_contract, 'form_contract_template': form_contract_template})
 
 
@@ -285,7 +294,7 @@ def finally_rich(self, request, contract_number):
         )
         email_send.attach_file(path_payment)
         email_send.attach_file(path_pdf)
-        # email_send.send()
+        email_send.send()
         return img_base
     elif company == 'ООО "ДЕЛОВОЙ КЛУБ"':
         qr_dk = qr
@@ -353,7 +362,7 @@ def finally_rich(self, request, contract_number):
         )
         email_send.attach_file(path_payment)
         email_send.attach_file(path_pdf)
-        # email_send.send()
+        email_send.send()
         return img_base
 
 

@@ -132,7 +132,7 @@
                         <!-- <div class="template_table_cell"><input type="hidden" name="contract_template" value="{{ contracts.pk }}"></div> -->
                         <input type="hidden" name="contract_template" value="{{ contracts.pk }}">
 
-                        <div class="template_table_cell fourth_col_template fourth_td">{{ form.full_name }}</div>
+                        <div class="template_table_cell fourth_col_template fourth_td">{{ form_contract.full_name }}</div>
 
                         {% if contracts.amount != 0 %}
                         <div class="template_table_cell fifth_col_template fifth_td"><input name="amount_bitch" value="{{ contracts.amount }}"></div>
@@ -142,11 +142,11 @@
 
                             {% csrf_token %}
 
-                            <!-- {{ form.as_p }} -->
-                            
-                            <!-- {{ form.amount_bitch }} -->
+                            <!-- {{ form_contract.as_p }} -->
 
-                            <div class="template_table_cell create_template_btn"><button type="submit">
+                            <!-- {{ form_contract.amount_bitch }} -->
+
+                            <div class="template_table_cell create_template_btn"><button type="submit" name="form_contract">
                                 <img src="{% static 'admin_img/link_templ_creation.png' %}">
                             </button></div>
 
@@ -161,12 +161,45 @@
             </div>
 
             <div class="admin_template_paginator">
-                <div class="paginator_prev page_prev">&lt;Пред.</div>
-                <div class="page_number active_page">1</div>
-                <div class="page_number">2</div>
-                <div class="page_number">3</div>
-                <div class="paginator_next page_next">След.&gt;</div>
+
+                {% if contract_template_list.has_previous %}
+                    <div class="paginator_prev page_prev">
+                                <a href="?page={{ contract_template_list.previous_page_number }}">&lt;Пред.</a>
+                    </div>
+                {% endif %}
+
+
+
+                <div class="page_number active_page">
+                    {{ contract_template_list.number }}
+                </div>
+
+                    <div class="page_number">
+                        {% if contract_template_list.has_next %}
+                        <a href="?page={{ contract_template_list.number|add:1 }}">
+                            {{ contract_template_list.number|add:1 }}
+                        </a>
+                        {% endif %}
+                </div>
+
+
+
+                <div class="page_number">
+                    {% if contract_template_list.has_next %}
+                        <a href="?page={{ contract_template_list.number|add:2 }}">
+                            {{ contract_template_list.number|add:2 }}
+                        </a>
+                    {% endif %}
+                </div>
+
+
+            {% if contract_template_list.has_next %}
+                <div class="paginator_next page_next">
+                     <a href="?page={{ contract_template_list.next_page_number }}">След.&gt;</a>
+                </div>
+            {% endif %}
             </div>
+
 
         </div>
 
@@ -190,10 +223,12 @@
 
                 <div class="popup_btn_div">
                     <div onclick="close_new_template_popup()" class="cancel_btn">Отмена</div>
-                    <button type="submit" class="send_template_btn">Отправить</button>
+                    <button type="submit" name='form_contract_template' class="send_template_btn">Отправить</button>
                 </div>
+
             </form>
         </div>
+
     </div>
 
     <script>

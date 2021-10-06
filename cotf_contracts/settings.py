@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-4-v+05*eep&-xu91uf9r2!4dxefa^b3@!z#k63u!z9m*a7f44j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['alexeyfranco.pythonanywhere.com']
+ALLOWED_HOSTS = ['alexeyfranco.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
@@ -144,4 +144,4 @@ EMAIL_HOST_PASSWORD = 'TestClubFirst1'
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
 
-CONVERT_API_SECRET = os.getenv('CONVERT_API_SECRET')
+CONVERT_API_SECRET = 'iP4B37Pw0h0xIn9Y'

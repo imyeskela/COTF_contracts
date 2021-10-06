@@ -15,7 +15,7 @@ class ContractTemplateCreateForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(ContractTemplateCreateForm, self).clean()
         path = self.cleaned_data.get('template_of_contract')
-        type_of_contr = str(self.cleaned_data['type'])
+        type_of_contr = str(cleaned_data['type'])
 
         basic_vars = ['email', 'passport', 'signature', 'full_name',
                       'id', 'generated_date', 'short_name', 'phone']
@@ -36,7 +36,7 @@ class ContractTemplateCreateForm(forms.ModelForm):
                 if renewal not in vars_in_docx:
                     raise ValidationError('Отсутствуют или внесены неверно переменные <переменные> Пожалуйста, '
                                           'загрузите исправленный документ и выполните проверку повторно')
-        return self.cleaned_data
+        return cleaned_data
 
 
 class ContractCreateForm(forms.ModelForm):

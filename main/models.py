@@ -107,10 +107,10 @@ class Contract(models.Model):
     full_name = models.CharField('ФИО', null=False, max_length=150)
     amount = models.PositiveIntegerField('Сумма', null=True)
     name = models.CharField('Название', max_length=300, null=False)
-    passport = models.CharField('Паспорт', max_length=9, blank=True, null=True)
-    email = models.EmailField('Почта', max_length=50, blank=True, null=True)
-    phone = models.CharField('Телефон', max_length=20, blank=True, null=True)
-    identifier = models.CharField('Индетификатор', max_length=50, blank=True, null=True)
+    passport = models.CharField('Паспорт', max_length=9, blank=True, null=True, default='Данных нет')
+    email = models.EmailField('Почта', max_length=50, blank=True, null=True, default='Данных нет')
+    phone = models.CharField('Телефон', max_length=20, blank=True, null=True, default='Данных нет')
+    identifier = models.CharField('Индетификатор', max_length=50, blank=True, null=True, default='Данных нет')
 
     class Meta:
         verbose_name = 'Контракт'
