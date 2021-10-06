@@ -193,8 +193,8 @@ def finally_rich(self, request, contract_number):
                   'Тариф "Продление" по Договору оказания услуг ПМ-' + id_contract + ' от ' + generated_date_qr
         sum = get_data_from_forms(self, request, contract_number).get('sum_c')
 
-    new_path_docx = os.path.join(BASE_DIR, 'upload\\signed_contract\\' + id_contract + '.docx')
-    path_pdf = os.path.join(BASE_DIR, 'upload\\signed_contract\\' + id_contract + '.pdf')
+    new_path_docx = os.path.join(BASE_DIR, 'upload/signed_contract/' + id_contract + '.docx')
+    path_pdf = os.path.join(BASE_DIR, 'upload/signed_contract/' + id_contract + '.pdf')
     last_name = get_data_from_forms(self, request, contract_number).get('last_name')
     name = get_data_from_forms(self, request, contract_number).get('name')
     sur_name = get_data_from_forms(self, request, contract_number).get('sur_name')
