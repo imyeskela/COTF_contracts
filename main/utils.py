@@ -258,7 +258,7 @@ def finally_rich(self, request, contract_number):
         img_qr = Image(bytes_io)
         sheet.add_image(img_qr, 'B18')
 
-        path_payment = os.path.join(BASE_DIR, 'upload\\payment\\счет_' + id_contract + '.xlsx')
+        path_payment = os.path.join(BASE_DIR, 'upload/payment/счет_' + id_contract + '.xlsx')
         workbook.save(path_payment)
         sign_img_base = get_sign_img(self, request, contract_number)
         sign_img = ContentFile(base64.b64decode(sign_img_base))
@@ -327,7 +327,7 @@ def finally_rich(self, request, contract_number):
         img_qr = Image(bytes_io)
         sheet.add_image(img_qr, 'B18')
 
-        path_payment = os.path.join(BASE_DIR, 'upload\\payment\\счет_' + id_contract + '.xlsx')
+        path_payment = os.path.join(BASE_DIR, 'upload/payment/счет_' + id_contract + '.xlsx')
         workbook.save(path_payment)
         sign_img_base = get_sign_img(self, request, contract_number)
         sign_img = ContentFile(base64.b64decode(sign_img_base))
