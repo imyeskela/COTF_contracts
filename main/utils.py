@@ -17,7 +17,7 @@ from django.core.mail import EmailMessage
 import base64
 import convertapi
 import docx2txt
-from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER, CONVERT_API_SECRET
+from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER, CONVERT_API_SECRET, MEDIA_URL
 from services.main_logic import generator_num_contract
 from services.num_to_text import num2text
 from services.main_logic import get_contract
@@ -194,7 +194,7 @@ def finally_rich(self, request, contract_number):
         sum = get_data_from_forms(self, request, contract_number).get('sum_c')
 
     new_path_docx = os.path.join(BASE_DIR, 'upload/signed_contract/' + id_contract + '.docx')
-    path_pdf = os.path.join(BASE_DIR, 'upload/signed_contract/' + id_contract + '.pdf')
+    path_pdf = os.path.join(BASE_DIR, MEDIA_URL, 'signed_contract/' + id_contract + '.pdf')
     last_name = get_data_from_forms(self, request, contract_number).get('last_name')
     name = get_data_from_forms(self, request, contract_number).get('name')
     sur_name = get_data_from_forms(self, request, contract_number).get('sur_name')
