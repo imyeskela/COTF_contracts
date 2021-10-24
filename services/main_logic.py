@@ -1,10 +1,7 @@
-
 from django.shortcuts import get_object_or_404
 
-
-
 from main.models import ContractTemplate, Contract
-from main.forms import ContractTemplateCreateForm, ContractCreateForm, FillingQuestionnaireForm
+from main.forms import ContractTemplateCreateForm, ContractCreateForm, FillingQuestionnaireForm, AuthenticationCodeForm
 
 
 def get_template_contracts():
@@ -50,3 +47,7 @@ def generator_num_contract():
         return 24546799
 
 
+def get_authentication_code_form():
+    """Получаем форму для аутентификации"""
+
+    return AuthenticationCodeForm

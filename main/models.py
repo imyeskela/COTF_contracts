@@ -130,5 +130,18 @@ class Contract(models.Model):
         return str(self.number)
 
 
-class Branch(models.Model):
-    pass
+class AuthenticationCode(models.Model):
+    code = models.PositiveIntegerField('Код', null=False, unique=True)
+    number_of_attempts = models.PositiveSmallIntegerField('Количество попыток ввода', default=0)
+    generated_code = models.DateField('Дата генерации кода', default=timezone.now())
+    contract = models.ForeignKey(Contract, on_delete=models.CASCADE, null=False)
+    phone = models.CharField('Номер телефона', unique=True, max_length=12)
+    confirmation = models.BooleanField('Флаг подтверждения', default=False)
+    relevance = models.BooleanField('Флаг актуальности')
+
+    class Meta:
+        verbose_name = 'Код аутентификации'
+        verbose_name_plural = 'Коды аутентификации'
+
+    def __str__(self):
+        return str(self.code)

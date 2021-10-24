@@ -3,10 +3,11 @@ from django.core.exceptions import ValidationError
 from django.db.models import Model
 from docxtpl import DocxTemplate
 
-from main.models import ContractTemplate, Contract
+from main.models import ContractTemplate, Contract, AuthenticationCode
 
 
 class ContractTemplateCreateForm(forms.ModelForm):
+    """Форма для созданания Шаблона Контракта"""
 
     class Meta:
         model = ContractTemplate
@@ -40,6 +41,7 @@ class ContractTemplateCreateForm(forms.ModelForm):
 
 
 class ContractCreateForm(forms.ModelForm):
+    """Форма для создания Контракта от Шаблона Контракта"""
 
     class Meta:
         model = Contract
@@ -57,6 +59,8 @@ def valida(value):
 
 
 class FillingQuestionnaireForm(forms.Form):
+    """Форма для подписание Контракта"""
+
     last_name = forms.CharField(help_text='Фамилия', label='last_name')
     name = forms.CharField(help_text='Имя', label='name')
     sur_name = forms.CharField(help_text='Отчество', required=False, label='sur_name')
@@ -68,5 +72,10 @@ class FillingQuestionnaireForm(forms.Form):
     widgets = {''}
 
 
+class AuthenticationCodeForm(forms.Form):
+    """Форма для аутентификации"""
 
+    code = forms.NumberInput()
 
+    class Meta:
+        widgets = {'phone': forms.HiddenInput}

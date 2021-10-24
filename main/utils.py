@@ -12,16 +12,16 @@ from docx.shared import Mm, Inches, Pt
 import qrcode
 from openpyxl import load_workbook
 from openpyxl.drawing.image import Image
-
 from django.core.mail import EmailMessage
 import base64
 import convertapi
 import docx2txt
+from django.core.paginator import Paginator
+
 from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER, CONVERT_API_SECRET, MEDIA_URL
 from services.main_logic import generator_num_contract
 from services.num_to_text import num2text
 from services.main_logic import get_contract
-from django.core.paginator import Paginator
 
 
 class ContractTemplateListAndCreateContractMixin:
