@@ -79,7 +79,6 @@ class FillingQuestionnaireMixin:
     """Миксин для формы анкета"""
 
     form = None
-    form_authentication = None
     contract = None
     template_name = None
 

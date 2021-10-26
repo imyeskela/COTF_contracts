@@ -68,10 +68,4 @@ class FillingQuestionnaireForm(forms.Form):
     email = forms.EmailField(help_text='электронная почта', label='email')
     phone = forms.CharField(help_text='Номер телефона', label='phone')
     check_box = forms.BooleanField(label='check_box')
-
-    widgets = {''}
-
-
-class AuthenticationCodeForm(forms.Form):
-    """Форма для аутентификации"""
-    code = forms.NumberInput()
+    code = forms.CharField(label='code')

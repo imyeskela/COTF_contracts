@@ -4,7 +4,7 @@ from django.views.generic import CreateView
 
 from main.models import Contract
 from services.main_logic import get_template_contracts, get_contract_form, get_contracts, \
-    get_contract, get_filling_questionnaire_form, get_contract_template_form, get_authentication_code_form
+    get_contract, get_filling_questionnaire_form, get_contract_template_form
 from main.utils import ContractTemplateListAndCreateContractMixin, ContractListMixin, FillingQuestionnaireMixin
 from main.forms import ContractTemplateCreateForm, FillingQuestionnaireForm
 
@@ -47,7 +47,6 @@ class FillingQuestionnaireView(FillingQuestionnaireMixin, View):
     contract = get_contract
     template_name = 'filling_questionnaire.html'
     form = FillingQuestionnaireForm
-    form_authentication = get_authentication_code_form
 
 
 
