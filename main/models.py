@@ -131,11 +131,11 @@ class Contract(models.Model):
 
 
 class AuthenticationCode(models.Model):
-    code = models.PositiveIntegerField('Код', null=False, unique=True)
+    code = models.PositiveIntegerField('Код', null=False, unique=True, max_length=5)
     number_of_attempts = models.PositiveSmallIntegerField('Количество попыток ввода', default=0)
-    generated_code = models.DateField('Дата генерации кода', default=timezone.now())
+    date_generated_code = models.DateField('Дата генерации кода', default=timezone.now())
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE, null=False)
-    phone = models.CharField('Номер телефона', unique=True, max_length=12)
+    phone = models.CharField('Номер телефона', max_length=12)
     confirmation = models.BooleanField('Флаг подтверждения', default=False)
     relevance = models.BooleanField('Флаг актуальности')
 

@@ -74,8 +74,4 @@ class FillingQuestionnaireForm(forms.Form):
 
 class AuthenticationCodeForm(forms.Form):
     """Форма для аутентификации"""
-
     code = forms.NumberInput()
-
-    class Meta:
-        widgets = {'phone': forms.HiddenInput}

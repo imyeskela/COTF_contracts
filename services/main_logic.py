@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 
-from main.models import ContractTemplate, Contract
+from main.models import ContractTemplate, Contract, AuthenticationCode
 from main.forms import ContractTemplateCreateForm, ContractCreateForm, FillingQuestionnaireForm, AuthenticationCodeForm
 
 
@@ -51,3 +51,19 @@ def get_authentication_code_form():
     """Получаем форму для аутентификации"""
 
     return AuthenticationCodeForm
+
+
+def get_code_obj(self):
+    return AuthenticationCode.objects.filter(contract=get_contract(self))
+
+
+def get_codes_of_obj():
+    codes = AuthenticationCode.objects.values_list('code', flat=True)
+    return codes
+
+
+def get_num_attempts(self):
+    number_of_attempts = get_code_obj(self)
+    print(number_of_attempts)
+    return number_of_attempts
+
