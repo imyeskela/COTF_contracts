@@ -66,6 +66,7 @@ class FillingQuestionnaireForm(forms.Form):
     sur_name = forms.CharField(help_text='Отчество', required=False, label='sur_name')
     passport = forms.CharField(help_text='Серия и номер паспорта', max_length=11, label='passport')
     email = forms.EmailField(help_text='электронная почта', label='email')
-    phone = forms.CharField(help_text='Номер телефона', label='phone')
+    phone = forms.CharField(help_text='Номер телефона')
     check_box = forms.BooleanField(label='check_box')
     code = forms.CharField(label='code')
+

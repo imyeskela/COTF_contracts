@@ -87,9 +87,11 @@ class FillingQuestionnaireMixin:
 
     def post(self, request, contract_number):
         form = self.form(request.POST)
+
         if 'code' in request.POST:
-            create_new_code_obj(self, request, contract_number)
-            return render(request, 'filling_questionnaire.html', {'form': form})
+            if form.is_valid():
+                create_new_code_obj(self, request, contract_number)
+                return render(request, 'filling_questionnaire.html', {'form': form})
 
         elif 'docx' in request.POST:
             docx_base = form_questionnaire(self, request, contract_number)
