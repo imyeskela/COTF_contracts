@@ -243,9 +243,11 @@ body {
 	width: calc(100% - 34px);
     margin: 0 17px;
     margin-bottom: 10px;
-    height: calc(100% - 100px);
+    /* height: calc(100% - 100px); */
+    height: 400px!important;
     background: #FFFFFF;
-    border: 1px solid rgba(216, 222, 236, 0.8);
+    /* border: 1px solid rgba(216, 222, 236, 0.8); */
+    border: 1px solid red!important;
     border-radius: 2px;
 }
 

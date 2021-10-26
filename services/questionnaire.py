@@ -324,7 +324,6 @@ def create_num_attempts(self):
     print(choice_attempts)
     if attempts == 0:
         new_attempts = choice_attempts[0]
-
     elif attempts == 1:
         new_attempts = choice_attempts[1]
         c.relevance = False
