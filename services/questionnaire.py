@@ -348,7 +348,6 @@ def create_new_code_obj(self, request, contract_number):
     contract_pk = get_data_from_forms(self, request, contract_number).get('contract_pk')
     new_attempts = create_num_attempts(self)
     new_code = _create_new_code()
-    print(new_code)
     new_obj = AuthenticationCode.objects.create(code=new_code,
                                                 phone=phone,
                                                 contract_id=contract_pk,

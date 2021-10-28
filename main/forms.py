@@ -41,6 +41,13 @@ class ContractTemplateCreateForm(forms.ModelForm):
         return cleaned_data
 
 
+class ContractTemplateChangeForm(forms.ModelForm):
+    class Meta:
+        model = ContractTemplate
+
+        fields = ['status']
+
+
 class ContractCreateForm(forms.ModelForm):
     """Форма для создания Контракта от Шаблона Контракта"""
 
@@ -53,7 +60,6 @@ class ContractCreateForm(forms.ModelForm):
 
 def valida(value):
     symbols = [".", "-", "'", " "]
-    print(value)
     for symbol in symbols:
         if symbol == value[0]:
             raise ValidationError('Недопустимый символ')

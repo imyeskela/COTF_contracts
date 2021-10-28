@@ -6,7 +6,8 @@ from main.models import Contract
 from services.main_logic import get_template_contracts, get_contracts, get_contract
 from main.utils import ContractTemplateListAndCreateContractMixin, ContractListMixin, FillingQuestionnaireMixin
 from main.forms import ContractTemplateCreateForm, FillingQuestionnaireForm
-from services.getting_form import get_contract_form, get_filling_questionnaire_form, get_contract_template_form
+from services.getting_form import get_contract_form, get_filling_questionnaire_form, get_contract_template_create_form, \
+    get_contract_template_form
 
 
 class ContractTemplateListAndCreateView(ContractTemplateListAndCreateContractMixin, View):
@@ -14,7 +15,8 @@ class ContractTemplateListAndCreateView(ContractTemplateListAndCreateContractMix
 
     queryset = get_template_contracts()
     form_contract = get_contract_form()
-    form_contract_template = get_contract_template_form()
+    form_contract_template = get_contract_template_create_form()
+    form_contract_template_change = get_contract_template_form()
     template_name = 'contract_templates_list.html'
 
 
@@ -39,7 +41,7 @@ class ContractListView(ContractListMixin, View):
 
     queryset = Contract.objects.all()
     template_name = 'contract_list.html'
-    form_contract_template = get_contract_template_form()
+    form_contract_template = get_contract_template_create_form()
 
 
 class FillingQuestionnaireView(FillingQuestionnaireMixin, View):

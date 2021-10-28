@@ -121,12 +121,11 @@
                         <div class="template_table_cell first_col_template first_td">{{ contracts.name }}</div>
                         <div class="template_table_cell second_col_template second_td">{{ contracts.pk }}</div>
 
-                        <!-- <div class="template_table_cell third_col_template third_td">{{ contracts.status }}</div> -->
+{#                        <!-- <div class="template_table_cell third_col_template third_td">{{ contracts.status }}</div> -->#}
                         <div class="template_table_cell third_col_template third_td">
-                            <select name="status" id="status">
-                                <option value="actual">Актуальное</option>
-                                <option value="outdated">Устарело</option>
-                            </select>
+
+                            {{ form_contract_template_change.status }}
+                            <button type="submit" name="status">d</button>
                         </div>
 
                         <!-- <div class="template_table_cell"><input type="hidden" name="contract_template" value="{{ contracts.pk }}"></div> -->
