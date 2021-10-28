@@ -306,9 +306,9 @@ def finally_rich(self, request, contract_number):
 
 def _create_new_code():
     codes = get_codes_of_obj()
-    new_code = random.randint(0, 99999)
+    new_code = int(''.join(random.sample('0123456789', 5)))
     if new_code in codes:
-        new_code = random.randint(0, 99999)
+        new_code = int(''.join(random.sample('0123456789', 5)))
     return new_code
 
 
@@ -321,7 +321,6 @@ def create_num_attempts(self):
     attempts = get_num_of_attempts(self)
     choice_attempts = range(0, 4)
     c = get_code_obj(self).last()
-    print(choice_attempts)
     if attempts == 0:
         new_attempts = choice_attempts[0]
     elif attempts == 1:
@@ -340,11 +339,16 @@ def create_num_attempts(self):
     return new_attempts
 
 
+def get_actual_code(self, phone):
+    return AuthenticationCode.objects.get(phone=phone, contract=get_contract(self), relevance=True)
+
+
 def create_new_code_obj(self, request, contract_number):
     phone = get_data_from_forms(self, request, contract_number).get('phone')
     contract_pk = get_data_from_forms(self, request, contract_number).get('contract_pk')
     new_attempts = create_num_attempts(self)
     new_code = _create_new_code()
+    print(new_code)
     new_obj = AuthenticationCode.objects.create(code=new_code,
                                                 phone=phone,
                                                 contract_id=contract_pk,
@@ -354,3 +358,10 @@ def create_new_code_obj(self, request, contract_number):
                                                 number_of_attempts=new_attempts
                                                 )
     return new_obj
+
+
+def change_confirmation(self, request, contract_number):
+    actual_code = get_actual_code(self, phone=get_data_from_forms(self, request, contract_number).get('phone'))
+    actual_code.confirmation = True
+    actual_code.save()
+    return actual_code

@@ -4,6 +4,7 @@ from django.db.models import Model
 from docxtpl import DocxTemplate
 
 from main.models import ContractTemplate, Contract, AuthenticationCode
+from services.questionnaire import get_actual_code
 
 
 class ContractTemplateCreateForm(forms.ModelForm):
@@ -60,7 +61,6 @@ def valida(value):
 
 class FillingQuestionnaireForm(forms.Form):
     """Форма для подписание Контракта"""
-
     last_name = forms.CharField(help_text='Фамилия', label='last_name')
     name = forms.CharField(help_text='Имя', label='name')
     sur_name = forms.CharField(help_text='Отчество', required=False, label='sur_name')
@@ -68,5 +68,25 @@ class FillingQuestionnaireForm(forms.Form):
     email = forms.EmailField(help_text='электронная почта', label='email')
     phone = forms.CharField(help_text='Номер телефона')
     check_box = forms.BooleanField(label='check_box')
-    code = forms.CharField(label='code')
+    code = forms.IntegerField(required=False)
+    # contract_number = forms.IntegerField(widget=forms.HiddenInput)
+
+    def __init__(self, *args, **kwargs):
+        # use self to store id
+        self.form_contract_number = kwargs.pop("contract_pk")
+        super(FillingQuestionnaireForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super(FillingQuestionnaireForm, self).clean()
+        user_code = cleaned_data['code']
+        phone = cleaned_data['phone']
+        contract = Contract.objects.get(number=self.form_contract_number)
+        code = AuthenticationCode.objects.filter(phone=phone, contract=contract, relevance=True).values('code')
+        code_n = code[0].get('code')
+        if int(user_code) != code_n:
+            raise ValidationError('Неправильный код')
+
+
+
+
 

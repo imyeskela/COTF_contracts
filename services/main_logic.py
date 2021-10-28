@@ -1,7 +1,6 @@
 from django.shortcuts import get_object_or_404
 
 from main.models import ContractTemplate, Contract, AuthenticationCode
-from main.forms import ContractTemplateCreateForm, ContractCreateForm, FillingQuestionnaireForm
 
 
 def get_template_contracts():
@@ -10,26 +9,10 @@ def get_template_contracts():
     return ContractTemplate.objects.all()
 
 
-def get_contract_form():
-    """Получаем форму для создания Контракта"""
-
-    return ContractCreateForm
-
-
-def get_contract_template_form():
-    return ContractTemplateCreateForm
-
-
 def get_contracts():
     """Получаем все Контракты"""
 
     return Contract.objects.all()
-
-
-def get_filling_questionnaire_form():
-    """Получаем форму для заполнение анкеты"""
-
-    return FillingQuestionnaireForm
 
 
 def get_contract(self):
@@ -58,8 +41,7 @@ def get_codes_of_obj():
 
 def get_num_attempts(self):
     number_of_attempts = get_code_obj(self)
-    print(number_of_attempts)
     return number_of_attempts
 
-def get_relevance(self):
-    return AuthenticationCode.objects.filter(contract=get_contract(self))
+
+

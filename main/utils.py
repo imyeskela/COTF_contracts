@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 
 from services.main_logic import generator_num_contract
-from services.questionnaire import form_questionnaire, finally_rich, get_sign_img, create_new_code_obj
+from services.questionnaire import form_questionnaire, finally_rich, get_sign_img, create_new_code_obj, \
+    change_confirmation
+from services.questionnaire import get_actual_code
 
 
 class ContractTemplateListAndCreateContractMixin:
@@ -83,19 +85,20 @@ class FillingQuestionnaireMixin:
     template_name = None
 
     def get(self, request, contract_number):
-        return render(request, self.template_name, {'form': self.form, 'contract': self.contract})
+        return render(request, self.template_name, {'form': self.form(contract_pk=contract_number), 'contract': self.contract})
 
     def post(self, request, contract_number):
-        form = self.form(request.POST)
+        form = self.form(request.POST, contract_pk=contract_number)
 
-        if 'code' in request.POST:
+        if 'docx' in request.POST:
             if form.is_valid():
-                create_new_code_obj(self, request, contract_number)
-                return render(request, 'filling_questionnaire.html', {'form': form})
+                docx_base = form_questionnaire(self, request, contract_number)
+                return render(request, 'filling_questionnaire.html', {'docx_base': docx_base, 'form': form})
 
-        elif 'docx' in request.POST:
-            docx_base = form_questionnaire(self, request, contract_number)
-            return render(request, 'filling_questionnaire.html', {'docx_base': docx_base, 'form': form})
+        elif 'code' in request.POST:
+            create_new_code_obj(self, request, contract_number)
+            change_confirmation(self, request, contract_number)
+            return render(request, 'filling_questionnaire.html', {'form': form})
 
         elif 'qr_code' in request.POST:
             img_base = finally_rich(self, request, contract_number)

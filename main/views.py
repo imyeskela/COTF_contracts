@@ -3,10 +3,10 @@ from django.views.generic import View
 from django.views.generic import CreateView
 
 from main.models import Contract
-from services.main_logic import get_template_contracts, get_contract_form, get_contracts, \
-    get_contract, get_filling_questionnaire_form, get_contract_template_form
+from services.main_logic import get_template_contracts, get_contracts, get_contract
 from main.utils import ContractTemplateListAndCreateContractMixin, ContractListMixin, FillingQuestionnaireMixin
 from main.forms import ContractTemplateCreateForm, FillingQuestionnaireForm
+from services.getting_form import get_contract_form, get_filling_questionnaire_form, get_contract_template_form
 
 
 class ContractTemplateListAndCreateView(ContractTemplateListAndCreateContractMixin, View):
