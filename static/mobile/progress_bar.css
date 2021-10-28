@@ -1,0 +1,69 @@
+.step_title {
+    margin-top: 22px;
+    margin-left: 16px;
+
+    font-family: Styrene A Web;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.2vw;
+    /* line-height: 15px; */
+    letter-spacing: 0.02em;
+    color: #201622;
+}
+
+.steps_progress {
+    margin-top: 15px;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-bottom: 23px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.step_progress {
+    /* width: 7.5%; */
+    /* height: 7.5%; */
+    background-color: #A8AEBA;
+
+    display: inline-block;
+    height: 0;
+    padding-bottom: 7.1%;
+    padding-top: 1.1%;
+    width: 8.2%;
+    border-radius: 100%;
+    text-align: center;
+    
+    font-family: Styrene A Web;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 4.2vw;
+    /* line-height: 22px; */
+    /* identical to box height, or 137% */
+
+    color: #FFFFFF;
+}
+
+.step_progress img {
+    width: 50%;
+}
+
+.step_progress_active {
+    background: linear-gradient(71.59deg, #60326B 0%, #BD2971 100%);
+}
+
+.step_progress_filler{
+    padding-top: 0.05%;
+    width: 21%;
+    border-top: 1px solid rgba(216, 222, 236, 0.8);
+    background-color: rgba(216, 222, 236, 0.8);
+}
+
+.step_progress_filler_active {
+    padding-top: 0.05%;
+    width: 21%;
+    background: linear-gradient(71.59deg, #60326B 0%, #BD2971 100%)!important;
+    border-top: 1px solid linear-gradient(71.59deg, #60326B 0%, #BD2971 100%)!important;;
+}

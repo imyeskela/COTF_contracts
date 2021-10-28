@@ -4,7 +4,6 @@ venv
 __pycache__
 myvenv
 db.sqlite3
-/static
 .DS_Store
 Основной_МСК_ДК_ПЕРЕМЕН.docx
 Основной_СПБ_КМС_ПЕРЕМЕЕН.docx
