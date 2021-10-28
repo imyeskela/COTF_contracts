@@ -1,0 +1,315 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/mobile/mobile.css' %}" class="css" />
+    <title>Title {{ contract.number }}</title>
+</head>
+
+<body>
+
+<div class="quest">
+
+<form action="" method="post" enctype="multipart/form-data" id="main_mobile_form">
+
+    {% csrf_token %}
+
+    <div class="quest_first"
+
+        {% if not docx_base and not img_base %}
+            style="display: block;"
+        {% else %}
+            style="display: none;"
+        {% endif %}
+    
+    >
+
+        <div class="quest_title">Договор оказания услуг</div>
+
+        <div class="progress_bar">
+            <div class="step_title">Шаг 1/4. Заполнение данных</div>
+            <div class="steps_progress">
+                <div class="step_progress step_progress_active">1</div>
+                <div class="step_progress_filler" ></div>
+                <div class="step_progress">2</div>
+                <div class="step_progress_filler" ></div>
+                <div class="step_progress">3</div>
+                <div class="step_progress_filler" ></div>
+                <div class="step_progress">4</div>
+            </div>
+        </div>
+
+        <div class="quest_first_step_input">
+            <div class="quest_first_step_input_label">Фамилия*</div>
+            <div class="quest_first_step_input_input">{{ form.last_name }}</div>
+        </div>
+
+        <div class="quest_first_step_input">
+            <div class="quest_first_step_input_label">Имя*</div>
+            <div class="quest_first_step_input_input">{{ form.name }}</div>
+        </div>
+
+        <div class="quest_first_step_input">
+            <div class="quest_first_step_input_label">Отчество</div>
+            <div class="quest_first_step_input_input">{{ form.sur_name }}</div>
+        </div>
+
+        <div class="quest_first_step_input">
+            <div class="quest_first_step_input_label">Серия и номер паспорта*</div>
+            <div class="quest_first_step_input_input">{{ form.passport }}</div>
+        </div>
+
+        <div class="quest_first_step_input">
+            <div class="quest_first_step_input_label">Email*</div>
+            <div class="quest_first_step_input_input">{{ form.email }}</div>
+        </div>
+
+        <div class="quest_first_step_input">
+            <div class="quest_first_step_input_label">Мобильный телефон*</div>
+            <div class="quest_first_step_input_input">{{ form.phone }}</div>
+        </div>
+
+        <div class="quest_first_step_input item_checkbox">
+            <label class="myCheckbox">
+                {{ form.check_box }}
+                <span class="mySuperSpan"></span>
+            </label>
+            <div class="quest_first_step_input_label_info">Я согласен на обработку персональных данных</div>
+        </div>
+
+        <div class="btn_div">
+            <button type="submit" name="docx" class="btn" >Сформировать договор</button>
+        </div>
+
+    </div>
+
+    
+    <div class="quest_second" id="contract_preview_and_sign"
+
+        {% if docx_base %}
+            style="display: block;"
+        {% else %}
+            style="display: none;"
+        {% endif %}
+    
+    >
+
+        <div class="quest_title">Договор оказания услуг</div>
+
+        <div class="progress_bar">
+            <div class="step_title">Шаг 2/4. Договор</div>
+            <div class="steps_progress">
+                <div class="step_progress step_progress_active">
+                    <img src="{% static '/mobile/img/progress_check.png' %}">
+                </div>
+                <div class="step_progress_filler step_progress_filler_active" ></div>
+                <div class="step_progress step_progress_active">2</div>
+                <div class="step_progress_filler" ></div>
+                <div class="step_progress">3</div>
+                <div class="step_progress_filler" ></div>
+                <div class="step_progress">4</div>
+            </div>
+        </div>
+
+        <div class="quest_second_contract_box">
+            <div class="quest_second_contract_preview">
+                {{ docx_base }}
+            </div>
+        </div>
+        <div class="btn_div">
+            <!-- <button class="btn">Принимаю условия договора</button> -->
+            <button onclick='accep_contract(event)' class="btn">Принимаю условия договора</button>
+        </div>
+
+    </div>
+
+    
+    <div class="quest_third"  id="contract_sign" style="display: none;" >
+
+        <div class="quest_title">Договор оказания услуг</div>
+
+        <div class="progress_bar">
+            <div class="step_title">Шаг 3/4. Подпись</div>
+            <div class="steps_progress">
+                <div class="step_progress step_progress_active">
+                    <img src="{% static '/mobile/img/progress_check.png' %}">
+                </div>
+                <div class="step_progress_filler step_progress_filler_active" ></div>
+                <div class="step_progress step_progress_active">
+                    <img src="{% static '/mobile/img/progress_check.png' %}">
+                </div>
+                <div class="step_progress_filler step_progress_filler_active" ></div>
+                <div class="step_progress step_progress_active">3</div>
+                <div class="step_progress_filler" ></div>
+                <div class="step_progress">4</div>
+            </div>
+        </div>
+
+        <div class="sign_title">Поставьте свою подпись, используя сенсорный ввод</div>
+
+        <div class="quest_third_sign_box">
+            <div class="quest_second_contract_preview">
+                <div class="canvas_content" id="sketch">
+                    <div id="sketch">
+                        <canvas id="paint"></canvas>
+                    </div>
+                </div>
+                <div class="clear_canvas" onclick="onclear()">Стереть</div>
+            </div>
+            <input id="sign_img_base64" type="hidden" name="sign">
+        </div>
+        <div class="btn_div">
+            <button type="submit" name="qr_code" class="btn">Подписать договор</button>
+            <!-- <button class="btn">Подписать договор</button> -->
+        </div>
+
+    </div>
+
+
+
+    
+    <div class="quest_fourth"
+
+        {% if img_base %}
+            style="display: block;"
+        {% else %}
+            style="display: none;"
+        {% endif %}
+
+    >
+
+        <div class="quest_title">Договор оказания услуг</div>
+
+        <div class="progress_bar">
+            <div class="step_title">Шаг 3/4. Подпись</div>
+            <div class="steps_progress">
+                <div class="step_progress step_progress_active">
+                    <img src="{% static '/mobile/img/progress_check.png' %}">
+                </div>
+                <div class="step_progress_filler step_progress_filler_active" ></div>
+                <div class="step_progress step_progress_active">
+                    <img src="{% static '/mobile/img/progress_check.png' %}">
+                </div>
+                <div class="step_progress_filler step_progress_filler_active" ></div>
+                <div class="step_progress step_progress_active">
+                    <img src="{% static '/mobile/img/progress_check.png' %}">
+                </div>
+                <div class="step_progress_filler step_progress_filler_active" ></div>
+                <div class="step_progress step_progress_active">4</div>
+            </div>
+        </div>
+
+        <div class="send_title">Договор отправлен на указанную вами почту.</div>
+
+        <div class="count_five_day">Оплатить счет вы можете в течение 5 рабочих дней по данному QR-коду (полная версия счета отправлена на почту).</div>
+
+        <div class="greetings">До встречи в Клубе Первых!</div>
+
+        <div class="qr_code_div">
+            <!-- <img src="" alt="qr_code" /> -->
+            <img src="data:application/octet-stream;base64,{{ img_base }}" alt="" />
+        </div>
+
+        <div class="btn_div">
+            <a download="qrcode" href="data:image/png;base64,{{ img_base }}" style="text-decoration: none;" class="btn link_btn">Скачать QR-код для оплаты</a>
+        </div>
+
+    </div>
+
+
+<!-- new -->
+
+</form>
+
+</div>
+
+
+<script>
+    function accep_contract(event) {
+        event.preventDefault()
+        let $contract_preview_and_sign = document.getElementById('contract_preview_and_sign')
+        let $contract_sign = document.getElementById('contract_sign')
+
+        $contract_preview_and_sign.style.display = 'none'
+        $contract_sign.style.display = 'block'
+        init_canvas()
+    }
+
+    let ctx = ''
+    let canvas = ''
+
+    function onclear() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function init_canvas() {
+
+
+        canvas = document.querySelector('#paint');
+        ctx = canvas.getContext('2d');
+    
+        let sketch = document.querySelector('#sketch');
+        let sketch_style = getComputedStyle(sketch);
+        canvas.width = parseInt(sketch_style.getPropertyValue('width'));
+        canvas.height = parseInt(sketch_style.getPropertyValue('height'));
+
+
+        let mouse = {x: 0, y: 0};
+        let last_mouse = {x: 0, y: 0};
+    
+        /* Mouse Capturing Work */
+        canvas.addEventListener('mousemove', function(e) {
+
+            console.log('mouse move')
+
+            last_mouse.x = mouse.x;
+            last_mouse.y = mouse.y;
+        
+            mouse.x = e.pageX - this.offsetLeft;
+            mouse.y = e.pageY - this.offsetTop;
+
+
+        }, false);
+    
+    
+        /* Drawing on Paint App */
+        ctx.lineWidth = 5;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = 'black';
+    
+        canvas.addEventListener('mousedown', function(e) {
+            console.log('mouse down')
+            canvas.addEventListener('mousemove', onPaint, false);
+            console.log('mouse down add on paint')
+        }, false);
+    
+        canvas.addEventListener('mouseup', function() {
+            console.log('mouse up')
+            canvas.removeEventListener('mousemove', onPaint, false);
+            console.log('mouse up remove on paint')
+            document.getElementById('sign_img_base64').value = canvas.toDataURL()
+        }, false);
+    
+        var onPaint = function() {
+
+            console.log('mouse move on paint')
+
+            ctx.beginPath();
+            ctx.moveTo(last_mouse.x, last_mouse.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.closePath();
+            ctx.stroke();
+        };
+    
+    }
+
+</script>
+
+
+</body>
+
+</html>

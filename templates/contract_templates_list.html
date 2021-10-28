@@ -1,0 +1,245 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'admin.css' %}" class="css" />
+</head>
+<body>
+
+    <div class="admin_navbar">
+        <div class="admin_navbar_logo"><img src="{% static 'admin_img/cotf_logo.png' %}"></div>
+        <div class="admin_navbar_menu">
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/news.png' %}"></div>
+                <div class="item_link">Лента клуба</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/merop.png' %}"></div>
+                <div class="item_link">Мероприятия</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/messages.png' %}"></div>
+                <div class="item_link">Сообщения</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/forums.png' %}"></div>
+                <div class="item_link">Форумы</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/projs.png' %}"></div>
+                <div class="item_link">Проекты</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/travels.png' %}"></div>
+                <div class="item_link">Путешествия</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/pay.png' %}"></div>
+                <div class="item_link">Оплата</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/tasks.png' %}"></div>
+                <div class="item_link">Задачи</div>
+            </div>
+            <div class="admin_navbar_menu_item">
+                <div class="item_indicator item_indicator_active"></div>
+                <div class="item_logo"><img src="{% static 'admin_img/panel/administration.png' %}"></div>
+                <div class="item_link item_link_active">Администрирование</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin_content">
+
+        <div class="searchbar">
+            <div class="admin_panel_search">
+
+                <div class="admin_search_box">
+                    <div><img src="{% static 'admin_img/topabr/search_search.png' %}"></div>
+                    <input type="text" placeholder="Поиск...">
+                </div>
+
+                <div class="admin_search_control">
+                    <div><img src="{% static 'admin_img/topabr/peoples_search.png' %}"></div>
+                    <div><img src="{% static 'admin_img/topabr/calendar_search.png' %}"></div>
+                    <div><img src="{% static 'admin_img/topabr/news_search.png' %}"></div>
+                </div>
+
+            </div>
+
+            <div class="admin_panel_cab_link">
+                <div class="cab_link_col"><img src="{% static 'admin_img/topabr/colocol.png' %}"></div>
+                <div class="cab_link_photo"><img src="{% static 'admin_img/topabr/photo.png' %}"></div>
+                <div class="cab_link_dropdown"><img src="{% static 'admin_img/topabr/dropdown.png' %}"></div>
+            </div>
+        </div>
+
+        <div class="main_content">
+
+            <div class="admin_content_title">Договоры</div>
+
+            <div class="admin_content_control_panel">
+
+                <div class="admin_search" >
+                    <input type="text" placeholder="Поиск..." />
+                    <button><img src="{% static 'admin_img/search.png' %}"></button>
+                </div>
+
+                <div class="admin_template_link active_link" ><a href="/">Договоры</a></div>
+                <div class="admin_contract_link" ><a href="{% url 'contract_list' %}">Клиенты</a></div>
+
+                <div class="admin_create_template" onclick="open_new_template_popup()" ><a>+</a></div>
+
+            </div>
+
+            <div class="all_templates">
+
+                <div class="template_table_header">
+                    <div class="template_table_header_td first_col_template first_td">Название</div>
+                    <div class="template_table_header_td second_col_template second_td">Договор</div>
+                    <div class="template_table_header_td third_col_template third_td">Статус</div>
+                    <div class="template_table_header_td fourth_col_template fourth_td">Идентификатор</div>
+                    <div class="template_table_header_td fifth_col_template fifth_td">Сумма</div>
+                </div>
+
+                {% for contracts in contract_template_list %}
+
+                <div class="template_table_row">
+
+                    <form action="" method="post" enctype="multipart/form-data">
+
+                        <div class="template_table_cell first_col_template first_td">{{ contracts.name }}</div>
+                        <div class="template_table_cell second_col_template second_td">{{ contracts.pk }}</div>
+
+                        <!-- <div class="template_table_cell third_col_template third_td">{{ contracts.status }}</div> -->
+                        <div class="template_table_cell third_col_template third_td">
+                            <select name="status" id="status">
+                                <option value="actual">Актуальное</option>
+                                <option value="outdated">Устарело</option>
+                            </select>
+                        </div>
+
+                        <!-- <div class="template_table_cell"><input type="hidden" name="contract_template" value="{{ contracts.pk }}"></div> -->
+                        <input type="hidden" name="contract_template" value="{{ contracts.pk }}">
+
+                        <div class="template_table_cell fourth_col_template fourth_td">{{ form_contract.full_name }}</div>
+
+                        {% if contracts.amount != 0 %}
+                        <div class="template_table_cell fifth_col_template fifth_td"><input name="amount_bitch" value="{{ contracts.amount }}"></div>
+                        {% endif %}
+
+                        <!-- <form> -->
+
+                            {% csrf_token %}
+
+                            <!-- {{ form_contract.as_p }} -->
+
+                            <!-- {{ form_contract.amount_bitch }} -->
+
+                            <div class="template_table_cell create_template_btn"><button type="submit" name="form_contract">
+                                <img src="{% static 'admin_img/link_templ_creation.png' %}">
+                            </button></div>
+
+                        <!-- </form> -->
+
+                    </form>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <div class="admin_template_paginator">
+
+                {% if contract_template_list.has_previous %}
+                    <div class="paginator_prev page_prev">
+                                <a href="?page={{ contract_template_list.previous_page_number }}">&lt;Пред.</a>
+                    </div>
+                {% endif %}
+
+
+
+                <div class="page_number active_page">
+                    {{ contract_template_list.number }}
+                </div>
+
+                    <div class="page_number">
+                        {% if contract_template_list.has_next %}
+                        <a href="?page={{ contract_template_list.number|add:1 }}">
+                            {{ contract_template_list.number|add:1 }}
+                        </a>
+                        {% endif %}
+                </div>
+
+
+
+                <div class="page_number">
+                    {% if contract_template_list.has_next %}
+                        <a href="?page={{ contract_template_list.number|add:2 }}">
+                            {{ contract_template_list.number|add:2 }}
+                        </a>
+                    {% endif %}
+                </div>
+
+
+            {% if contract_template_list.has_next %}
+                <div class="paginator_next page_next">
+                     <a href="?page={{ contract_template_list.next_page_number }}">След.&gt;</a>
+                </div>
+            {% endif %}
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="new_template_popup" id="new_template_popup">
+        <div class="template_popup">
+            <div class="template_popup_title">Создать договор</div>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form_contract_template_field">{{ form_contract_template.amount }}</div>
+                <div class="form_contract_template_field">{{ form_contract_template.status }}</div>
+                <div class="form_contract_template_field">{{ form_contract_template.type }}</div>
+                <div class="form_contract_template_field">{{ form_contract_template.company }}</div>
+
+                <div class="form_contract_template_field template_of_contract">
+                    <label for="id_template_of_contract">+ Загрузить договор</label>
+                    {{ form_contract_template.template_of_contract }}
+                </div>
+
+                <div class="popup_btn_div">
+                    <div onclick="close_new_template_popup()" class="cancel_btn">Отмена</div>
+                    <button type="submit" name='form_contract_template' class="send_template_btn">Отправить</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+    <script>
+        function open_new_template_popup() {
+            document.getElementById('new_template_popup').style.display = 'flex';
+        }
+
+        function close_new_template_popup() {
+            document.getElementById('new_template_popup').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
