@@ -82,15 +82,15 @@ class FillingQuestionnaireForm(forms.Form):
         self.form_contract_number = kwargs.pop("contract_pk")
         super(FillingQuestionnaireForm, self).__init__(*args, **kwargs)
 
-    def clean(self):
-        cleaned_data = super(FillingQuestionnaireForm, self).clean()
-        user_code = cleaned_data['code']
-        phone = cleaned_data['phone']
-        contract = Contract.objects.get(number=self.form_contract_number)
-        code = AuthenticationCode.objects.filter(phone=phone, contract=contract, relevance=True).values('code')
-        code_n = code[0].get('code')
-        if int(user_code) != code_n:
-            raise ValidationError('Неправильный код')
+    # def clean(self):
+    #     cleaned_data = super(FillingQuestionnaireForm, self).clean()
+    #     user_code = cleaned_data['code']
+    #     phone = cleaned_data['phone']
+    #     contract = Contract.objects.get(number=self.form_contract_number)
+    #     code = AuthenticationCode.objects.filter(phone=phone, contract=contract, relevance=True).values('code')
+    #     code_n = code[0].get('code')
+    #     if int(user_code) != code_n:
+    #         raise ValidationError('Неправильный код')
 
 
 

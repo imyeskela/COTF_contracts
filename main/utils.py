@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 
 from services.main_logic import generator_num_contract, get_template_contracts
 from services.questionnaire import form_questionnaire, finally_rich, get_sign_img, create_new_code_obj, \
-    change_confirmation
+    change_confirmation, change_contract_status
 from services.questionnaire import get_actual_code
 
 
@@ -114,6 +114,7 @@ class FillingQuestionnaireMixin:
         elif 'qr_code' in request.POST:
             img_base = finally_rich(self, request, contract_number)
             get_sign_img(self, request, contract_number)
+            change_contract_status(self)
             return render(request, 'filling_questionnaire.html', {'img_base': img_base})
 
         return render(request, 'filling_questionnaire.html', {'form': form})

@@ -109,6 +109,12 @@ def get_sign_img(self, request, contract_number):
         return img
 
 
+def change_contract_status(self):
+    contract = get_contract(self)
+    contract.status = 'Подписан'
+    contract.save()
+    return contract
+
 def finally_rich(self, request, contract_number):
     global purpose, sum
     contract = get_contract(self)
