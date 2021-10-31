@@ -16,8 +16,9 @@ from django.core.mail import EmailMessage
 import base64
 import convertapi
 import docx2txt
+from twilio.rest import Client
 
-from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER, CONVERT_API_SECRET, MEDIA_URL
+from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER, CONVERT_API_SECRET, MEDIA_URL, AUTH_TOKEN, ACCOUNT_SID
 from services.main_logic import get_contract, get_codes_of_obj, get_num_attempts, get_code_obj
 from services.num_to_text import num2text
 from main.models import AuthenticationCode
@@ -362,7 +363,37 @@ def create_new_code_obj(self, request, contract_number):
                                                 relevance=True,
                                                 number_of_attempts=new_attempts
                                                 )
+
     return new_obj
+
+
+def send_sms(self, request, contract_number):
+    phone = get_data_from_forms(self, request, contract_number).get('phone')
+    account_sid = ACCOUNT_SID
+    auth_token = AUTH_TOKEN
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+        body=str(get_actual_code(self, phone=phone)),
+        from_='+17128827791',
+        to=str(phone)
+    )
+    return phone
+
+
+def get_time_for_resend_sms(self, request, contract_number):
+    actual_code = get_actual_code(self, phone=get_data_from_forms(self, request, contract_number).get('phone'))
+    attempts = actual_code.number_of_attempts
+
+    if attempts == 0:
+        resend_time = 0.5
+    elif attempts == 1:
+        resend_time = 2
+    elif attempts == 2:
+        resend_time = 10
+    else:
+        resend_time = 60
+    return print(resend_time)
 
 
 def change_confirmation(self, request, contract_number):

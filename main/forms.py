@@ -89,10 +89,9 @@ class FillingQuestionnaireForm(forms.Form):
         contract = Contract.objects.get(number=self.form_contract_number)
         code = AuthenticationCode.objects.filter(phone=phone, contract=contract, relevance=True).values('code')
         for c in code:
-            code = c
-
-            if code != None:
-                code_n = code[0].get('code')
+            code_code = c
+            if code_code is not None:
+                code_n = code_code.get('code')
                 if int(user_code) != code_n:
                     raise ValidationError('Неправильный код')
             else:

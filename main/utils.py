@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 
 from services.main_logic import generator_num_contract, get_template_contracts
 from services.questionnaire import form_questionnaire, finally_rich, get_sign_img, create_new_code_obj, \
-    change_confirmation, change_contract_status
+    change_confirmation, change_contract_status, get_time_for_resend_sms, send_sms
 from services.questionnaire import get_actual_code
 
 
@@ -103,13 +103,15 @@ class FillingQuestionnaireMixin:
 
         if 'docx' in request.POST:
             if form.is_valid():
+                change_confirmation(self, request, contract_number)
                 docx_base = form_questionnaire(self, request, contract_number)
                 return render(request, 'filling_questionnaire.html', {'docx_base': docx_base, 'form': form})
 
         elif 'code' in request.POST:
             create_new_code_obj(self, request, contract_number)
-            change_confirmation(self, request, contract_number)
-            return render(request, 'filling_questionnaire.html', {'form': form})
+            send_sms(self, request, contract_number)
+            time_sms = get_time_for_resend_sms(self, request, contract_number)
+            return render(request, 'filling_questionnaire.html', {'form': form, 'time_sms': time_sms})
 
         elif 'qr_code' in request.POST:
             img_base = finally_rich(self, request, contract_number)
