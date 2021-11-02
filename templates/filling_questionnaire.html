@@ -67,18 +67,6 @@
             <div class="quest_first_step_input_input">{{ form.email }}</div>
         </div>
 
-        <div class="quest_first_step_input">
-            <div class="quest_first_step_input_label">Мобильный телефон*</div>
-            <div class="quest_first_step_input_input">{{ form.phone }}</div>
-        </div>
-         <div class="quest_first_step_input">
-            <div class="quest_first_step_input_label">Код</div>
-            <div class="quest_first_step_input_input">{{ form.code }}</div>
-        </div>
-        <div class="btn_div">
-            <button type="submit" name="code" class="btn" >Код</button>
-        </div>
-
         <div class="quest_first_step_input item_checkbox">
             <label class="myCheckbox">
                 {{ form.check_box }}
@@ -87,9 +75,29 @@
             <div class="quest_first_step_input_label_info">Я согласен на обработку персональных данных</div>
         </div>
 
-        <div class="btn_div">
+        <div class="quest_first_step_input">
+            <div class="quest_first_step_input_label">Мобильный телефон*</div>
+            <div class="quest_first_step_input_input">{{ form.phone }}</div>
+        </div>
+
+        <div class="btn_div" id="submit_btn_code_sms" >
+            <button type="submit" name="code" class="btn" >Отправить код</button>
+        </div>
+
+        <div class="quest_first_step_input" id="input_code_sms" style="display:none" >
+            <div class="quest_first_step_input_label">Введите код</div>
+            <div class="quest_first_step_input_input">{{ form.code }}</div> <!-- CODE ? -->
+        </div>
+
+        <div class="quest_first_step_send_code_again" id="quest_first_step_send_code_again" style="display:none" >
+            <span id="send_again_span">Отправить код повторно</span> <span id="send_again_timer">через 30 секунд</span>
+        </div>
+
+        <div class="btn_div" id="submit_contract" style="display:none" >
             <button type="submit" name="docx" class="btn" >Сформировать договор</button>
         </div>
+
+        <div id="timer" style="display:none">0.5{{time_sms}}</div>
 
     </div>
 
@@ -313,6 +321,79 @@
         };
     
     }
+
+    {#function page_ready() {#}
+    {##}
+    {#    const $timer_div = document.getElementById("timer")#}
+    {#    let time_sms = parseFloat( $timer_div.innerText ) * 60 * 1000#}
+    {#    #}
+    {#    const $input_code_sms      = document.getElementById("input_code_sms")#}
+    {#    const $submit_btn_code_sms = document.getElementById("submit_btn_code_sms")#}
+    {#    const $submit_contract     = document.getElementById("submit_contract")#}
+    {##}
+    {#    //if ( time_sms )#}
+    {##}
+    {#    if ( time_sms ) {#}
+    {#        $submit_btn_code_sms.style.display = "none"#}
+    {#        $input_code_sms.style.display = "block"#}
+    {##}
+    {#        const $quest_first_step_send_code_again = document.getElementById("quest_first_step_send_code_again")#}
+    {#        $quest_first_step_send_code_again.style.display = "block"#}
+    {#        const $send_again_timer = document.getElementById("send_again_timer")#}
+    {##}
+    {#        let timerId = setInterval( () => {#}
+    {##}
+    {#            const minutes = Math.floor(time_sms/60000)#}
+    {#            const seconds = Math.floor((time_sms - minutes * 60000)/1000)#}
+    {##}
+    {#            let time_st = "через " // ${Math.floor(time_sms/1000)} секунд`#}
+    {#            if (minutes)#}
+    {#                time_st += (minutes + " минут ")#}
+    {#            time_st += seconds#}
+    {#            if ( [11,12,13,14,15].includes(seconds) ) {#}
+    {#                time_st += " секунд"#}
+    {#            } else if ( [ "0","5","6","7","8","9" ].includes(seconds.toString().slice(-1)) ) {#}
+    {#                time_st += " секунд"#}
+    {#            } else if ( [ "1" ].includes(seconds.toString().slice(-1)) ) {#}
+    {#                time_st += " секунду"#}
+    {#            } else if ( [ "2","3","4" ].includes(seconds.toString().slice(-1)) ) {#}
+    {#                time_st += " секунды"#}
+    {#            }#}
+    {#            #}
+    {##}
+    {#            $send_again_timer.innerText = time_st // = `через ${Math.floor(time_sms/1000)} секунд`#}
+    {##}
+    {#            time_sms = time_sms - 1000#}
+    {##}
+    {#        }, 1000);#}
+    {##}
+    {#        // остановить вывод через 5 секунд#}
+    {#        setTimeout( () => {#}
+    {#            clearInterval(timerId);#}
+    {#            $send_again_timer.innerText = ""#}
+    {#            $quest_first_step_send_code_again.style.display = "none"#}
+    {#            $submit_btn_code_sms.style.display = "block"#}
+    {#            $input_code_sms.style.display = "none"#}
+    {#            $submit_contract.style.display = "none"#}
+    {#        }, time_sms+1000);#}
+    {#    }#}
+    {##}
+    {#    const $code_input = document.getElementById("id_code")#}
+    {#    $code_input.addEventListener("input", (event) => {#}
+    {#        let val = event.target.value#}
+    {#        console.log(val)#}
+    {#        let lengthval = val.toString().length#}
+    {#        console.log(lengthval)#}
+    {#        if ( lengthval === 4 ) {#}
+    {#            console.log("lengthval is equal 4")#}
+    {#            console.log($submit_contract)#}
+    {#            $submit_contract.style.display = "block"#}
+    {#        }#}
+    {#    })#}
+    {##}
+    {#}#}
+    {##}
+    {#document.addEventListener("DOMContentLoaded", page_ready);#}
 
 </script>
 

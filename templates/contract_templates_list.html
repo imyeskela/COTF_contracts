@@ -116,7 +116,7 @@
 
                 <div class="template_table_row">
 
-                    <form action="" method="post" enctype="multipart/form-data">
+                    <form action="" method="post" id="contract_template_list_form" enctype="multipart/form-data">
 
                         <div class="template_table_cell first_col_template first_td">{{ contracts.name }}</div>
                         <div class="template_table_cell second_col_template second_td">{{ contracts.pk }}</div>
@@ -238,6 +238,18 @@
         function close_new_template_popup() {
             document.getElementById('new_template_popup').style.display = 'none';
         }
+
+        function send_form() {
+            const $select = document.getElementById("id_status")
+            const $form   = document.getElementById("contract_template_list_form")
+            console.log($select)
+            $select.addEventListener("change", function() {
+                console.log("send form")
+                $form.submit()
+            })
+        }
+
+        document.addEventListener("DOMContentLoaded", send_form);
     </script>
 
 </body>

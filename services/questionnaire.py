@@ -384,16 +384,20 @@ def send_sms(self, request, contract_number):
 def get_time_for_resend_sms(self, request, contract_number):
     actual_code = get_actual_code(self, phone=get_data_from_forms(self, request, contract_number).get('phone'))
     attempts = actual_code.number_of_attempts
+    code_time = actual_code.date_generated_code
+    code_timestamp = code_time.timestamp()
 
-    if attempts == 0:
-        resend_time = 0.5
+    if attempts is None:
+        resend_time = code_timestamp
+    elif attempts == 0:
+        resend_time = code_timestamp + 30
     elif attempts == 1:
-        resend_time = 2
+        resend_time = code_timestamp + 120
     elif attempts == 2:
-        resend_time = 10
+        resend_time = 600
     else:
-        resend_time = 60
-    return print(resend_time)
+        resend_time = 3600
+    return resend_time
 
 
 def change_confirmation(self, request, contract_number):

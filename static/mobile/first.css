@@ -137,3 +137,23 @@
     display: flex;
     align-items: center;
 }
+
+#quest_first_step_send_code_again {
+    /* Action */
+    font-family: Styrene A Web;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 3.2vw;
+    /* line-height: 15px; */
+    letter-spacing: 0.02em;
+ 
+    /* Secondary */
+    color: #6A728A;
+    margin-bottom: 15px;
+    margin-left: 16px;
+}
+
+#send_again_span {
+    /* color: linear-gradient(71.59deg, #60326B 0%, #BD2971 100%); */
+    color: #BD2971;
+}

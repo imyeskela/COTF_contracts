@@ -112,12 +112,12 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'Europe/Moscow'
+USE_TZ = True
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
 
 DATE_FORMAT = 'd E Y'
 # Static files (CSS, JavaScript, Images)
@@ -147,4 +147,4 @@ EMAIL_USE_TLS = False
 CONVERT_API_SECRET = 'iP4B37Pw0h0xIn9Y'
 
 ACCOUNT_SID = 'AC6f65f37bd09b88a8dd0e5078e973c738'
-AUTH_TOKEN = 'f6129de08e4874d0900ec91dd701dcb4'
+AUTH_TOKEN = 'cd814ea652eaffb013d1d608169b691b'
