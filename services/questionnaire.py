@@ -394,9 +394,9 @@ def get_time_for_resend_sms(self, request, contract_number):
     elif attempts == 1:
         resend_time = code_timestamp + 120
     elif attempts == 2:
-        resend_time = 600
+        resend_time = code_timestamp + 600
     else:
-        resend_time = 3600
+        resend_time = code_timestamp + 3600
     return resend_time
 
 
