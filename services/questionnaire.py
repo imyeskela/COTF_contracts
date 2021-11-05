@@ -311,6 +311,17 @@ def finally_rich(self, request, contract_number):
         return img_base
 
 
+def send_email_contract_signed(self, request, contract_number):
+    full_name = get_data_from_forms(self, request, contract_number).get('full_name')
+    email_send = EmailMessage(
+        subject='Клуб Первых',
+        body=full_name + ' подписал(а) договор',
+        from_email=EMAIL_HOST_USER,
+        to='testclubfirst@gmail.com',
+    )
+    email_send.send()
+    return full_name
+
 def _create_new_code():
     codes = get_codes_of_obj()
     new_code = int(''.join(random.sample('0123456789', 5)))

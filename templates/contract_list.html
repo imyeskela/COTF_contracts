@@ -122,7 +122,6 @@
                     </div>
 
                     {% for contracts in contract_list %}
-
                     <div class="contract_table_row">
 
                         <div class="contract_table_cell_link contract_table_cell">
@@ -137,7 +136,15 @@
                         <div class="contract_table_cell">{{ contracts.passport }}</div>
                         <div class="contract_table_cell">{{ contracts.email }}</div>
                         <div class="contract_table_cell">{{ contracts.phone }}</div>
-                        <div class="contract_table_cell">l</div>
+                        <div class="contract_table_cell">
+                            {% if contracts.signed_contract.url != None %}
+
+                                <a href="{{contracts.signed_contract.url}}" download>Скачать договор</a>
+                            {% else %}
+                                Еще не подписан ;(
+                            {% endif %}
+                        </div>
+
                         <div class="contract_table_cell">{{ contracts.amount }}</div>
                         <div class="contract_table_cell">{{ contracts.date_created }}</div>
                         <div class="contract_table_cell">{{ contracts.date_signed }}</div>
@@ -202,7 +209,7 @@
                 {{ form_contract_template.as_p }}
                 <div class="popup_btn_div">
                     <div onclick="close_new_template_popup()" class="cancel_btn">Отмена</div>
-                    <button type="submit" class="send_template_btn">Отправить</button>
+                    <button type="submit" name='create_contract_template' class="send_template_btn">Отправить</button>
                 </div>
             </form>
         </div>

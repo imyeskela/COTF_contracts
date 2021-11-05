@@ -65,6 +65,12 @@ def valida(value):
             raise ValidationError('Недопустимый символ')
 
 
+class ContractListForm(forms.Form):
+    # class Meta:
+    #     widgets = {'contract_number': forms.HiddenInput}
+    contract_number = forms.IntegerField(widget=forms.HiddenInput, label='contract_number')
+
+
 class FillingQuestionnaireForm(forms.Form):
     """Форма для подписание Контракта"""
     last_name = forms.CharField(help_text='Фамилия', label='last_name')
