@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'main'
+    'main',
+    # 'channels'
 ]
 DJANGO_SETTINGS_MODULE = 'cotf_contracts.settings'
 MIDDLEWARE = [
@@ -74,6 +75,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'cotf_contracts.wsgi.application'
+# ASGI_APPLICATION = 'cotf_contracts.asgi.application'
 
 
 # Database
@@ -147,4 +149,4 @@ EMAIL_USE_TLS = False
 CONVERT_API_SECRET = 'iP4B37Pw0h0xIn9Y'
 
 ACCOUNT_SID = 'AC6f65f37bd09b88a8dd0e5078e973c738'
-AUTH_TOKEN = 'f5cf582ee42b80b806a8e2e146056389'
+AUTH_TOKEN = '43450cce916100fb0547072349d018e4'

@@ -89,9 +89,9 @@
             <div class="quest_first_step_input_input">{{ form.code }}</div> <!-- CODE ? -->
         </div>
 
-{#        <div class="quest_first_step_send_code_again" id="quest_first_step_send_code_again" style="display:none" >#}
-{#            <span id="send_again_span">Отправить код повторно</span> <span id="send_again_timer">через 30 секунд</span>#}
-{#        </div>#}
+        <div class="quest_first_step_send_code_again" id="quest_first_step_send_code_again" style="display:none" >
+            <span id="send_again_span">Отправить код повторно</span> <span id="send_again_timer">через 30 секунд</span>
+        </div>
 
         <div class="btn_div" id="submit_contract" style="display:none" >
             <button type="submit" name="docx" class="btn" >Сформировать договор</button>
@@ -331,22 +331,25 @@
         const $submit_btn_code_sms = document.getElementById("submit_btn_code_sms")
         const $submit_contract     = document.getElementById("submit_contract")
 
-        //if ( time_sms )
-
         if ( time_sms ) {
+
             $submit_btn_code_sms.style.display = "none"
             $input_code_sms.style.display = "block"
+
+            const time_now = Math.round(Date.now() / 1000)
 
             const $quest_first_step_send_code_again = document.getElementById("quest_first_step_send_code_again")
             $quest_first_step_send_code_again.style.display = "block"
             const $send_again_timer = document.getElementById("send_again_timer")
 
+            time_sms = time_sms - time_now
+
             let timerId = setInterval( () => {
 
-                const minutes = Math.floor(time_sms/60000)
-                const seconds = Math.floor((time_sms - minutes * 60000)/1000)
+                const minutes = Math.floor(time_sms/60)
+                const seconds = Math.floor(time_sms - minutes * 60)
 
-                let time_st = "через " // ${Math.floor(time_sms/1000)} секунд`
+                let time_st = "через "
                 if (minutes)
                     time_st += (minutes + " минут ")
                 time_st += seconds
@@ -360,10 +363,9 @@
                     time_st += " секунды"
                 }
 
+                $send_again_timer.innerText = time_st
 
-                $send_again_timer.innerText = time_st // = `через ${Math.floor(time_sms/1000)} секунд`
-
-                time_sms = time_sms - 1000
+                time_sms = time_sms - 1
 
             }, 1000);
 

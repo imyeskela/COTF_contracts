@@ -380,15 +380,16 @@ def create_new_code_obj(self, request, contract_number):
 
 def send_sms(self, request, contract_number):
     phone = get_data_from_forms(self, request, contract_number).get('phone')
-    account_sid = ACCOUNT_SID
-    auth_token = AUTH_TOKEN
-    client = Client(account_sid, auth_token)
-
-    message = client.messages.create(
-        body=str(get_actual_code(self, phone=phone)),
-        from_='+17128827791',
-        to=str(phone)
-    )
+    # account_sid = ACCOUNT_SID
+    # auth_token = AUTH_TOKEN
+    # client = Client(account_sid, auth_token)
+    #
+    # message = client.messages.create(
+    #     body=str(get_actual_code(self, phone=phone)),
+    #     from_='+17128827791',
+    #     to=str(phone)
+    # )
+    print(str(get_actual_code(self, phone=phone)))
     return phone
 
 
