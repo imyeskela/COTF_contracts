@@ -139,7 +139,7 @@
                         <div class="contract_table_cell">{{ contracts.phone }}</div>
                         <div class="contract_table_cell">
                             {% if contracts.signed_contract.url != None %}
-                            <a href="{{ contracts.signed_contract.url }}" download>Скачать договор</a>
+                            <a href="{{ contracts.signed_contract.url }}" download="{{ contracts.signed_contract.url }}">Скачать договор</a>
                             {% else %}
                             Еще не подписан ;(
                             {% endif %}

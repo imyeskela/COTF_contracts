@@ -1,7 +1,11 @@
+import os
+
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views.generic import CreateView
 
+from cotf_contracts import settings
 from main.models import Contract
 from services.main_logic import get_template_contracts, get_contracts, get_contract
 from main.utils import ContractTemplateListAndCreateContractMixin, ContractListMixin, FillingQuestionnaireMixin
@@ -52,6 +56,12 @@ class FillingQuestionnaireView(FillingQuestionnaireMixin, View):
     form = FillingQuestionnaireForm
 
 
-
+def download(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type='application/pdf')
+            response['Content-Disposition'] = 'inline;filename=' + os.path.basename(file_path)
+            return response
 
 
