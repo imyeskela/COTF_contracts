@@ -61,7 +61,7 @@ def download(request, path):
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type='application/pdf')
-            response['Content-Disposition'] = 'inline;filename=' + os.path.basename(file_path)
+            response['Content-Disposition'] = 'inline;filename=' + '24546799.pdf'
             return response
 
 
