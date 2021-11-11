@@ -313,11 +313,13 @@ def finally_rich(self, request, contract_number):
 
 def send_email_contract_signed(self, request, contract_number):
     full_name = get_data_from_forms(self, request, contract_number).get('full_name')
+    email = get_data_from_forms(self, request, contract_number).get('email')
+
     email_send = EmailMessage(
         subject='Клуб Первых',
         body=full_name + ' подписал(а) договор',
         from_email=EMAIL_HOST_USER,
-        to='testclubfirst@gmail.com',
+        to=[str(email)],
     )
     email_send.send()
     return full_name

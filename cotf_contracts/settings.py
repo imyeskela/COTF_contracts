@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'main',
     # 'channels'
@@ -75,7 +76,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'cotf_contracts.wsgi.application'
-# ASGI_APPLICATION = 'cotf_contracts.asgi.application'
+ASGI_APPLICATION = 'cotf_contracts.asgi.application'
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
 
 
 # Database

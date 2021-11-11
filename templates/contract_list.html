@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'admin.css' %}" class="css" />
-    <script src="{% static '/channels/js/websocketbridge.js'%}" type="text/javascript"> </script>
 </head>
 <body>
 
@@ -209,24 +208,15 @@
         </div>
     </div>
 
-{#    <script>#}
-{#        function open_new_template_popup() {#}
-{#            document.getElementById('new_template_popup').style.display = 'flex';#}
-{#        }#}
-{##}
-{#        function close_new_template_popup() {#}
-{#            document.getElementById('new_template_popup').style.display = 'none';#}
-{#        }#}
-{##}
-{#        document.addEventListener('DOMContentLoaded', function () {#}
-{#            const webSocketBridge = new channels.WebSocketBridge();#}
-{#            webSocketBridge.connect('/ws/');#}
-{#            webSocketBridge.listen(function (action, stream) {#}
-{#                console.log('RESPONSE:', action, stream);#}
-{#                document.ws = webSocketBridge;#}
-{#            })#}
-{#        })#}
-{#    </script>#}
+    <script>
+        function open_new_template_popup() {
+            document.getElementById('new_template_popup').style.display = 'flex';
+        }
+
+        function close_new_template_popup() {
+            document.getElementById('new_template_popup').style.display = 'none';
+        }
+    </script>
 
 
 </body>

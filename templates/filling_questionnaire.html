@@ -97,7 +97,8 @@
             <button type="submit" name="docx" class="btn" >Сформировать договор</button>
         </div>
 
-        <div id="timer" style="display:none">0.5{{time_sms}}</div>
+        <div id="timer" style="display:none">{{time_sms}}</div>
+        <!-- <div id="timer" style="display:none">1636462574</div> -->
 
     </div>
 
@@ -325,7 +326,7 @@
     function page_ready() {
 
         const $timer_div = document.getElementById("timer")
-        let time_sms = parseFloat( $timer_div.innerText ) * 60 * 1000
+        let time_sms = parseFloat( $timer_div.innerText )
 
         const $input_code_sms      = document.getElementById("input_code_sms")
         const $submit_btn_code_sms = document.getElementById("submit_btn_code_sms")
@@ -333,21 +334,26 @@
 
         if ( time_sms ) {
 
-            $submit_btn_code_sms.style.display = "none"
-            $input_code_sms.style.display = "block"
-
             const time_now = Math.round(Date.now() / 1000)
+            let dt = time_sms - time_now
+
+            // console.log( 'has time', time_sms )
+            // console.log( 'time now', time_now )
+            // console.log( 'delta tm', dt )
+
+            $input_code_sms.style.display = "block"
+            $submit_contract.style.display = "block"
+            $submit_btn_code_sms.style.display = "none"
 
             const $quest_first_step_send_code_again = document.getElementById("quest_first_step_send_code_again")
             $quest_first_step_send_code_again.style.display = "block"
             const $send_again_timer = document.getElementById("send_again_timer")
 
-            time_sms = time_sms - time_now
-
             let timerId = setInterval( () => {
 
-                const minutes = Math.floor(time_sms/60)
-                const seconds = Math.floor(time_sms - minutes * 60)
+                const minutes = Math.floor(dt/60)
+                const seconds = Math.floor(dt - minutes * 60)
+                // console.log( minutes, seconds )
 
                 let time_st = "через "
                 if (minutes)
@@ -365,33 +371,37 @@
 
                 $send_again_timer.innerText = time_st
 
-                time_sms = time_sms - 1
+                //time_sms = time_sms - 1
+                dt -= 1
 
             }, 1000);
 
             // остановить вывод через 5 секунд
             setTimeout( () => {
                 clearInterval(timerId);
-                $send_again_timer.innerText = ""
-                $quest_first_step_send_code_again.style.display = "none"
+                $submit_contract.style.display = "none"
                 $submit_btn_code_sms.style.display = "block"
                 $input_code_sms.style.display = "none"
-                $submit_contract.style.display = "none"
-            }, time_sms+1000);
+                $quest_first_step_send_code_again.style.display = "none"
+                // $send_again_timer.innerText = ""
+                // $submit_btn_code_sms.style.display = "block"
+                // $submit_contract.style.display = "none"
+            },
+            dt * 1000 );
         }
 
-        const $code_input = document.getElementById("id_code")
-        $code_input.addEventListener("input", (event) => {
-            let val = event.target.value
-            console.log(val)
-            let lengthval = val.toString().length
-            console.log(lengthval)
-            if ( lengthval === 4 ) {
-                console.log("lengthval is equal 4")
-                console.log($submit_contract)
-                $submit_contract.style.display = "block"
-            }
-        })
+        //const $code_input = document.getElementById("id_code")
+        //$code_input.addEventListener("input", (event) => {
+            //let val = event.target.value
+            //console.log(val)
+            //let lengthval = val.toString().length
+            //console.log(lengthval)
+            //if ( lengthval === 4 ) {
+                // console.log("lengthval is equal 4")
+                // console.log($submit_contract)
+                
+            //}
+        //})
 
     }
 

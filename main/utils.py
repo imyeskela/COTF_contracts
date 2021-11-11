@@ -25,25 +25,32 @@ class ContractTemplateListAndCreateContractMixin:
         paginator = Paginator(self.queryset, 5)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
+        # contract_template = get_template_contracts().get(pk=request.POST.get('pk_of_contract'))
+        form_contract_template_change = self.form_contract_template_change(request.POST)
         return render(request, self.template_name, {'contract_template_list': page_obj,
                                                     'form_contract': self.form_contract,
                                                     'form_contract_template': self.form_contract_template,
-                                                    'form_contract_template_change': self.form_contract_template_change,
+                                                    'form_contract_template_change': form_contract_template_change,
                                                     })
 
     def post(self, request):
         form_contract = self.form_contract(request.POST)
         form_contract_template = self.form_contract_template(request.POST, request.FILES)
-        contract_template = get_template_contracts().get(pk=request.POST.get('contract_template'))
-        form_contract_template_change = self.form_contract_template_change(request.POST, instance=contract_template)
+        contract_template = get_template_contracts().get(pk=request.POST.get('pk_of_contract'))
+
         if 'status' in request.POST:
+            form_contract_template_change = self.form_contract_template_change(request.POST, instance=contract_template)
             if form_contract_template_change.is_valid():
-                form_contract_template_change = form_contract_template_change.save(commit=False)
-                form_contract_template_change.save()
-                redirect('contract_template_list')
+                print(request.POST)
+                contract_template = form_contract_template_change.save(commit=False)
+                contract_template.save()
+                return redirect('contract_template_list')
+            else:
+
                 return render(request, self.template_name,
                               {'form_contract_template_change': form_contract_template_change})
-        if 'form_contract' in request.POST:
+
+        elif 'form_contract' in request.POST:
             if form_contract.is_valid():
                 contact_template_id = int(request.POST.get('contract_template'))
                 contract_template = self.queryset.get(id=contact_template_id)
@@ -55,7 +62,8 @@ class ContractTemplateListAndCreateContractMixin:
                 return redirect('contract_list')
             else:
                 return render(request, self.template_name, {'form_contract': form_contract, 'form_contract_template': form_contract_template})
-        if 'form_contract_template' in request.POST:
+
+        elif 'form_contract_template' in request.POST:
             if form_contract_template.is_valid():
                 form_contract_template = form_contract_template.save(commit=False)
                 form_contract_template.save()
@@ -65,7 +73,7 @@ class ContractTemplateListAndCreateContractMixin:
                               {'form_contract_template': form_contract_template})
 
         return render(request, self.template_name, {'form_contract': form_contract, 'form_contract_template': form_contract_template,
-                                                    'form_contract_template_change': form_contract_template_change})
+                                                   })
 
 
 class ContractListMixin:
@@ -127,19 +135,19 @@ class FillingQuestionnaireMixin:
                 docx_base = form_questionnaire(self, request, contract_number)
                 return render(request, self.template_name, {'docx_base': docx_base, 'form': form})
 
-        elif 'code' in request.POST:
-            create_new_code_obj(self, request, contract_number)
-            send_sms(self, request, contract_number)
-            time_sms = get_time_for_resend_sms(self, request, contract_number)
-            return render(request, self.template_name, {'form': form, 'time_sms': time_sms})
-
         elif 'qr_code' in request.POST:
+            print('qrcode')
             img_base = finally_rich(self, request, contract_number)
             get_sign_img(self, request, contract_number)
             change_contract_status(self)
             send_email_contract_signed(self, request, contract_number)
             return render(request, self.template_name, {'img_base': img_base})
-
+        elif 'code' in request.POST:
+            print(request.POST)
+            create_new_code_obj(self, request, contract_number)
+            send_sms(self, request, contract_number)
+            time_sms = get_time_for_resend_sms(self, request, contract_number)
+            return render(request, self.template_name, {'form': form, 'time_sms': time_sms})
         return render(request, self.template_name, {'form': form})
 
 

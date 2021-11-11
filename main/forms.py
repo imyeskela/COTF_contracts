@@ -46,6 +46,7 @@ class ContractTemplateChangeForm(forms.ModelForm):
         model = ContractTemplate
 
         fields = ['status']
+        widgets = {'pk_of_contract': forms.HiddenInput}
 
 
 class ContractCreateForm(forms.ModelForm):

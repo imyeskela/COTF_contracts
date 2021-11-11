@@ -122,10 +122,13 @@
                         <div class="template_table_cell second_col_template second_td">{{ contracts.pk }}</div>
 
 {#                        <!-- <div class="template_table_cell third_col_template third_td">{{ contracts.status }}</div> -->#}
-                        <div class="template_table_cell third_col_template third_td">
 
+                        <div class="template_table_cell third_col_template third_td">
                             {{ form_contract_template_change.status }}
-                            <button type="submit" name="status">d</button>
+                            <input type="hidden" name="pk_of_contract" value="{{ contracts.pk }}">
+
+
+
                         </div>
 
                         <!-- <div class="template_table_cell"><input type="hidden" name="contract_template" value="{{ contracts.pk }}"></div> -->
