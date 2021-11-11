@@ -137,7 +137,13 @@
                         <div class="contract_table_cell">{{ contracts.passport }}</div>
                         <div class="contract_table_cell">{{ contracts.email }}</div>
                         <div class="contract_table_cell">{{ contracts.phone }}</div>
-                        <div class="contract_table_cell">l</div>
+                        <div class="contract_table_cell">
+                            {% if contracts.signed_contract.url != None %}
+                            <a href="{{ contracts.signed_contract.url }}" download>Скачать договор</a>
+                            {% else %}
+                            Еще не подписан ;(
+                            {% endif %}
+                        </div>
                         <div class="contract_table_cell">{{ contracts.amount }}</div>
                         <div class="contract_table_cell">{{ contracts.date_created }}</div>
                         <div class="contract_table_cell">{{ contracts.date_signed }}</div>
