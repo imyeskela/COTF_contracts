@@ -16,7 +16,7 @@ from django.core.mail import EmailMessage
 import base64
 import convertapi
 import docx2txt
-from twilio.rest import Client
+# from twilio.rest import Client
 
 from cotf_contracts.settings import BASE_DIR, EMAIL_HOST_USER, CONVERT_API_SECRET, MEDIA_URL, AUTH_TOKEN, ACCOUNT_SID
 from services.main_logic import get_contract, get_codes_of_obj, get_num_attempts, get_code_obj
