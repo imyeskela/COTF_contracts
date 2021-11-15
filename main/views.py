@@ -12,6 +12,7 @@ from main.utils import ContractTemplateListAndCreateContractMixin, ContractListM
 from main.forms import ContractTemplateCreateForm, FillingQuestionnaireForm
 from services.getting_form import get_contract_form, get_filling_questionnaire_form, get_contract_template_create_form, \
     get_contract_template_form, get_contract_list_form
+from services.ordering import get_ordered_contracts
 
 
 class ContractTemplateListAndCreateView(ContractTemplateListAndCreateContractMixin, View):
@@ -43,7 +44,7 @@ class ContractCreateView(CreateView):
 class ContractListView(ContractListMixin, View):
     """Вью для отображения всех Контрактов"""
 
-    queryset = Contract.objects.all()
+    queryset = get_ordered_contracts
     template_name = 'contract_list.html'
     form_contract_template = get_contract_template_create_form()
     form_contract = get_contract_list_form()
@@ -56,12 +57,13 @@ class FillingQuestionnaireView(FillingQuestionnaireMixin, View):
     form = FillingQuestionnaireForm
 
 
-def download(request, path):
-    file_path = os.path.join(settings.MEDIA_ROOT, path)
-    if os.path.exists(file_path):
-        with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type='application/pdf')
-            response['Content-Disposition'] = 'inline;filename=' + '24546799.pdf'
-            return response
+# def download(request, path):
+#     file_path = os.path.join(settings.MEDIA_ROOT, path)
+#     if os.path.exists(file_path):
+#         with open(file_path, 'rb') as fh:
+#
+#             response = HttpResponse(fh.read(), content_type='application/pdf')
+#             response['Content-Disposition'] = 'inline;filename=' + os.path.basename(file_path)
+#             return response
 
 

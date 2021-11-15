@@ -567,3 +567,46 @@ body {
 .template_of_contract input {
     display: none;
 }
+
+.template_header_inner {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 30px;
+}
+
+.sort_control {
+    padding: 0;
+    margin: 0;
+    font-size: 10px;
+    height: 16px;
+    width: 16px;
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+}
+
+.arrow_up {
+    width: 0; 
+    height: 0; 
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid black;
+}
+
+.arrow_down{
+    width: 0; 
+    height: 0; 
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid black;
+}
+
+.ctrl_up{
+    align-items: flex-end;
+    margin-bottom: 6px;
+}
+
+.ctrl_down{
+    align-items: flex-start;
+}
+

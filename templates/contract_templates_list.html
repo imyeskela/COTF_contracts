@@ -105,11 +105,31 @@
             <div class="all_templates">
 
                 <div class="template_table_header">
-                    <div class="template_table_header_td first_col_template first_td">Название</div>
-                    <div class="template_table_header_td second_col_template second_td">Договор</div>
-                    <div class="template_table_header_td third_col_template third_td">Статус</div>
-                    <div class="template_table_header_td fourth_col_template fourth_td">Идентификатор</div>
-                    <div class="template_table_header_td fifth_col_template fifth_td">Сумма</div>
+                    <div class="template_table_header_td first_col_template first_td">
+                        <div class="template_header_inner">
+                            <div>Название</div>
+                        </div>
+                    </div>
+                    <div class="template_table_header_td second_col_template second_td">
+                        <div class="template_header_inner">
+                            <div>Договор</div>
+                        </div>
+                    </div>
+                    <div class="template_table_header_td third_col_template third_td">
+                        <div class="template_header_inner">
+                            <div>Статус</div>
+                        </div>
+                    </div>
+                    <div class="template_table_header_td fourth_col_template fourth_td">
+                        <div class="template_header_inner">
+                            <div>Идентификатор</div>
+                        </div>
+                    </div>
+                    <div class="template_table_header_td fifth_col_template fifth_td">
+                        <div class="template_header_inner">
+                            <div>Сумма</div>
+                        </div>
+                    </div>
                 </div>
 
                 {% for contracts in contract_template_list %}
@@ -122,13 +142,9 @@
                         <div class="template_table_cell second_col_template second_td">{{ contracts.pk }}</div>
 
 {#                        <!-- <div class="template_table_cell third_col_template third_td">{{ contracts.status }}</div> -->#}
-
                         <div class="template_table_cell third_col_template third_td">
+                            <div id="hidden_status_input" style="display:none">{{contracts.status}}</div>
                             {{ form_contract_template_change.status }}
-                            <input type="hidden" name="pk_of_contract" value="{{ contracts.pk }}">
-
-
-
                         </div>
 
                         <!-- <div class="template_table_cell"><input type="hidden" name="contract_template" value="{{ contracts.pk }}"></div> -->
@@ -245,14 +261,18 @@
         function send_form() {
             const $select = document.getElementById("id_status")
             const $form   = document.getElementById("contract_template_list_form")
-            console.log($select)
+
             $select.addEventListener("change", function() {
                 console.log("send form")
                 $form.submit()
             })
+            /* one more trick */
+            const status = document.getElementById('hidden_status_input').innerText
+            $select.value=status;
         }
 
         document.addEventListener("DOMContentLoaded", send_form);
+
     </script>
 
 </body>

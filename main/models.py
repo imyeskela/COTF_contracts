@@ -60,8 +60,6 @@ class ContractTemplate(models.Model):
         CMS = 'ООО "КМС"', ('ООО "КМС"')
         DC = 'ООО "ДЕЛОВОЙ КЛУБ"', ('ООО "ДЕЛОВОЙ КЛУБ"')
 
-
-
     name = models.CharField('Название', null=False, max_length=50, blank=True)
     template_of_contract = models.FileField('Шаблон договора', null=False, upload_to='upload/', validators=[check_format_of_file])
     amount = models.PositiveIntegerField('Сумма', null=True)

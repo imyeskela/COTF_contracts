@@ -1,15 +1,11 @@
-import os
-
-from django.core.files import File
-from django.http import HttpResponseNotFound, HttpResponse
+from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 
 from services.main_logic import generator_num_contract, get_template_contracts
 from services.questionnaire import form_questionnaire, finally_rich, get_sign_img, create_new_code_obj, \
     change_confirmation, change_contract_status, get_time_for_resend_sms, send_sms, send_email_contract_signed
-from services.questionnaire import get_actual_code
-from main.models import Contract
+from services.download import get_contract_and_payment, download
 
 
 class ContractTemplateListAndCreateContractMixin:
@@ -26,7 +22,8 @@ class ContractTemplateListAndCreateContractMixin:
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         # contract_template = get_template_contracts().get(pk=request.POST.get('pk_of_contract'))
-        form_contract_template_change = self.form_contract_template_change(request.POST)
+        queryset = self.queryset
+        form_contract_template_change = self.form_contract_template_change()
         return render(request, self.template_name, {'contract_template_list': page_obj,
                                                     'form_contract': self.form_contract,
                                                     'form_contract_template': self.form_contract_template,
@@ -36,21 +33,7 @@ class ContractTemplateListAndCreateContractMixin:
     def post(self, request):
         form_contract = self.form_contract(request.POST)
         form_contract_template = self.form_contract_template(request.POST, request.FILES)
-        contract_template = get_template_contracts().get(pk=request.POST.get('pk_of_contract'))
-
-        if 'status' in request.POST:
-            form_contract_template_change = self.form_contract_template_change(request.POST, instance=contract_template)
-            if form_contract_template_change.is_valid():
-                print(request.POST)
-                contract_template = form_contract_template_change.save(commit=False)
-                contract_template.save()
-                return redirect('contract_template_list')
-            else:
-
-                return render(request, self.template_name,
-                              {'form_contract_template_change': form_contract_template_change})
-
-        elif 'form_contract' in request.POST:
+        if 'form_contract' in request.POST:
             if form_contract.is_valid():
                 contact_template_id = int(request.POST.get('contract_template'))
                 contract_template = self.queryset.get(id=contact_template_id)
@@ -61,9 +44,12 @@ class ContractTemplateListAndCreateContractMixin:
                 form_contract.save()
                 return redirect('contract_list')
             else:
-                return render(request, self.template_name, {'form_contract': form_contract, 'form_contract_template': form_contract_template})
+                return render(request, self.template_name, {'form_contract': form_contract,
+                                                            'form_contract_template': form_contract_template
+                                                            })
 
-        elif 'form_contract_template' in request.POST:
+        if 'form_contract_template' in request.POST:
+            print(request.POST)
             if form_contract_template.is_valid():
                 form_contract_template = form_contract_template.save(commit=False)
                 form_contract_template.save()
@@ -72,8 +58,17 @@ class ContractTemplateListAndCreateContractMixin:
                 return render(request, self.template_name,
                               {'form_contract_template': form_contract_template})
 
-        return render(request, self.template_name, {'form_contract': form_contract, 'form_contract_template': form_contract_template,
-                                                   })
+        elif 'status' in request.POST:
+            contract_template = get_template_contracts().get(pk=request.POST.get('contract_template'))
+            form_contract_template_change = self.form_contract_template_change(request.POST, instance=contract_template)
+            if form_contract_template_change.is_valid():
+                form_contract_template_change = form_contract_template_change.save(commit=False)
+                form_contract_template_change.save()
+                return redirect('contract_template_list')
+
+        return render(request, self.template_name, {'form_contract': form_contract,
+                                                    'form_contract_template': form_contract_template
+                                                    })
 
 
 class ContractListMixin:
@@ -85,32 +80,39 @@ class ContractListMixin:
     form_contract = None
 
     def get(self, request):
-        paginator = Paginator(self.queryset, 5)
+        paginator = Paginator(self.queryset(), 5)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         template_name = self.template_name
 
+        print(request.GET)
         return render(request, template_name, {'contract_list': page_obj,
                                                'form_contract_template': self.form_contract_template,
-                                               'form_contract': self.form_contract
+                                               'form_contract': self.form_contract,
+
                                                })
 
     def post(self, request):
         form_contract_template = self.form_contract_template(request.POST, request.FILES)
-        form_contract = self.form_contract(request.POST)
+        # form_contract = self.form_contract(request.POST)
         if 'create_contract_template' in request.POST:
             if form_contract_template.is_valid():
                 form_contract_template = form_contract_template.save(commit=False)
                 form_contract_template.save()
-
                 return redirect('contract_template_list')
             else:
                 return render(request, self.template_name,
-                                  {'form_contract_template': form_contract_template})
+                              {'form_contract_template': form_contract_template})
+
+        # elif 'download_contract' in request.POST:
+        #     contract_number = request.POST.get('contract_number')
+        #     zip_file = download(contract_number=contract_number)
+        #
+        #     return render(request, self.template_name,
+        #               {'zip_file': zip_file})
 
         return render(request, self.template_name,
-                                      {'form_contract_template': form_contract_template, 'form_contract': form_contract})
-
+                      {'form_contract_template': form_contract_template})
 
 
 class FillingQuestionnaireMixin:

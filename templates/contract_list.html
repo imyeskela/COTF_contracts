@@ -108,7 +108,27 @@
 
                     <div class="contract_table_header">
                         <div class="contract_table_cell_link contract_table_cell"></div>
-                        <div class="contract_table_header_td">№ договора</div>
+                        <div class="contract_table_header_td">
+                            <div class="template_header_inner">
+                                <div>№ договора</div>
+                                <div>
+                                    <div class="sort_control ctrl_up">
+                                        <form method="GET" action=".">
+                                            <button type="submit" name="contract_number_max" value="contract_number_max">
+                                                <div class="arrow_up"></div>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="sort_control ctrl_down">
+                                        <form method="GET" action=".">
+                                            <button type="submit" name="contract_number_min" value="contract_number_min">
+                                                <div class="arrow_down"></div>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="contract_table_header_td">Идентификатор</div>
                         <div class="contract_table_header_td">ФИО</div>
                         <div class="contract_table_header_td">Паспортные данные</div>
@@ -116,9 +136,69 @@
                         <div class="contract_table_header_td">Мобильный телефон</div>
                         <div class="contract_table_header_td">Договор</div>
                         <div class="contract_table_header_td">Сумма</div>
-                        <div class="contract_table_header_td">Дата создания</div>
-                        <div class="contract_table_header_td">Дата подписания</div>
-                        <div class="contract_table_header_td">Статус</div>
+                        <div class="contract_table_header_td">
+                            <div class="template_header_inner">
+                                <div>Дата создания</div>
+                                <div>
+                                    <div class="sort_control ctrl_up">
+                                        <form method="GET" action=".">
+                                            <button type="submit" name="date_created_max" value="date_created_max">
+                                                <div class="arrow_up"></div>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="sort_control ctrl_down">
+                                        <form method="GET" action=".">
+                                            <button type="submit" name="date_created_min" value="date_created_min">
+                                                <div class="arrow_down"></div>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contract_table_header_td">
+                            <div class="template_header_inner">
+                                <div>Дата подписания</div>
+                                <div>
+                                    <div class="sort_control ctrl_up">
+                                        <form method="GET" action=".">
+                                            <button type="submit" name="date_signed_max" value="date_signed_max">
+                                                <div class="arrow_up"></div>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="sort_control ctrl_down">
+                                        <form method="GET" action=".">
+                                            <button type="submit" name="date_signed_min" value="date_signed_min">
+                                                <div class="arrow_down"></div>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contract_table_header_td">
+                            <div class="template_header_inner">
+                                <div>Статус</div>
+                                <div>
+                                    <div class="sort_control ctrl_up">
+                                        <form method="GET" action=".">
+                                            <button type="submit" name="status_max" value="status_max">
+                                                <div class="arrow_up"></div>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div class="sort_control ctrl_down">
+                                        <form method="GET" action=".">
+                                            <button type="submit" name="status_min" value="status_min">
+                                                <div class="arrow_down"></div>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     {% for contracts in contract_list %}
@@ -137,13 +217,7 @@
                         <div class="contract_table_cell">{{ contracts.passport }}</div>
                         <div class="contract_table_cell">{{ contracts.email }}</div>
                         <div class="contract_table_cell">{{ contracts.phone }}</div>
-                        <div class="contract_table_cell">
-                            {% if contracts.signed_contract.url != None %}
-                            <a href="{{ contracts.signed_contract.url }}" download="{{ contracts.signed_contract.url }}">Скачать договор</a>
-                            {% else %}
-                            Еще не подписан ;(
-                            {% endif %}
-                        </div>
+                        <div class="contract_table_cell">l</div>
                         <div class="contract_table_cell">{{ contracts.amount }}</div>
                         <div class="contract_table_cell">{{ contracts.date_created }}</div>
                         <div class="contract_table_cell">{{ contracts.date_signed }}</div>

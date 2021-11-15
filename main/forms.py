@@ -4,6 +4,7 @@ from django.db.models import Model
 from docxtpl import DocxTemplate
 
 from main.models import ContractTemplate, Contract, AuthenticationCode
+
 from services.questionnaire import get_actual_code
 
 
@@ -42,11 +43,13 @@ class ContractTemplateCreateForm(forms.ModelForm):
 
 
 class ContractTemplateChangeForm(forms.ModelForm):
+
     class Meta:
         model = ContractTemplate
-
-        fields = ['status']
-        widgets = {'pk_of_contract': forms.HiddenInput}
+        fields = ['status', ]
+        labels = {
+            'status': 'change_status'
+        }
 
 
 class ContractCreateForm(forms.ModelForm):
