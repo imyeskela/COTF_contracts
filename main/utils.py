@@ -104,12 +104,12 @@ class ContractListMixin:
                 return render(request, self.template_name,
                               {'form_contract_template': form_contract_template})
 
-        # elif 'download_contract' in request.POST:
-        #     contract_number = request.POST.get('contract_number')
-        #     zip_file = download(contract_number=contract_number)
-        #
-        #     return render(request, self.template_name,
-        #               {'zip_file': zip_file})
+        elif 'download_contract' in request.POST:
+            contract_number = request.POST.get('contract_number')
+            zip_file = download(contract_number=contract_number)
+
+            return render(request, self.template_name,
+                          {'response': zip_file})
 
         return render(request, self.template_name,
                       {'form_contract_template': form_contract_template})
