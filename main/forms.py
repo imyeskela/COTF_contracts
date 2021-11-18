@@ -1,9 +1,12 @@
+import random
+
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import Model
 from docxtpl import DocxTemplate
 
 from main.models import ContractTemplate, Contract, AuthenticationCode
+from services.ordering import get_ordered_contracts
 
 from services.questionnaire import get_actual_code
 
@@ -42,14 +45,15 @@ class ContractTemplateCreateForm(forms.ModelForm):
         return cleaned_data
 
 
-class ContractTemplateChangeForm(forms.ModelForm):
+class ContractTemplateChangeForm(forms.Form):
+    status = forms.ChoiceField(choices=('Акутально', 'Устарело'))
 
-    class Meta:
-        model = ContractTemplate
-        fields = ['status', ]
-        labels = {
-            'status': 'change_status'
-        }
+
+# class ContractTemplateChangeForm(forms.ModelForm):
+#
+#     class Meta:
+#         model = ContractTemplate
+#         fields = ['status', 'amount']
 
 
 class ContractCreateForm(forms.ModelForm):

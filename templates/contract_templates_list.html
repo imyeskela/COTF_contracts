@@ -143,8 +143,21 @@
 
 {#                        <!-- <div class="template_table_cell third_col_template third_td">{{ contracts.status }}</div> -->#}
                         <div class="template_table_cell third_col_template third_td">
-                            <div id="hidden_status_input" style="display:none">{{contracts.status}}</div>
-                            {{ form_contract_template_change.status }}
+                            <div class="hidden_status_input" style="display:none">{{contracts.status}}</div>
+                            <!-- <div class="hidden_status_input" style="display:none">Устарело</div> -->
+                            <select id="{{ contracts.pk }}">
+                                    <option value="{{contracts.status}}">{{contracts.status}}</option>
+                                        {% if contracts.status == 'Актуально' %}
+                                             <option value="Устарело">
+                                             Устарело
+                                            </option>
+                                        {% elif contracts.status == 'Устарело' %}
+                                            <option value="Актуально">
+                                             Актуально
+                                            </option>
+                                        {% endif %}
+
+                                </select>
                         </div>
 
                         <!-- <div class="template_table_cell"><input type="hidden" name="contract_template" value="{{ contracts.pk }}"></div> -->
@@ -157,7 +170,7 @@
                         {% endif %}
 
                         <!-- <form> -->
-                        <form action="" method="post" id="contract_template_list_form" enctype="multipart/form-data">
+
                             {% csrf_token %}
 
                             <!-- {{ form_contract.as_p }} -->
@@ -170,7 +183,7 @@
 
                         <!-- </form> -->
 
-                        </form>
+                    </form>
 
                 </div>
 
@@ -259,16 +272,18 @@
         }
 
         function send_form() {
-            const $select = document.getElementById("id_status")
-            const $form   = document.getElementById("contract_template_list_form")
-
-            $select.addEventListener("change", function() {
-                console.log("send form")
-                $form.submit()
-            })
-            /* one more trick */
-            const status = document.getElementById('hidden_status_input').innerText
-            $select.value=status;
+            {% for contracts in contract_template_list %}
+            const $select_group = document.getElementsByTagName('select')
+            for ( let i = 0; i < $select_group.length; i++ ) {
+                const $el = $select_group[i]
+                $el.addEventListener("change", function() { console.log("send form"); $form.submit() })
+                if ( $el.id === '{{contracts.pk}}' )
+                {
+                    if ( Array.from( $el.parentNode.classList ).includes('template_table_cell') )
+                        $el.value = $el.parentNode.querySelector('.hidden_status_input').innerText
+                }
+            }
+            {% endfor %}
         }
 
         document.addEventListener("DOMContentLoaded", send_form);

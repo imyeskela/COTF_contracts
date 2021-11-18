@@ -33,6 +33,7 @@ class ContractTemplateListAndCreateContractMixin:
     def post(self, request):
         form_contract = self.form_contract(request.POST)
         form_contract_template = self.form_contract_template(request.POST, request.FILES)
+        print(request.POST)
         if 'form_contract' in request.POST:
             if form_contract.is_valid():
                 contact_template_id = int(request.POST.get('contract_template'))
@@ -59,6 +60,7 @@ class ContractTemplateListAndCreateContractMixin:
                               {'form_contract_template': form_contract_template})
 
         elif 'status' in request.POST:
+            print('status')
             contract_template = get_template_contracts().get(pk=request.POST.get('contract_template'))
             form_contract_template_change = self.form_contract_template_change(request.POST, instance=contract_template)
             if form_contract_template_change.is_valid():
