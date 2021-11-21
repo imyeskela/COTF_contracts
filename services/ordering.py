@@ -1,4 +1,4 @@
-from django.contrib.postgres.search import SearchVector
+from django.db.models import Q
 
 from main.models import Contract
 from services.main_logic import get_contracts
@@ -52,10 +52,13 @@ def get_ordered_contracts(self):
         qs_contracts = qs_contracts.order_by('-status')
 
     if _is_valid(search_objs):
-        qs_contracts = qs_contracts.annotate(search=SearchVector(
-            'full_name',
-            'name',
-            'identifier'
-        )).filter(search=search_objs)
+        qs_contracts = qs_contracts.filter(
+            Q(full_name__icontains=search_objs) | Q(identifier__icontains=search_objs)
+        )
+        # qs_contracts = qs_contracts.annotate(search=SearchVector(
+        #     'full_name',
+        #     'name',
+        #     'identifier'
+        # )).filter(search=search_objs)
 
     return qs_contracts
