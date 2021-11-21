@@ -145,19 +145,11 @@
                         <div class="template_table_cell third_col_template third_td">
                             <div class="hidden_status_input" style="display:none">{{contracts.status}}</div>
                             <!-- <div class="hidden_status_input" style="display:none">Устарело</div> -->
-                            <select id="{{ contracts.pk }}">
-                                    <option value="{{contracts.status}}">{{contracts.status}}</option>
-                                        {% if contracts.status == 'Актуально' %}
-                                             <option value="Устарело">
-                                             Устарело
-                                            </option>
-                                        {% elif contracts.status == 'Устарело' %}
-                                            <option value="Актуально">
-                                             Актуально
-                                            </option>
-                                        {% endif %}
+                            <input type="hidden" name="contract_pk" value="{{ contracts.pk }}">
 
-                                </select>
+                            {{ form_contract_template_change.status }}
+{#                            <button type="submit" name="status_contract">d</button>#}
+
                         </div>
 
                         <!-- <div class="template_table_cell"><input type="hidden" name="contract_template" value="{{ contracts.pk }}"></div> -->
@@ -272,18 +264,16 @@
         }
 
         function send_form() {
-            {% for contracts in contract_template_list %}
             const $select_group = document.getElementsByTagName('select')
             for ( let i = 0; i < $select_group.length; i++ ) {
                 const $el = $select_group[i]
-                $el.addEventListener("change", function() { console.log("send form"); $form.submit() })
-                if ( $el.id === '{{contracts.pk}}' )
+                $el.addEventListener("change", function() { console.log("send form"); document.getElementById('contract_template_list_form').submit() })
+                if ( $el.id === 'id_status' )
                 {
                     if ( Array.from( $el.parentNode.classList ).includes('template_table_cell') )
                         $el.value = $el.parentNode.querySelector('.hidden_status_input').innerText
                 }
             }
-            {% endfor %}
         }
 
         document.addEventListener("DOMContentLoaded", send_form);

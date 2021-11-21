@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'main',
-    # 'channels'
+    # 'channels',
+    'django.contrib.postgres'
 ]
 DJANGO_SETTINGS_MODULE = 'cotf_contracts.settings'
 MIDDLEWARE = [
@@ -87,8 +88,12 @@ REDIS_PORT = 6379
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'cotf_contracts',
+        'USER': 'postgres',
+        'PASSWORD': 'Pichenko34',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

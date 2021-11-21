@@ -33,7 +33,6 @@ class ContractTemplateListAndCreateContractMixin:
     def post(self, request):
         form_contract = self.form_contract(request.POST)
         form_contract_template = self.form_contract_template(request.POST, request.FILES)
-        print(request.POST)
         if 'form_contract' in request.POST:
             if form_contract.is_valid():
                 contact_template_id = int(request.POST.get('contract_template'))
@@ -50,7 +49,6 @@ class ContractTemplateListAndCreateContractMixin:
                                                             })
 
         if 'form_contract_template' in request.POST:
-            print(request.POST)
             if form_contract_template.is_valid():
                 form_contract_template = form_contract_template.save(commit=False)
                 form_contract_template.save()
@@ -60,8 +58,7 @@ class ContractTemplateListAndCreateContractMixin:
                               {'form_contract_template': form_contract_template})
 
         elif 'status' in request.POST:
-            print('status')
-            contract_template = get_template_contracts().get(pk=request.POST.get('contract_template'))
+            contract_template = get_template_contracts().get(pk=request.POST.get('contract_pk'))
             form_contract_template_change = self.form_contract_template_change(request.POST, instance=contract_template)
             if form_contract_template_change.is_valid():
                 form_contract_template_change = form_contract_template_change.save(commit=False)
@@ -87,7 +84,6 @@ class ContractListMixin:
         page_obj = paginator.get_page(page_number)
         template_name = self.template_name
 
-        print(request.GET)
         return render(request, template_name, {'contract_list': page_obj,
                                                'form_contract_template': self.form_contract_template,
                                                'form_contract': self.form_contract,
@@ -140,14 +136,12 @@ class FillingQuestionnaireMixin:
                 return render(request, self.template_name, {'docx_base': docx_base, 'form': form})
 
         elif 'qr_code' in request.POST:
-            print('qrcode')
             img_base = finally_rich(self, request, contract_number)
             get_sign_img(self, request, contract_number)
             change_contract_status(self)
             send_email_contract_signed(self, request, contract_number)
             return render(request, self.template_name, {'img_base': img_base})
         elif 'code' in request.POST:
-            print(request.POST)
             create_new_code_obj(self, request, contract_number)
             send_sms(self, request, contract_number)
             time_sms = get_time_for_resend_sms(self, request, contract_number)

@@ -45,15 +45,16 @@ class ContractTemplateCreateForm(forms.ModelForm):
         return cleaned_data
 
 
-class ContractTemplateChangeForm(forms.Form):
-    status = forms.ChoiceField(choices=('Акутально', 'Устарело'))
+# class ContractTemplateChangeForm(forms.Form):
+#     status = forms.ChoiceField(choices=('Акутально', 'Устарело'))
 
 
-# class ContractTemplateChangeForm(forms.ModelForm):
-#
-#     class Meta:
-#         model = ContractTemplate
-#         fields = ['status', 'amount']
+class ContractTemplateChangeForm(forms.ModelForm):
+    contract_pk = forms.IntegerField(widget=forms.HiddenInput, label='contract_pk')
+
+    class Meta:
+        model = ContractTemplate
+        fields = ['status']
 
 
 class ContractCreateForm(forms.ModelForm):

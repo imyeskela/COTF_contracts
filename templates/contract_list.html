@@ -90,10 +90,13 @@
 
             <div class="admin_content_control_panel">
 
-                <div class="admin_search" >
-                    <input type="text" placeholder="Поиск..." />
-                    <button><img src="{% static 'admin_img/search.png' %}"></button>
-                </div>
+                    <div class="admin_search" >
+                        <form method="GET" action=".">
+                        <input type="search" name="search" placeholder="Поиск..." />
+                        <button><img src="{% static 'admin_img/search.png' %}"></button>
+                             </form>
+                    </div>
+
 
                 <div class="admin_template_link" ><a href="/">Договоры</a></div>
                 <div class="admin_contract_link active_link" ><a href="{% url 'contract_list' %}">Клиенты</a></div>
