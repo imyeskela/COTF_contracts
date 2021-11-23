@@ -80,6 +80,7 @@ ASGI_APPLICATION = 'cotf_contracts.asgi.application'
 
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
+SITE_ID = 1
 
 
 # Database
@@ -99,7 +100,7 @@ REDIS_PORT = 6379
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'sqlite3.db',
+        'NAME': os.path.join(BASE_DIR, 'sqlite3.db'),
     }
 }
 
