@@ -107,7 +107,7 @@ class FillingQuestionnaireForm(forms.Form):
             code_code = c
             if code_code is not None:
                 code_n = code_code.get('code')
-                if int(user_code) != code_n:
+                if str(user_code) != str(code_n):
                     raise ValidationError('Неправильный код')
             else:
                 pass

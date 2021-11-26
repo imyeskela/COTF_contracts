@@ -60,7 +60,7 @@ class ContractTemplateListAndCreateContractMixin:
         elif 'status_contract' in request.POST:
             # print(request.POST)
             # contract_template = get_template_contracts().get(pk=request.POST.get('contract_pk'))
-            print(request.POST)
+            print('status contract')
 
             return redirect('contract_template_list')
 
@@ -81,6 +81,7 @@ class ContractListMixin:
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         template_name = self.template_name
+        print(request.POST)
 
         return render(request, template_name, {'contract_list': page_obj,
                                                'form_contract_template': self.form_contract_template,
@@ -100,12 +101,12 @@ class ContractListMixin:
                 return render(request, self.template_name,
                               {'form_contract_template': form_contract_template})
 
-        elif 'download_contract' in request.POST:
-            contract_number = request.POST.get('contract_number')
-            zip_file = download(contract_number=contract_number)
-
-            return render(request, self.template_name,
-                          {'response': zip_file})
+        # elif 'download_contract' in request.POST:
+        #     contract_number = request.POST.get('contract_number')
+        #     zip_file = download(contract_number=contract_number)
+        #
+        #     return render(request, self.template_name,
+        #                   {'response': zip_file})
 
         return render(request, self.template_name,
                       {'form_contract_template': form_contract_template})

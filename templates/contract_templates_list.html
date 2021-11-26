@@ -142,24 +142,11 @@
                         <div class="template_table_cell second_col_template second_td">{{ contracts.pk }}</div>
 
 {#                        <!-- <div class="template_table_cell third_col_template third_td">{{ contracts.status }}</div> -->#}
-
                         <div class="template_table_cell third_col_template third_td">
                             <div class="hidden_status_input" style="display:none">{{contracts.status}}</div>
                             <!-- <div class="hidden_status_input" style="display:none">Устарело</div> -->
-                                <input type="hidden" name="contract_pk" value="{{ contracts.pk }}">
-                                <select name="status_contract" id="status_{{ contracts.pk }}">
-                                    <option value="{{ contracts.status }}">{{ contracts.status }}</option>
-                                    {% if contracts.status == 'Актуально' %}
-                                        <option value="Устарело">
-                                            Устарело
-                                        </option>
-                                    {% elif contracts.status == 'Устарело' %}
-                                        <option value="Актуально">
-                                            Актуально
-                                        </option>
-                                    {% endif %}
-                                </select>
-
+                            {{ form_contract_template_change.status }}
+{#                            <button type="submit" name="status_contract">d</button>#}
                         </div>
 
                         <!-- <div class="template_table_cell"><input type="hidden" name="contract_template" value="{{ contracts.pk }}"></div> -->
@@ -272,23 +259,22 @@
         function close_new_template_popup() {
             document.getElementById('new_template_popup').style.display = 'none';
         }
-        {% for contracts in contract_template_list %}
-        function send_form() {
 
+        function send_form() {
             const $select_group = document.getElementsByTagName('select')
             for ( let i = 0; i < $select_group.length; i++ ) {
                 const $el = $select_group[i]
-                $el.addEventListener("change", function() { console.log("send form"); document.getElementById('contract_template_list_form').submit() })
-                if ( $el.id === 'status_{{ contracts.pk }}' )
-                {
-                    if ( Array.from( $el.parentNode.classList ).includes('template_table_cell') )
-                        $el.value = $el.parentNode.querySelector('.hidden_status_input').innerText
+                if ( Array.from($el.parentElement.classList).includes('template_table_cell') ){
+                    $el.addEventListener("change", function() { console.log("send form"); document.getElementById('contract_template_list_form').submit() })
+                    if ( $el.id === 'id_status' )
+                    {
+                        if ( Array.from( $el.parentNode.classList ).includes('template_table_cell') )
+                            $el.value = $el.parentNode.querySelector('.hidden_status_input').innerText
+                    }
                 }
             }
-
-
         }
-        {% endfor %}
+
         document.addEventListener("DOMContentLoaded", send_form);
 
     </script>
