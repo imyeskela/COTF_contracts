@@ -28,8 +28,7 @@ def download(self, contract_number):
     for file_path in files:
         file_dir, file_name = os.path.split(file_path)
         zip_path = os.path.join(zip_subdir, file_name)
-        zip_file.write(file_path)
-
+        zip_file.write(file_path, zip_path)
     zip_file.close()
     b.seek(0)
 
