@@ -23,7 +23,7 @@ from services.download import download
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('<contract_number>', download, name='download')
+    path('download/<contract_number>', download, name='download')
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
