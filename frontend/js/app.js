@@ -1,5 +1,9 @@
 require('bootstrap');
 
+function capitalize(str){
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 document.addEventListener('DOMContentLoaded', function(){
     let contract_client_form = document.getElementById("contract_client_form");
     document.querySelectorAll(".tr_contract").forEach(function (tr){
@@ -7,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function(){
             dropdown.querySelectorAll(".dropdown-item").forEach(function (item){
                 item.addEventListener("click",function (){
                     let input = dropdown.querySelector("input");
-                    input.value = this.innerText;
+                    input.value = capitalize(this.innerText.toLowerCase());
                     let form = document.getElementById("contract_update_form");
                     let pk_input = tr.querySelector("input[name='contract_template_pk']");
                     form.appendChild(input);

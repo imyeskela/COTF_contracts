@@ -3210,6 +3210,10 @@ function withinMaxClamp(min, value, max) {
 
 __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   var contract_client_form = document.getElementById("contract_client_form");
   document.querySelectorAll(".tr_contract").forEach(function (tr) {
@@ -3217,7 +3221,7 @@ document.addEventListener('DOMContentLoaded', function () {
       dropdown.querySelectorAll(".dropdown-item").forEach(function (item) {
         item.addEventListener("click", function () {
           var input = dropdown.querySelector("input");
-          input.value = this.innerText;
+          input.value = capitalize(this.innerText.toLowerCase());
           var form = document.getElementById("contract_update_form");
           var pk_input = tr.querySelector("input[name='contract_template_pk']");
           form.appendChild(input);
