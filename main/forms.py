@@ -50,7 +50,7 @@ class ContractTemplateCreateForm(forms.ModelForm):
 
 
 class ContractTemplateChangeForm(forms.ModelForm):
-    contract_pk = forms.IntegerField(widget=forms.HiddenInput, label='contract_pk')
+    contract_template_pk = forms.IntegerField(widget=forms.HiddenInput, label='contract_template_pk')
 
     class Meta:
         model = ContractTemplate

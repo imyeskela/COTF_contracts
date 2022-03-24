@@ -33,7 +33,6 @@ class ContractTemplateListAndCreateContractMixin:
     def post(self, request):
         form_contract = self.form_contract(request.POST)
         form_contract_template = self.form_contract_template(request.POST, request.FILES)
-        form_contract_template_change = self.form_contract_template_change(request.POST)
         if 'form_contract' in request.POST:
             if form_contract.is_valid():
                 contact_template_id = int(request.POST.get('contract_template'))
@@ -58,22 +57,21 @@ class ContractTemplateListAndCreateContractMixin:
                 return render(request, self.template_name,
                               {'form_contract_template': form_contract_template})
 
-        # elif 'status' in request.POST:
-        #     contract_template = get_template_contracts().get(pk=request.POST.get('contract_pk'))
-        #     form_contract_template_change = self.form_contract_template_change(request.POST, instance=contract_template)
-        #     print(request.POST.get('contract_pk'))
-        #     if form_contract_template_change.is_valid():
-        #         form_contract_template_change = form_contract_template_change.save(commit=False)
-        #
-        #         form_contract_template_change.save()
-        #
-        #         return redirect('contract_template_list')
-        elif 'status_contract' in request.POST:
-            # print(request.POST)
-            # contract_template = get_template_contracts().get(pk=request.POST.get('contract_pk'))
-            print(request.POST)
+        elif 'status' in request.POST:
+            contract_template = self.queryset.get(pk=request.POST.get('contract_template_pk'))
+            form_contract_template_change = self.form_contract_template_change(request.POST, instance=contract_template)
+            print(form_contract_template_change.is_valid())
+            if form_contract_template_change.is_valid():
+                form_contract_template_change = form_contract_template_change.save(commit=False)
+                form_contract_template_change.save()
 
-            return redirect('contract_template_list')
+                return redirect('contract_template_list')
+        # elif 'status_contract' in request.POST:
+        #     # print(request.POST)
+        #     # contract_template = get_template_contracts().get(pk=request.POST.get('contract_pk'))
+        #     print(request.POST)
+        #
+        #     return redirect('contract_template_list')
 
         return render(request, self.template_name, {'form_contract': form_contract,
                                                     })
