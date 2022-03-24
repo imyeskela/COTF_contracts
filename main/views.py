@@ -25,20 +25,20 @@ class ContractTemplateListAndCreateView(ContractTemplateListAndCreateContractMix
     template_name = 'contract_templates_list.html'
 
 
-class ContractCreateView(CreateView):
-
-    def get(self, request, *args, **kwargs):
-        context = {'form': ContractTemplateCreateForm()}
-        return render(request, 'contract_template_creation.html', context)
-
-    def post(self, request, *args, **kwargs):
-        form = ContractTemplateCreateForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            form = form.save(commit=False)
-            form.save()
-            return redirect('contract_template_list')
-        return render(request, 'contract_template_creation.html', {'form': form})
+# class ContractCreateView(CreateView):
+#
+#     def get(self, request, *args, **kwargs):
+#         context = {'form': ContractTemplateCreateForm()}
+#         return render(request, 'contract_templates_list.html', context)
+#
+#     def post(self, request, *args, **kwargs):
+#         form = ContractTemplateCreateForm(request.POST, request.FILES)
+#
+#         if form.is_valid():
+#             form = form.save(commit=False)
+#             form.save()
+#             return redirect('contract_template_list')
+#         return render(request, 'contract_templates_list.html', {'create_template': form})
 
 
 class ContractListView(ContractListMixin, View):

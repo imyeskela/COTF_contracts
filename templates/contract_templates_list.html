@@ -135,9 +135,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <h2>Создать договор</h2>
+
                 <form action="#" enctype="multipart/form-data" method="post">
                     <input name="csrfmiddlewaretoken" type="hidden" value="{{ csrf_token }}">
                     <input class="input" name="amount" placeholder="Сумма" type="number">
+
                     <select class="input" name="status">
                         <option value="Актуально">Актуально</option>
                         <option value="Устарело">Устарело</option>
@@ -158,6 +160,7 @@
                         <button class="btn" type="button">Отмена</button>
                         <button class="btn btn_grd">Отправить</button>
                     </div>
+
                 </form>
             </div>
         </div>
