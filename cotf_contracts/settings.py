@@ -41,9 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-
+    ''
     'main',
-    # 'channels',
 ]
 DJANGO_SETTINGS_MODULE = 'cotf_contracts.settings'
 MIDDLEWARE = [
@@ -79,8 +78,12 @@ WSGI_APPLICATION = 'cotf_contracts.wsgi.application'
 ASGI_APPLICATION = 'cotf_contracts.asgi.application'
 
 REDIS_HOST = 'localhost'
-REDIS_PORT = 6379
+REDIS_PORT = '6379'
 SITE_ID = 1
+
+BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 
 
 # Database
@@ -164,4 +167,4 @@ EMAIL_USE_TLS = False
 CONVERT_API_SECRET = 'iP4B37Pw0h0xIn9Y'
 
 ACCOUNT_SID = 'AC6f65f37bd09b88a8dd0e5078e973c738'
-AUTH_TOKEN = 'ed611f5550abc3819716ff25db90f361'
+AUTH_TOKEN = 'a6562c9a64b1c3354cfb8b8ed46890c4'

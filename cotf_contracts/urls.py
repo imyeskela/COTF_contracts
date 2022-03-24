@@ -16,7 +16,6 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from django.views.static import serve
 from cotf_contracts import settings
 from services.download import download
 
@@ -25,5 +24,3 @@ urlpatterns = [
     path('', include('main.urls')),
     path('download/<contract_number>', download, name='download')
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

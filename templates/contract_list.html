@@ -1,307 +1,212 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static 'admin.css' %}" class="css" />
-</head>
-<body>
 
-    <div class="admin_navbar">
-        <div class="admin_navbar_logo"><img src="{% static 'admin_img/cotf_logo.png' %}"></div>
-        <div class="admin_navbar_menu">
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/news.png' %}"></div>
-                <div class="item_link">Лента клуба</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/merop.png' %}"></div>
-                <div class="item_link">Мероприятия</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/messages.png' %}"></div>
-                <div class="item_link">Сообщения</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/forums.png' %}"></div>
-                <div class="item_link">Форумы</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/projs.png' %}"></div>
-                <div class="item_link">Проекты</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/travels.png' %}"></div>
-                <div class="item_link">Путешествия</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/pay.png' %}"></div>
-                <div class="item_link">Оплата</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/tasks.png' %}"></div>
-                <div class="item_link">Задачи</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator item_indicator_active"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/administration.png' %}"></div>
-                <div class="item_link item_link_active">Администрирование</div>
-            </div>
-        </div>
-    </div>
+{% block content %}
+<div class="content">
 
-    <div class="admin_content">
-
-        <div class="searchbar">
-            <div class="admin_panel_search">
-
-                <div class="admin_search_box">
-                    <div><img src="{% static 'admin_img/topabr/search_search.png' %}"></div>
-                    <input type="text" placeholder="Поиск...">
-                </div>
-
-                <div class="admin_search_control">
-                    <div><img src="{% static 'admin_img/topabr/peoples_search.png' %}"></div>
-                    <div><img src="{% static 'admin_img/topabr/calendar_search.png' %}"></div>
-                    <div><img src="{% static 'admin_img/topabr/news_search.png' %}"></div>
-                </div>
-
-            </div>
-
-            <div class="admin_panel_cab_link">
-                <div class="cab_link_col"><img src="{% static 'admin_img/topabr/colocol.png' %}"></div>
-                <div class="cab_link_photo"><img src="{% static 'admin_img/topabr/photo.png' %}"></div>
-                <div class="cab_link_dropdown"><img src="{% static 'admin_img/topabr/dropdown.png' %}"></div>
-            </div>
-        </div>
-
-        <div class="main_content">
-
-            <div class="admin_content_title">Договоры</div>
-
-            <div class="admin_content_control_panel">
-
-                <div class="admin_search" >
-                    <input type="text" placeholder="Поиск..." />
-                    <button><img src="{% static 'admin_img/search.png' %}"></button>
-                </div>
-
-                <div class="admin_template_link" ><a href="/">Договоры</a></div>
-                <div class="admin_contract_link active_link" ><a href="{% url 'contract_list' %}">Клиенты</a></div>
-
-                <div class="admin_create_template" onclick="open_new_template_popup()" ><a>+</a></div>
-
-            </div>
-
-            <div class="all_contract_wrapper">
-
-                <div class="all_contract">
-
-                    <div class="contract_table_header">
-                        <div class="contract_table_cell_link contract_table_cell"></div>
-                        <div class="contract_table_header_td">
-                            <div class="template_header_inner">
-                                <div>№ договора</div>
-                                <div>
-                                    <div class="sort_control ctrl_up">
-                                        <form method="GET" action=".">
-                                            <button type="submit" name="contract_number_max" value="contract_number_max">
-                                                <div class="arrow_up"></div>
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="sort_control ctrl_down">
-                                        <form method="GET" action=".">
-                                            <button type="submit" name="contract_number_min" value="contract_number_min">
-                                                <div class="arrow_down"></div>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
+    <div class="table-container container-fluid">
+        {% include 'common/table_navbar.html' %}
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                <tr>
+                    <td style="min-width: 54px;"></td>
+                    <td style="min-width: 125px;">
+                        <div class="table_title">
+                            <span class="col-title">№ договора</span>
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
                             </div>
                         </div>
-                        <div class="contract_table_header_td">Идентификатор</div>
-                        <div class="contract_table_header_td">ФИО</div>
-                        <div class="contract_table_header_td">Паспортные данные</div>
-                        <div class="contract_table_header_td">Email</div>
-                        <div class="contract_table_header_td">Мобильный телефон</div>
-                        <div class="contract_table_header_td">Договор</div>
-                        <div class="contract_table_header_td">Сумма</div>
-                        <div class="contract_table_header_td">
-                            <div class="template_header_inner">
-                                <div>Дата создания</div>
-                                <div>
-                                    <div class="sort_control ctrl_up">
-                                        <form method="GET" action=".">
-                                            <button type="submit" name="date_created_max" value="date_created_max">
-                                                <div class="arrow_up"></div>
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="sort_control ctrl_down">
-                                        <form method="GET" action=".">
-                                            <button type="submit" name="date_created_min" value="date_created_min">
-                                                <div class="arrow_down"></div>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
+                    </td>
+                    <td style="min-width: 143px;">
+                        <div class="table_title">
+                            <span class="col-title">Идентификатор</span>
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
                             </div>
                         </div>
-                        <div class="contract_table_header_td">
-                            <div class="template_header_inner">
-                                <div>Дата подписания</div>
-                                <div>
-                                    <div class="sort_control ctrl_up">
-                                        <form method="GET" action=".">
-                                            <button type="submit" name="date_signed_max" value="date_signed_max">
-                                                <div class="arrow_up"></div>
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="sort_control ctrl_down">
-                                        <form method="GET" action=".">
-                                            <button type="submit" name="date_signed_min" value="date_signed_min">
-                                                <div class="arrow_down"></div>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
+                    </td>
+                    <td style="min-width: 200px;">
+                        <div class="table_title">
+                            <span class="col-title">ФИО</span>
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
                             </div>
                         </div>
-                        <div class="contract_table_header_td">
-                            <div class="template_header_inner">
-                                <div>Статус</div>
-                                <div>
-                                    <div class="sort_control ctrl_up">
-                                        <form method="GET" action=".">
-                                            <button type="submit" name="status_max" value="status_max">
-                                                <div class="arrow_up"></div>
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="sort_control ctrl_down">
-                                        <form method="GET" action=".">
-                                            <button type="submit" name="status_min" value="status_min">
-                                                <div class="arrow_down"></div>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
+                    </td>
+                    <td style="min-width: 133px;">
+                        <div class="table_title">
+                            <span class="col-title">Паспортные<br>данные</span>
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
                             </div>
                         </div>
-                        <div class="contract_table_header_td"></div>
-                    </div>
-
-                    {% for contracts in contract_list %}
-
-                    <div class="contract_table_row">
-
-                        <div class="contract_table_cell_link contract_table_cell">
-                            <a href="{{ contracts.get_absolute_url }}">
-                                <img src="{% static 'admin_img/link_templ_creation.png' %}">
-                            </a>
+                    </td>
+                    <td style="min-width: 180px;">
+                        <div class="table_title">
+                            <span class="col-title">Email</span>
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
                         </div>
-
-                        <div class="contract_table_cell">{{ contracts.number }}</div>
-                        <div class="contract_table_cell">{{ contracts.identifier }}</div>
-                        <div class="contract_table_cell">{{ contracts.full_name }}</div>
-                        <div class="contract_table_cell">{{ contracts.passport }}</div>
-                        <div class="contract_table_cell">{{ contracts.email }}</div>
-                        <div class="contract_table_cell">{{ contracts.phone }}</div>
-                        <div class="contract_table_cell">l</div>
-                        <div class="contract_table_cell">{{ contracts.amount }}</div>
-                        <div class="contract_table_cell">{{ contracts.date_created }}</div>
-                        <div class="contract_table_cell">{{ contracts.date_signed }}</div>
-                        <div class="contract_table_cell">{{ contracts.status }}</div>
-                        <div class="contract_table_cell"><a href="{% url 'download' contract_number=contracts.number %}">
-                            <img src="{% static 'admin_img/doawloads.svg' %}">
+                    </td>
+                    <td style="min-width: 170px;">
+                        <div class="table_title">
+                            <span class="col-title">Мобильный телефон</span>
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
                         </div>
-
-                    </div>
-
-                    {% endfor %}
-
-                </div>
-
-            </div>
-
-            <div class="admin_template_paginator">
-                    {% if contract_list.has_previous %}
-                        <div class="paginator_prev page_prev">
-                                    <a href="?page={{ contract_list.previous_page_number }}">&lt;Пред.</a>
+                    </td>
+                    <td style="min-width: 137px;">
+                        <div class="table_title">
+                            <span class="col-title">Договор</span>
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
                         </div>
-                    {% endif %}
-
-
-
-                    <div class="page_number active_page">
-                        {{ contract_list.number }}
-                    </div>
-
-                        <div class="page_number">
-                            {% if contract_list.has_next %}
-                            <a href="?page={{ contract_list.number|add:1 }}">
-                                {{ contract_list.number|add:1 }}
-                            </a>
+                    </td>
+                    <td style="min-width: 90px;">
+                        <div class="table_title">
+                            <span class="col-title">Сумма</span>
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="min-width: 120px;">
+                        <div class="table_title">
+                            <span class="col-title">Дата<br>генерации</span>
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="min-width: 113px;">
+                        <div class="table_title">
+                            <span class="col-title">Дата<br>подписания</span>
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="min-width: 110px;">
+                        <div class="table_title">
+                            <span class="col-title">Статус</span>
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for contracts in contracts_client %}
+                <tr class="tr_contracts_client" data-pk="{{ contracts.pk }}">
+                    <td>
+                        <div class="url_copy_btn">
+                            <img src="{% static 'icon/file.svg' %}">
+                            <input name="contract_url" type="hidden" value="random_url">
+                            <div class="alert">Ссылка скопирована</div>
+                        </div>
+                    </td>
+                    <td>#{{ contracts.number }}</td>
+                    <td class="light">{{ contracts.identifier }}</td>
+                    <td class="light">{{ contracts.full_name }}</td>
+                    <td class="light">{{ contracts.passport }}</td>
+                    <td class="light">{{ contracts.email }}</td>
+                    <td class="light">{{ contracts.phone }}</td>
+                    <td class="light">Имя договора</td>
+                    <td class="light">{{ contracts.amount }}</td>
+                    <td class="light">{{ contracts.date_created }}</td>
+                    <td class="light">{{ contracts.date_signed }}</td>
+                    <td class="light">
+                        <div class="status_box">
+                            <i class="icon-more"></i>
+                            {% if contracts.status == "Подписан" %}
+                                <button class="btn btn_cyan">{{ contracts.status }}</button>
+                            {% elif contracts.status == "Направлен" %}
+                                <button class="btn btn_yellow">{{ contracts.status }}</button>
+                            {% elif contracts.status == "Аннулирован" %}
+                                <button class="btn btn_gray">{{ contracts.status }}</button>
+                            {% else %}
+                                <button class="btn btn_pink">{{ contracts.status }}</button>
                             {% endif %}
-                    </div>
-
-
-
-                    <div class="page_number">
-                        {% if contract_list.has_next %}
-                            <a href="?page={{ contract_list.number|add:2 }}">
-                                {{ contract_list.number|add:2 }}
-                            </a>
-                        {% endif %}
-                    </div>
-
-
-                {% if contract_list.has_next %}
-                    <div class="paginator_next page_next">
-                         <a href="?page={{ contract_list.next_page_number }}">След.&gt;</a>
-                    </div>
-                {% endif %}
-            </div>
-
+                            <div class="cancel">
+                                <i class="icon-otkaz"></i>
+                                <span>Отказ</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="light"><a class="download_button" href="#"><img src="{% static 'icon/download.svg' %}"></a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
-
-    </div>
-
-    <div class="new_template_popup" id="new_template_popup">
-        <div class="template_popup">
-            <div class="template_popup_title">Создать договор</div>
-            <form action="" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form_contract_template.as_p }}
-                <div class="popup_btn_div">
-                    <div onclick="close_new_template_popup()" class="cancel_btn">Отмена</div>
-                    <button type="submit" class="send_template_btn">Отправить</button>
-                </div>
-            </form>
+        <div class="d-flex justify-content-end">
+            {% include 'common/pagination.html' with items=contracts_client %}
         </div>
     </div>
-
-    <script>
-        function open_new_template_popup() {
-            document.getElementById('new_template_popup').style.display = 'flex';
-        }
-
-        function close_new_template_popup() {
-            document.getElementById('new_template_popup').style.display = 'none';
-        }
-    </script>
-
-
-</body>
-</html>
+    <form action="#" id="contract_client_form" method="POST">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    </form>
+</div>
+{% endblock %}

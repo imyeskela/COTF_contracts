@@ -1,299 +1,169 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static 'admin.css' %}" class="css" />
-</head>
-<body>
 
-    <div class="admin_navbar">
-        <div class="admin_navbar_logo"><img src="{% static 'admin_img/cotf_logo.png' %}"></div>
-        <div class="admin_navbar_menu">
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/news.png' %}"></div>
-                <div class="item_link">Лента клуба</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/merop.png' %}"></div>
-                <div class="item_link">Мероприятия</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/messages.png' %}"></div>
-                <div class="item_link">Сообщения</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/forums.png' %}"></div>
-                <div class="item_link">Форумы</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/projs.png' %}"></div>
-                <div class="item_link">Проекты</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/travels.png' %}"></div>
-                <div class="item_link">Путешествия</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/pay.png' %}"></div>
-                <div class="item_link">Оплата</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/tasks.png' %}"></div>
-                <div class="item_link">Задачи</div>
-            </div>
-            <div class="admin_navbar_menu_item">
-                <div class="item_indicator item_indicator_active"></div>
-                <div class="item_logo"><img src="{% static 'admin_img/panel/administration.png' %}"></div>
-                <div class="item_link item_link_active">Администрирование</div>
-            </div>
+{% block content %}
+<div class="content">
+    <div class="container-fluid">
+        <div class="page-title">
+            <a class="back" href="{% url 'contract_template_list' %}"><i class="icon-remove"></i></a>
+            <h1>Договоры</h1>
         </div>
     </div>
+    <div class="table-container container-fluid">
+        {% include 'common/table_navbar.html' %}
 
-    <div class="admin_content">
-
-        <div class="searchbar">
-            <div class="admin_panel_search">
-
-                <div class="admin_search_box">
-                    <div><img src="{% static 'admin_img/topabr/search_search.png' %}"></div>
-                    <input type="text" placeholder="Поиск...">
-                </div>
-
-                <div class="admin_search_control">
-                    <div><img src="{% static 'admin_img/topabr/peoples_search.png' %}"></div>
-                    <div><img src="{% static 'admin_img/topabr/calendar_search.png' %}"></div>
-                    <div><img src="{% static 'admin_img/topabr/news_search.png' %}"></div>
-                </div>
-
-            </div>
-
-            <div class="admin_panel_cab_link">
-                <div class="cab_link_col"><img src="{% static 'admin_img/topabr/colocol.png' %}"></div>
-                <div class="cab_link_photo"><img src="{% static 'admin_img/topabr/photo.png' %}"></div>
-                <div class="cab_link_dropdown"><img src="{% static 'admin_img/topabr/dropdown.png' %}"></div>
-            </div>
-        </div>
-
-        <div class="main_content">
-
-            <div class="admin_content_title">Договоры</div>
-
-            <div class="admin_content_control_panel">
-
-                <div class="admin_search" >
-                    <input type="text" placeholder="Поиск..." />
-                    <button><img src="{% static 'admin_img/search.png' %}"></button>
-                </div>
-
-                <div class="admin_template_link active_link" ><a href="/">Договоры</a></div>
-                <div class="admin_contract_link" ><a href="{% url 'contract_list' %}">Клиенты</a></div>
-
-                <div class="admin_create_template" onclick="open_new_template_popup()" ><a>+</a></div>
-
-            </div>
-
-            <div class="all_templates">
-
-                <div class="template_table_header">
-                    <div class="template_table_header_td first_col_template first_td">
-                        <div class="template_header_inner">
-                            <div>Название</div>
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                <tr>
+                    <td style="min-width: 200px;">
+                        <div class="table_title">
+                            Название
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="template_table_header_td second_col_template second_td">
-                        <div class="template_header_inner">
-                            <div>Договор</div>
+                    </td>
+                    <td style="min-width: 150px;">
+                        <div class="table_title">
+                            Договор
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="template_table_header_td third_col_template third_td">
-                        <div class="template_header_inner">
-                            <div>Статус</div>
+                    </td>
+                    <td style="min-width: 170px;">
+                        <div class="table_title">
+                            Статус
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="template_table_header_td fourth_col_template fourth_td">
-                        <div class="template_header_inner">
-                            <div>Идентификатор</div>
+                    </td>
+                    <td>
+                        <div class="table_title">
+                            Идентификатор
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="template_table_header_td fifth_col_template fifth_td">
-                        <div class="template_header_inner">
-                            <div>Сумма</div>
+                    </td>
+                    <td>
+                        <div class="table_title">
+                            Сумма
+                            <div class="sort_controls">
+                                <a class="up" href="#">
+                                    <i class="icon-arrow_up"></i>
+                                </a>
+                                <a class="down" href="#">
+                                    <i class="icon-arrow_down"></i>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </td>
+                    <td style="min-width: 50px;"></td>
+                </tr>
+                </thead>
+                <tbody>
 
-                {% for contracts in contract_template_list %}
 
-                <div class="template_table_row">
 
-                    <form action="" method="post" id="contract_template_list_form" enctype="multipart/form-data">
-
-                        <div class="template_table_cell first_col_template first_td">{{ contracts.name }}</div>
-                        <div class="template_table_cell second_col_template second_td">{{ contracts.pk }}</div>
-
-{#                        <!-- <div class="template_table_cell third_col_template third_td">{{ contracts.status }}</div> -->#}
-                        <div class="template_table_cell third_col_template third_td">
-{#                            <div class="hidden_status_input" style="display:none">{{contracts.status}}</div>#}
-{#                            <!-- <div class="hidden_status_input" style="display:none">Устарело</div> -->#}
-{#                            <input type="hidden" name="contract_pk" value="{{ contracts.pk }}">#}
-{#                            {{ form_contract_template_change.status }}#}
-{#                            <button type="submit" name="status_contract">d</button>#}
-
-{#                               <input type="hidden">#}
-                                <select name="status_contract" id="status_{{ contracts.pk }}">
-                                    <option value="{{ contracts.status }}">{{ contracts.status }}</option>
-                                    {% if contracts.status == 'Актуально' %}
-                                        <option value="Устарело">
-                                            Устарело
-                                        </option>
-                                    {% elif contracts.status == 'Устарело' %}
-                                        <option value="Актуально">
-                                            Актуально
-                                        </option>
-                                    {% endif %}
-                                </select>
-                        </div>
-
-                        <!-- <div class="template_table_cell"><input type="hidden" name="contract_template" value="{{ contracts.pk }}"></div> -->
-                        <input type="hidden" name="contract_template" value="{{ contracts.pk }}">
-
-                        <div class="template_table_cell fourth_col_template fourth_td">{{ form_contract.full_name }}</div>
-
-                        {% if contracts.amount != 0 %}
-                        <div class="template_table_cell fifth_col_template fifth_td"><input name="amount_bitch" value="{{ contracts.amount }}"></div>
-                        {% endif %}
-
-                        <!-- <form> -->
-
-                            {% csrf_token %}
-
-                            <!-- {{ form_contract.as_p }} -->
-
-                            <!-- {{ form_contract.amount_bitch }} -->
-
-                            <div class="template_table_cell create_template_btn"><button type="submit" name="form_contract">
-                                <img src="{% static 'admin_img/link_templ_creation.png' %}">
-                            </button></div>
-
-                        <!-- </form> -->
-
-                    </form>
-
-                </div>
-
+                {% for contract in contract_template_list %}
+                <tr class="tr_contract">
+                        <input name="pk" type="hidden" value="{{ contract.pk }}">
+                        <td>{{ contract.name }}</td>
+                        <td class="light">Договор {{ contract.pk }}</td>
+                        <td>
+                            <div class="dropdown">
+                                <input type="hidden" name="status" value="{{ contract.status }}">
+                                <button aria-expanded="false"
+                                        class="btn {% if contract.status == 'актуально' %}btn_cyan{% else %}btn_gray{% endif %}" data-bs-toggle="dropdown" data-id="status_{{ contract.pk }}"
+                                        id="status_button">
+                                    {{ contract.status }}
+                                    <i class="icon-select"></i>
+                                </button>
+                                <ul aria-labelledby="status_button" class="dropdown-menu">
+                                    <li><a class="dropdown-item">Актуально</a></li>
+                                    <li><a class="dropdown-item">Устарело</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <input class="input input-id" name="identifier" value="{{ contract.full_name }}">
+                        </td>
+                        <td>
+                            <input class="input input-sum" name="amount" value="{{ contract.amount }}">
+                        </td>
+                        <td>
+                            <div class="url_copy_btn">
+                                <img src="{% static 'icon/file.svg' %}">
+                                <input name="contract_url" type="hidden" value="random_url">
+                                <div class="alert">Ссылка скопирована</div>
+                            </div>
+                        </td>
+                </tr>
                 {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-end">
+            {% include 'common/pagination.html' with items=contract_template_list %}
+        </div>
+    </div>
 
-            </div>
-
-            <div class="admin_template_paginator">
-
-                {% if contract_template_list.has_previous %}
-                    <div class="paginator_prev page_prev">
-                                <a href="?page={{ contract_template_list.previous_page_number }}">&lt;Пред.</a>
+    <div class="modal fade" id="contract_add_modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <h2>Создать договор</h2>
+                <form action="#" enctype="multipart/form-data" method="post">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    <input type="number" placeholder="Сумма" name="amount" class="input">
+                    <select class="input" name="status">
+                        <option value="Актуально">Актуально</option>
+                        <option value="Устарело">Устарело</option>
+                    </select>
+                    <select class="input" name="type">
+                        <option>---------</option>
+                        <option value="Основной">Основной</option>
+                        <option value="Продление">Продление</option>
+                    </select>
+                    <select class="input" name="company">
+                        <option>---------</option>
+                        <option value='ООО "КМС"'>ООО "КМС"</option>
+                        <option value='ООО "ДЕЛОВОЙ КЛУБ"'>ООО "ДЕЛОВОЙ КЛУБ"</option>
+                    </select>
+                    <label for="template_of_contract">+ Загрузить договор</label>
+                    <input id="template_of_contract" name="template_of_contract" type="file">
+                    <div class="buttons">
+                        <button class="btn" type="button">Отмена</button>
+                        <button class="btn btn_grd">Отправить</button>
                     </div>
-                {% endif %}
-
-
-
-                <div class="page_number active_page">
-                    {{ contract_template_list.number }}
-                </div>
-
-                    <div class="page_number">
-                        {% if contract_template_list.has_next %}
-                        <a href="?page={{ contract_template_list.number|add:1 }}">
-                            {{ contract_template_list.number|add:1 }}
-                        </a>
-                        {% endif %}
-                </div>
-
-
-
-                <div class="page_number">
-                    {% if contract_template_list.has_next %}
-                        <a href="?page={{ contract_template_list.number|add:2 }}">
-                            {{ contract_template_list.number|add:2 }}
-                        </a>
-                    {% endif %}
-                </div>
-
-
-            {% if contract_template_list.has_next %}
-                <div class="paginator_next page_next">
-                     <a href="?page={{ contract_template_list.next_page_number }}">След.&gt;</a>
-                </div>
-            {% endif %}
+                </form>
             </div>
-
-
         </div>
-
     </div>
-
-    <div class="new_template_popup" id="new_template_popup">
-        <div class="template_popup">
-            <div class="template_popup_title">Создать договор</div>
-            <form action="" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-
-                <div class="form_contract_template_field">{{ form_contract_template.amount }}</div>
-                <div class="form_contract_template_field">{{ form_contract_template.status }}</div>
-                <div class="form_contract_template_field">{{ form_contract_template.type }}</div>
-                <div class="form_contract_template_field">{{ form_contract_template.company }}</div>
-
-                <div class="form_contract_template_field template_of_contract">
-                    <label for="id_template_of_contract">+ Загрузить договор</label>
-                    {{ form_contract_template.template_of_contract }}
-                </div>
-
-                <div class="popup_btn_div">
-                    <div onclick="close_new_template_popup()" class="cancel_btn">Отмена</div>
-                    <button type="submit" name='form_contract_template' class="send_template_btn">Отправить</button>
-                </div>
-
-            </form>
-        </div>
-
-    </div>
-
-    <script>
-        function open_new_template_popup() {
-            document.getElementById('new_template_popup').style.display = 'flex';
-        }
-
-        function close_new_template_popup() {
-            document.getElementById('new_template_popup').style.display = 'none';
-        }
-        {% for contracts in contract_template_list %}
-        function send_form() {
-            const $select_group = document.getElementsByTagName('select')
-            for ( let i = 0; i < $select_group.length; i++ ) {
-                const $el = $select_group[i]
-                if ( Array.from($el.parentElement.classList).includes('template_table_cell') ){
-                    $el.addEventListener("change", function() { console.log("send form"); document.getElementById('contract_template_list_form').submit() })
-                    if ( $el.id === 'status_{{ contracts.pk }}' )
-                    {
-                        if ( Array.from( $el.parentNode.classList ).includes('template_table_cell') )
-                            $el.value = $el.parentNode.querySelector('.hidden_status_input').innerText
-                    }
-                }
-            }
-        }
-        {% endfor %}
-
-        document.addEventListener("DOMContentLoaded", send_form);
-
-    </script>
-
-</body>
-</html>
+    <form action="" id="contract_update_form" method="POST">
+        <input name="csrfmiddlewaretoken" type="hidden" value="{{ csrf_token }}">
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% load static %}
+
+<div class="nav d-flex">
+    <div class="nav-left d-flex justify-content-between">
+        <div class="search-box w-100">
+            <i class="icon-search"></i>
+            <input class="search" placeholder="Поиск..." name="search">
+        </div>
+        <div class="icons d-flex">
+            <a href="#"><i class="icon-users"></i></a>
+            <a href="#"><i class="icon-calendar"></i></a>
+            <a href="#"><i class="icon-info"></i></a>
+        </div>
+    </div>
+    <div class="nav-right">
+        <i class="icon-notifications"></i>
+        <div class="profile">
+            <img src="{% static 'icon/man.png' %}">
+            <i class="icon-select"></i>
+        </div>
+    </div>
+</div>

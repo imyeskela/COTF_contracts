@@ -1,0 +1,57 @@
+<nav class="nav-pagination">
+    <ul class="pagination">
+        {% if items.has_previous %}
+        <li class="page-item">
+            <a aria-disabled="true" class="page-link pag-btn"
+               href="?page={{ items.previous_page_number }}" tabindex="-1">
+                <i class="icon-arrow_left"></i>Пред.</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item">
+            {% if items.number|add:-2 > 0 and items.number|add:-2 <= items.paginator.num_pages %}
+            <a class="page-link" href="?page={{ items.number|add:-2 }}">
+                {{ items.number|add:-2 }}
+            </a>
+            {% endif %}
+        </li>
+
+        <li aria-current="page" class="page-item">
+            {% if items.has_previous %}
+            <a class="page-link" href="?page={{ items.number|add:-1 }}">
+                {{ items.number|add:-1 }}
+            </a>
+            {% endif %}
+        </li>
+
+        {% if items.paginator.num_pages > 1 %}
+        <li class="page-item active"><a class="page-link" href="#">
+            {{ items.number }}
+        </a></li>
+        {% endif %}
+
+        <li aria-current="page" class="page-item">
+            {% if items.has_next %}
+            <a class="page-link" href="?page={{ items.number|add:1 }}">
+                {{ items.number|add:1 }}
+            </a>
+            {% endif %}
+        </li>
+
+        <li class="page-item">
+            {% if items.number|add:2 <= items.paginator.num_pages %}
+            <a class="page-link" href="?page={{ items.number|add:2 }}">
+                {{ items.number|add:2 }}
+            </a>
+            {% endif %}
+        </li>
+
+        {% if items.has_next %}
+        <li class="page-item">
+            <a class="page-link pag-btn" href="?page={{ items.next_page_number }}">
+                След.<i class="icon-arrow_right"></i>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>

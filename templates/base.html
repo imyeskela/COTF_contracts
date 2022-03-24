@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta charset="UTF-8">
+    <link class="css" href="{% static 'css/lib.css' %}" rel="stylesheet"/>
+    <link class="css" href="{% static 'css/app.css' %}" rel="stylesheet"/>
+    <title>Клуб Первых</title>
+</head>
+<body>
+<div class="left-menu">
+    <div class="logo">
+        <img src="{% static 'logo.png' %}">
+    </div>
+    <ul class="menu">
+
+        <li class="{% if request.path == '/events/' %}active{% endif %}">
+            <a href="#">
+                <i class="icon-events"></i>
+                <span>Мероприятия</span>
+            </a>
+        </li>
+        <li class="{% if request.path == '/messages/' %}active{% endif %}">
+            <a href="#">
+                <i class="icon-message"></i>
+                <span>Сообщения</span>
+            </a>
+        </li>
+        <li class="{% if request.path == '/forum/' %}active{% endif %}">
+            <a href="#">
+                <i class="icon-forum"></i>
+                <span>Форумы</span>
+            </a>
+        </li>
+        <li class="{% if request.path == '/projects/' %}active{% endif %}">
+            <a href="#">
+                <i class="icon-proekti"></i>
+                <span>Проекты</span>
+            </a>
+        </li>
+        <li class="{% if request.path == '/trips/' %}active{% endif %}">
+            <a href="#">
+                <i class="icon-map"></i>
+                <span>Путешествия</span>
+            </a>
+        </li>
+        <li class="{% if request.path == '/payment/' %}active{% endif %}">
+            <a href="#">
+                <i class="icon-oplata"></i>
+                <span>Оплата</span>
+            </a>
+        </li>
+        <li class="{% if request.path == '/tasks/' %}active{% endif %}">
+            <a href="#">
+                <i class="icon-zadachi"></i>
+                <span>Задачи</span>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+<div class="main-content">
+    {% include 'common/navbar.html' %}
+    {% block content %}
+    {% endblock %}
+</div>
+
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+<script src="{% static 'js/app.js' %}"></script>
+
+</body>
+</html>

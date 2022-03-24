@@ -2,414 +2,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static '/mobile/mobile.css' %}" class="css" />
-    <title>Title {{ contract.number }}</title>
+    <link class="css" href="{% static 'css/lib.css' %}" rel="stylesheet"/>
+    <link class="css" href="{% static 'css/app.css' %}" rel="stylesheet"/>
+    <title>Контракт {{ contract.number }}</title>
 </head>
-
 <body>
-
-<div class="quest">
-
-<form action="" method="post" enctype="multipart/form-data" id="main_mobile_form">
-
-    {% csrf_token %}
-
-    <div class="quest_first"
-
-        {% if not docx_base and not img_base %}
-            style="display: block;"
-        {% else %}
-            style="display: none;"
-        {% endif %}
-    
-    >
-
-        <div class="quest_title">Договор оказания услуг</div>
-
-        <div class="progress_bar">
-            <div class="step_title">Шаг 1/4. Заполнение данных</div>
-            <div class="steps_progress">
-                <div class="step_progress step_progress_active">1</div>
-                <div class="step_progress_filler" ></div>
-                <div class="step_progress">2</div>
-                <div class="step_progress_filler" ></div>
-                <div class="step_progress">3</div>
-                <div class="step_progress_filler" ></div>
-                <div class="step_progress">4</div>
-            </div>
-        </div>
-
-        <div class="quest_first_step_input">
-            <div class="quest_first_step_input_label">Фамилия*</div>
-            <div class="quest_first_step_input_input">{{ form.last_name }}</div>
-        </div>
-
-        <div class="quest_first_step_input">
-            <div class="quest_first_step_input_label">Имя*</div>
-            <div class="quest_first_step_input_input">{{ form.name }}</div>
-        </div>
-
-        <div class="quest_first_step_input">
-            <div class="quest_first_step_input_label">Отчество</div>
-            <div class="quest_first_step_input_input">{{ form.sur_name }}</div>
-        </div>
-
-        <div class="quest_first_step_input">
-            <div class="quest_first_step_input_label">Серия и номер паспорта*</div>
-            <div class="quest_first_step_input_input">{{ form.passport }}</div>
-        </div>
-
-        <div class="quest_first_step_input">
-            <div class="quest_first_step_input_label">Email*</div>
-            <div class="quest_first_step_input_input">{{ form.email }}</div>
-        </div>
-
-        <div class="quest_first_step_input item_checkbox">
-            <label class="myCheckbox">
-                {{ form.check_box }}
-                <span class="mySuperSpan"></span>
-            </label>
-            <div class="quest_first_step_input_label_info">Я согласен на обработку персональных данных</div>
-        </div>
-
-        <div class="quest_first_step_input">
-            <div class="quest_first_step_input_label">Мобильный телефон*</div>
-            <div class="quest_first_step_input_input">{{ form.phone }}</div>
-        </div>
-
-        <div class="btn_div" id="submit_btn_code_sms" >
-            <button type="submit" name="code" class="btn" >Отправить код</button>
-        </div>
-
-        <div class="quest_first_step_input" id="input_code_sms" style="display:none" >
-            <div class="quest_first_step_input_label">Введите код</div>
-            <div class="quest_first_step_input_input">{{ form.code }}</div> <!-- CODE ? -->
-        </div>
-
-        <div class="quest_first_step_send_code_again" id="quest_first_step_send_code_again" style="display:none" >
-            <span id="send_again_span">Отправить код повторно</span> <span id="send_again_timer">через 30 секунд</span>
-        </div>
-
-        <div class="btn_div" id="submit_contract" style="display:none" >
-            <button type="submit" name="docx" class="btn" >Сформировать договор</button>
-        </div>
-
-        <div id="timer" style="display:none">{{time_sms}}</div>
-        <!-- <div id="timer" style="display:none">1636462574</div> -->
-
-    </div>
-
-    
-    <div class="quest_second" id="contract_preview_and_sign"
-
-        {% if docx_base %}
-            style="display: block;"
-        {% else %}
-            style="display: none;"
-        {% endif %}
-    
-    >
-
-        <div class="quest_title">Договор оказания услуг</div>
-
-        <div class="progress_bar">
-            <div class="step_title">Шаг 2/4. Договор</div>
-            <div class="steps_progress">
-                <div class="step_progress step_progress_active">
-                    <img src="{% static '/mobile/img/progress_check.png' %}">
+<div class="wizard-wrapper" id="wizard">
+    <div class="container">
+        <form action="" method="post" enctype="multipart/form-data" id="main_mobile_form">
+            {% csrf_token %}
+            <div class="wizard">
+            <h1>Договор оказания услуг</h1>
+            <nav>
+                <div class="nav nav-tabs" role="tablist">
+                    <button class="nav-link active" id="nav-1-tab" data-bs-toggle="tab" data-bs-target="#nav-1"
+                            type="button" role="tab" aria-controls="nav-1" aria-selected="true"><img
+                            src="{% static 'icon/check.svg' %}"><span>1</span></button>
+                    <div class="line"></div>
+                    <button class="nav-link" id="nav-2-tab" data-bs-toggle="tab" data-bs-target="#nav-2" type="button"
+                            role="tab" aria-controls="nav-2" aria-selected="false"><img
+                            src="{% static 'icon/check.svg' %}"><span>2</span></button>
+                    <div class="line"></div>
+                    <button class="nav-link" id="nav-3-tab" data-bs-toggle="tab" data-bs-target="#nav-3" type="button"
+                            role="tab" aria-controls="nav-3" aria-selected="false"><img
+                            src="{% static 'icon/check.svg' %}"><span>3</span></button>
+                    <div class="line"></div>
+                    <button class="nav-link" id="nav-4-tab" data-bs-toggle="tab" data-bs-target="#nav-4" type="button"
+                            role="tab" aria-controls="nav-4" aria-selected="false"><img
+                            src="{% static 'icon/check.svg' %}"><span>4</span></button>
+                    <button class="nav-link d-none" id="nav-5-tab" data-bs-toggle="tab" data-bs-target="#nav-5"
+                            type="button" role="tab" aria-controls="nav-5" aria-selected="false"></button>
                 </div>
-                <div class="step_progress_filler step_progress_filler_active" ></div>
-                <div class="step_progress step_progress_active">2</div>
-                <div class="step_progress_filler" ></div>
-                <div class="step_progress">3</div>
-                <div class="step_progress_filler" ></div>
-                <div class="step_progress">4</div>
-            </div>
-        </div>
+            </nav>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="nav-1" role="tabpanel" aria-labelledby="nav-1-tab">
+                    <p class="step">Шаг 1/4. Заполнение данных</p>
+                    <div class="form">
+                        <div class="form-group">
+                            <label for="id_last_name">Фамилия*</label><br>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_name">Имя*</label>
+                            {{ form.name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_sur_name">Отчество</label>
+                            {{ form.sur_name }}
+                        </div>
+                        <div class="d-flex">
+                            <div class="form-group passport">
+                                <label for="id_series">Серия паспорта*</label>
+                                {{ form.series }}
+                            </div>
+                            <div class="form-group">
+                                <label for="id_passport">Номер паспорта*</label>
+                                {{ form.passport }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_email">Email*</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="form-group checkbox">
+                            {{ form.check_box }}
+                            <label for="id_check_box" class="fake_checkbox"><img src="{% static 'icon/check.svg' %}"> </label>
+                            <span class="label"> Я согласен на <a href="#">обработку персональных данных</a></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_phone">Мобильный телефон*</label>
+                            {{ form.phone }}
+                        </div>
 
-        <div class="quest_second_contract_box">
-            <div class="quest_second_contract_preview">
-                {{ docx_base }}
-            </div>
-        </div>
-        <div class="btn_div">
-            <!-- <button class="btn">Принимаю условия договора</button> -->
-            <button onclick='accep_contract(event)' class="btn">Принимаю условия договора</button>
-        </div>
+                        <button class="btn btn_grd btn_send_sms btn_sms" type="submit" name="code">Отправить код</button>
 
-    </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="id_code">Введите код</label>
+                                {{ form.code }}
+                            </div>
+                            <div class="code_1">
+                                <a class="btn_send_sms" href="#">Отправить код повторно</a><span>через <span id="timer"></span> секунд</span>
+                            </div>
+                            <button class="btn btn_grd btn_check_code" type="submit" name="docx">Сформировать договор</button>
+                        </div>
 
-    
-    <div class="quest_third"  id="contract_sign" style="display: none;" >
-
-        <div class="quest_title">Договор оказания услуг</div>
-
-        <div class="progress_bar">
-            <div class="step_title">Шаг 3/4. Подпись</div>
-            <div class="steps_progress">
-                <div class="step_progress step_progress_active">
-                    <img src="{% static '/mobile/img/progress_check.png' %}">
-                </div>
-                <div class="step_progress_filler step_progress_filler_active" ></div>
-                <div class="step_progress step_progress_active">
-                    <img src="{% static '/mobile/img/progress_check.png' %}">
-                </div>
-                <div class="step_progress_filler step_progress_filler_active" ></div>
-                <div class="step_progress step_progress_active">3</div>
-                <div class="step_progress_filler" ></div>
-                <div class="step_progress">4</div>
-            </div>
-        </div>
-
-        <div class="sign_title">Поставьте свою подпись, используя сенсорный ввод</div>
-
-        <div class="quest_third_sign_box">
-            <div class="quest_second_contract_preview">
-                <div class="canvas_content" id="sketch">
-                    <div id="sketch">
-                        <canvas id="paint"></canvas>
                     </div>
                 </div>
-                <div class="clear_canvas" onclick="onclear()">Стереть</div>
+                <div class="tab-pane fade" id="nav-2" role="tabpanel" aria-labelledby="nav-2-tab">
+                    <p class="step">Шаг 2/4. Договор</p>
+                    <div class="treaty">
+                        <div class="treaty_1">
+                            <h2>Договор №4895764983673 о текст текст текст текст текст от 02.06.2021г.</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nibh leo, varius sed feugiat
+                                consequat, facilisis pellentesque dui. Praesent et enim maximus, rhoncus nisi eget,
+                                faucibus velit. Nunc hendrerit ex leo, ac rutrum est pretium et. In ut imperdiet lectus,
+                                et ultrices lorem. Integer ultricies a arcu vitae rutrum. Ut ullamcorper magna ac
+                                blandit feugiat. Nullam tempor purus ex, vitae pellentesque lorem dapibus quis. In enim
+                                enim, imperdiet ut nunc consectetur, iaculis maximus eros. Proin mollis enim sit amet
+                                neque tincidunt blandit.</p>
+                            <p>Etiam pretium porta enim non eleifend. Maecenas egestas risus a neque condimentum mollis.
+                                In hac habitasse platea dictumst. Fusce massa risus, viverra nec elit eget, facilisis
+                                viverra ligula. Sed imperdiet sed purus quis fringilla. In neque elit, consequat vel
+                                mollis et, commodo vitae risus. Sed risus nulla, luctus sed tincidunt non, porta et
+                                metus. Fusce condimentum magna arcu, a semper ligula rutrum vel.</p>
+                            <p>Nam libero mi, pulvinar sit amet varius sit amet, posuere et magna. Sed eget nunc
+                                eleifend, faucibus quam in, molestie elit. Pellentesque sapien erat, maximus id lectus
+                                ut, bibendum posuere turpis. Donec ac enim at turpis facilisis sagittis vitae nec arcu.
+                                Duis efficitur quis nisl lacinia pretium. Phasellus condimentum est at luctus porttitor.
+                                Sed vestibulum eros urna, et pretium nibh facilisis in. In feugiat sem at purus
+                                consectetur viverra. Fusce consectetur ex non turpis ornare fermentum. Curabitur tortor
+                                odio, consequat eu pharetra semper, convallis ac ligula. Sed ac neque elit.</p>
+                        </div>
+                        <button class="btn btn_grd btn_wizard_100">Принимаю условия договора</button>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-3" role="tabpanel" aria-labelledby="nav-3-tab">
+                    <p class="step">Шаг 3/4. Подпись</p>
+                    <div class="signature">
+                        <h2>Поставьте свою подпись, используя сенсорный ввод</h2>
+                        <div class="signature_1 d-flex justify-content-center align-items-center">
+                            <canvas id="paint" width="343" height="430"></canvas>
+                            <input type="hidden" name="signature">
+                            <button>Стереть</button>
+                        </div>
+                        <button class="btn btn_grd btn_wizard_100">Подписать договор</button>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-4" role="tabpanel" aria-labelledby="nav-4-tab">
+                    <p class="step">Шаг 4/4. Получение счета</p>
+                    <div class="qr_code">
+                        <h2>Договор отправлен на указанную вами почту.</h2>
+                        <p>Оплатить счет вы можете в течение 5 рабочих дней по данному QR-коду (полная версия счета
+                            отправлена на почту).</p>
+                        <span>До встречи в Клубе Первых!</span>
+                        <img class="qr" src="{% static 'image3.png' %}" height="248" width="248"/>
+                    </div>
+                    <button class="btn btn_grd btn_wizard_100">Скачать QR-код для оплаты</button>
+                </div>
+                <div class="tab-pane fade" id="nav-5" role="tabpanel" aria-labelledby="nav-5-tab">
+                    <p class="step">Все этапы заполнены</p>
+                </div>
             </div>
-            <input id="sign_img_base64" type="hidden" name="sign">
         </div>
-        <div class="btn_div">
-            <button type="submit" name="qr_code" class="btn">Подписать договор</button>
-            <!-- <button class="btn">Подписать договор</button> -->
-        </div>
-
+        </form>
     </div>
-
-
-
-    
-    <div class="quest_fourth"
-
-        {% if img_base %}
-            style="display: block;"
-        {% else %}
-            style="display: none;"
-        {% endif %}
-
-    >
-
-        <div class="quest_title">Договор оказания услуг</div>
-
-        <div class="progress_bar">
-            <div class="step_title">Шаг 3/4. Подпись</div>
-            <div class="steps_progress">
-                <div class="step_progress step_progress_active">
-                    <img src="{% static '/mobile/img/progress_check.png' %}">
-                </div>
-                <div class="step_progress_filler step_progress_filler_active" ></div>
-                <div class="step_progress step_progress_active">
-                    <img src="{% static '/mobile/img/progress_check.png' %}">
-                </div>
-                <div class="step_progress_filler step_progress_filler_active" ></div>
-                <div class="step_progress step_progress_active">
-                    <img src="{% static '/mobile/img/progress_check.png' %}">
-                </div>
-                <div class="step_progress_filler step_progress_filler_active" ></div>
-                <div class="step_progress step_progress_active">4</div>
-            </div>
-        </div>
-
-        <div class="send_title">Договор отправлен на указанную вами почту.</div>
-
-        <div class="count_five_day">Оплатить счет вы можете в течение 5 рабочих дней по данному QR-коду (полная версия счета отправлена на почту).</div>
-
-        <div class="greetings">До встречи в Клубе Первых!</div>
-
-        <div class="qr_code_div">
-            <!-- <img src="" alt="qr_code" /> -->
-            <img src="data:application/octet-stream;base64,{{ img_base }}" alt="" />
-        </div>
-
-        <div class="btn_div">
-            <a download="qrcode" href="data:image/png;base64,{{ img_base }}" style="text-decoration: none;" class="btn link_btn">Скачать QR-код для оплаты</a>
-        </div>
-
-    </div>
-
-
-<!-- new -->
-
-</form>
-
 </div>
-
-
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+<script src="{% static 'js/fabric.min.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
 <script>
-    function accep_contract(event) {
-        event.preventDefault()
-        let $contract_preview_and_sign = document.getElementById('contract_preview_and_sign')
-        let $contract_sign = document.getElementById('contract_sign')
-
-        $contract_preview_and_sign.style.display = 'none'
-        $contract_sign.style.display = 'block'
-        init_canvas()
-    }
-
-    let ctx = ''
-    let canvas = ''
-
-    function onclear() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    function init_canvas() {
 
 
-        canvas = document.querySelector('#paint');
-        ctx = canvas.getContext('2d');
-    
-        let sketch = document.querySelector('#sketch');
-        let sketch_style = getComputedStyle(sketch);
-        canvas.width = parseInt(sketch_style.getPropertyValue('width'));
-        canvas.height = parseInt(sketch_style.getPropertyValue('height'));
 
-
-        let mouse = {x: 0, y: 0};
-        let last_mouse = {x: 0, y: 0};
-    
-        /* Mouse Capturing Work */
-        canvas.addEventListener('mousemove', function(e) {
-
-            console.log('mouse move')
-
-            last_mouse.x = mouse.x;
-            last_mouse.y = mouse.y;
-        
-            mouse.x = e.pageX - this.offsetLeft;
-            mouse.y = e.pageY - this.offsetTop;
-
-
-        }, false);
-    
-    
-        /* Drawing on Paint App */
-        ctx.lineWidth = 5;
-        ctx.lineJoin = 'round';
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = 'black';
-    
-        canvas.addEventListener('mousedown', function(e) {
-            console.log('mouse down')
-            canvas.addEventListener('mousemove', onPaint, false);
-            console.log('mouse down add on paint')
-        }, false);
-    
-        canvas.addEventListener('mouseup', function() {
-            console.log('mouse up')
-            canvas.removeEventListener('mousemove', onPaint, false);
-            console.log('mouse up remove on paint')
-            document.getElementById('sign_img_base64').value = canvas.toDataURL()
-        }, false);
-    
-        var onPaint = function() {
-
-            console.log('mouse move on paint')
-
-            ctx.beginPath();
-            ctx.moveTo(last_mouse.x, last_mouse.y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.closePath();
-            ctx.stroke();
-        };
-    
-    }
-
-    function page_ready() {
-
-        const $timer_div = document.getElementById("timer")
-        let time_sms = parseFloat( $timer_div.innerText )
-
-        const $input_code_sms      = document.getElementById("input_code_sms")
-        const $submit_btn_code_sms = document.getElementById("submit_btn_code_sms")
-        const $submit_contract     = document.getElementById("submit_contract")
-
-        if ( time_sms ) {
-
-            const time_now = Math.round(Date.now() / 1000)
-            let dt = time_sms - time_now
-
-            // console.log( 'has time', time_sms )
-            // console.log( 'time now', time_now )
-            // console.log( 'delta tm', dt )
-
-            $input_code_sms.style.display = "block"
-            $submit_contract.style.display = "block"
-            $submit_btn_code_sms.style.display = "none"
-
-            const $quest_first_step_send_code_again = document.getElementById("quest_first_step_send_code_again")
-            $quest_first_step_send_code_again.style.display = "block"
-            const $send_again_timer = document.getElementById("send_again_timer")
-
-            let timerId = setInterval( () => {
-
-                const minutes = Math.floor(dt/60)
-                const seconds = Math.floor(dt - minutes * 60)
-                // console.log( minutes, seconds )
-
-                let time_st = "через "
-                if (minutes)
-                    time_st += (minutes + " минут ")
-                time_st += seconds
-                if ( [11,12,13,14,15].includes(seconds) ) {
-                    time_st += " секунд"
-                } else if ( [ "0","5","6","7","8","9" ].includes(seconds.toString().slice(-1)) ) {
-                    time_st += " секунд"
-                } else if ( [ "1" ].includes(seconds.toString().slice(-1)) ) {
-                    time_st += " секунду"
-                } else if ( [ "2","3","4" ].includes(seconds.toString().slice(-1)) ) {
-                    time_st += " секунды"
-                }
-
-                $send_again_timer.innerText = time_st
-
-                //time_sms = time_sms - 1
-                dt -= 1
-
-            }, 1000);
-
-            // остановить вывод через 5 секунд
-            setTimeout( () => {
-                clearInterval(timerId);
-                $submit_contract.style.display = "none"
-                $submit_btn_code_sms.style.display = "block"
-                $input_code_sms.style.display = "none"
-                $quest_first_step_send_code_again.style.display = "none"
-                // $send_again_timer.innerText = ""
-                // $submit_btn_code_sms.style.display = "block"
-                // $submit_contract.style.display = "none"
-            },
-            dt * 1000 );
-        }
-
-        //const $code_input = document.getElementById("id_code")
-        //$code_input.addEventListener("input", (event) => {
-            //let val = event.target.value
-            //console.log(val)
-            //let lengthval = val.toString().length
-            //console.log(lengthval)
-            //if ( lengthval === 4 ) {
-                // console.log("lengthval is equal 4")
-                // console.log($submit_contract)
-                
-            //}
-        //})
-
-    }
-
-    document.addEventListener("DOMContentLoaded", page_ready);
-
+    //var fullQuality = canvas.toDataURL('image/jpeg', 1.0);
 </script>
-
-
 </body>
-
 </html>

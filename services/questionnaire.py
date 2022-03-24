@@ -8,6 +8,7 @@ from docxtpl import DocxTemplate
 from docxtpl import InlineImage
 from babel.dates import format_date
 from PIL import Image
+# from PIL import Image
 from docx.shared import Mm, Inches, Pt
 import qrcode
 from openpyxl import load_workbook
@@ -240,6 +241,7 @@ def finally_rich(self, request, contract_number):
         email_send.attach_file(path_payment)
         email_send.attach_file(path_pdf)
         email_send.send()
+
         return img_base
     elif company == 'ООО "ДЕЛОВОЙ КЛУБ"':
         qr_dk = qr

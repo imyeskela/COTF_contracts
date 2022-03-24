@@ -9,6 +9,7 @@ urlpatterns = [
     path('', views.ContractTemplateListAndCreateView.as_view(), name='contract_template_list'),
     path('contracts/', views.ContractListView.as_view(), name='contract_list'),
     path('agreement/<contract_number>/', views.FillingQuestionnaireView.as_view(), name='contract_detail'),
+
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),

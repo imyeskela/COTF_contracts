@@ -1,0 +1,20 @@
+<div class="table-controls">
+    <div class="d-flex">
+        <div class="search-box">
+            <input class="search" placeholder="Поиск...">
+            <i class="icon-search"></i>
+        </div>
+        <a class="btn {% if request.path == '' %}active{% endif %}" href="{% url 'contract_template_list' %}">
+            Договоры
+        </a>
+        <a class="btn {% if request.path == '/contracts/' %}active{% endif %}"
+           href="{% url 'contract_list' %}">
+            Клиенты
+        </a>
+    </div>
+    {% if request.path == '/contracts/' %}
+    <div>
+        <div data-bs-toggle="modal" data-bs-target="#contract_add_modal" class="btn btn_plus btn_grd"><i class="icon-plyus"></i></div>
+    </div>
+    {% endif %}
+</div>
