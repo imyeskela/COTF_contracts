@@ -69,6 +69,10 @@
 
 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 <script src="{% static 'js/app.js' %}"></script>
-
+{% if show_modal %}
+<script>
+    document.getElementById('modal').click();
+</script>
+{% endif %}
 </body>
 </html>

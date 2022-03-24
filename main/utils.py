@@ -21,7 +21,6 @@ class ContractTemplateListAndCreateContractMixin:
         paginator = Paginator(self.queryset, 20)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        # contract_template = get_template_contracts().get(pk=request.POST.get('pk_of_contract'))
         queryset = self.queryset
         form_contract_template_change = self.form_contract_template_change()
         return render(request, self.template_name, {'contract_template_list': page_obj,
@@ -48,16 +47,32 @@ class ContractTemplateListAndCreateContractMixin:
                                                             'form_contract_template': form_contract_template
                                                             })
 
-        if 'form_contract_template' in request.POST:
+        elif 'create_form' in request.POST:
+            paginator = Paginator(self.queryset, 20)
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            form_contract_template_change = self.form_contract_template_change()
+
+            print(form_contract_template.is_valid())
+            print(form_contract_template.errors)
             if form_contract_template.is_valid():
                 form_contract_template = form_contract_template.save(commit=False)
                 form_contract_template.save()
                 return redirect('contract_template_list')
             else:
-                return render(request, self.template_name,
-                              {'form_contract_template': form_contract_template})
+                return render(
+                    request,
+                    self.template_name,
+                    {
+                        'show_modal': True,
+                        'contract_template_list': page_obj,
+                        'form_contract': self.form_contract,
+                        'form_contract_template': form_contract_template,
+                        'form_contract_template_change': form_contract_template_change,
+                    }
+                )
 
-        if 'status' in request.POST:
+        elif 'status' in request.POST:
             contract_template = self.queryset.get(pk=request.POST.get('contract_template_pk'))
             form_contract_template_change = self.form_contract_template_change(request.POST, instance=contract_template)
             if form_contract_template_change.is_valid():
