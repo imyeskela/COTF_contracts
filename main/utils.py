@@ -88,11 +88,11 @@ class ContractListMixin:
     form_contract = None
 
     def get(self, request):
-        paginator = Paginator(self.queryset(), 5)
+        paginator = Paginator(self.queryset(), 20)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         template_name = self.template_name
-        print(request.POST)
+        # print(request.POST)
 
         return render(request, template_name, {'contract_list': page_obj,
                                                'form_contract_template': self.form_contract_template,
