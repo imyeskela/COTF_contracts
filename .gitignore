@@ -8,4 +8,5 @@ db.sqlite3
 Основной_МСК_ДК_ПЕРЕМЕН.docx
 Основной_СПБ_КМС_ПЕРЕМЕЕН.docx
 Продление_МСК_КМС+переменные.docx
-.idea
+.idea/
+frontend/node_modules/
