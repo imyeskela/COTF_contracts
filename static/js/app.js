@@ -3217,7 +3217,7 @@ document.addEventListener('DOMContentLoaded', function () {
       dropdown.querySelectorAll(".dropdown-item").forEach(function (item) {
         item.addEventListener("click", function () {
           var input = dropdown.querySelector("input");
-          input.value = this.innerText.toLowerCase();
+          input.value = this.innerText;
           var form = document.getElementById("contract_update_form");
           var pk_input = tr.querySelector("input[name='contract_template_pk']");
           form.appendChild(input);

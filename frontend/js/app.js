@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function(){
             dropdown.querySelectorAll(".dropdown-item").forEach(function (item){
                 item.addEventListener("click",function (){
                     let input = dropdown.querySelector("input");
-                    input.value = this.innerText.toLowerCase();
+                    input.value = this.innerText;
                     let form = document.getElementById("contract_update_form");
                     let pk_input = tr.querySelector("input[name='contract_template_pk']");
                     form.appendChild(input);
