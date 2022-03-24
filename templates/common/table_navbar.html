@@ -4,7 +4,7 @@
             <input class="search" placeholder="Поиск...">
             <i class="icon-search"></i>
         </div>
-        <a class="btn {% if request.path == '' %}active{% endif %}" href="{% url 'contract_template_list' %}">
+        <a class="btn {% if request.path == '/' %}active{% endif %}" href="{% url 'contract_template_list' %}">
             Договоры
         </a>
         <a class="btn {% if request.path == '/contracts/' %}active{% endif %}"
