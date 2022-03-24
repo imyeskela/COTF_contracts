@@ -87,40 +87,40 @@
                 <tbody>
 
 
-
                 {% for contract in contract_template_list %}
                 <tr class="tr_contract">
-                        <input name="pk" type="hidden" value="{{ contract.pk }}">
-                        <td>{{ contract.name }}</td>
-                        <td class="light">Договор {{ contract.pk }}</td>
-                        <td>
-                            <div class="dropdown">
-                                <input type="hidden" name="status" value="{{ contract.status }}">
-                                <button aria-expanded="false"
-                                        class="btn {% if contract.status == 'актуально' %}btn_cyan{% else %}btn_gray{% endif %}" data-bs-toggle="dropdown" data-id="status_{{ contract.pk }}"
-                                        id="status_button">
-                                    {{ contract.status }}
-                                    <i class="icon-select"></i>
-                                </button>
-                                <ul aria-labelledby="status_button" class="dropdown-menu">
-                                    <li><a class="dropdown-item">Актуально</a></li>
-                                    <li><a class="dropdown-item">Устарело</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                        <td>
-                            <input class="input input-id" name="identifier" value="{{ contract.full_name }}">
-                        </td>
-                        <td>
-                            <input class="input input-sum" name="amount" value="{{ contract.amount }}">
-                        </td>
-                        <td>
-                            <div class="url_copy_btn">
-                                <img src="{% static 'icon/file.svg' %}">
-                                <input name="contract_url" type="hidden" value="random_url">
-                                <div class="alert">Ссылка скопирована</div>
-                            </div>
-                        </td>
+                    <input name="contract_template_pk" type="hidden" value="{{ contract.pk }}">
+                    <td>{{ contract.name }}</td>
+                    <td class="light">Договор {{ contract.pk }}</td>
+                    <td>
+                        <div class="dropdown">
+                            <input name="status" type="hidden" value="{{ contract.status }}">
+                            <button aria-expanded="false"
+                                    class="btn {% if contract.status == 'актуально' %}btn_cyan{% else %}btn_gray{% endif %}"
+                                    data-bs-toggle="dropdown" data-id="status_{{ contract.pk }}"
+                                    id="status_button">
+                                {{ contract.status }}
+                                <i class="icon-select"></i>
+                            </button>
+                            <ul aria-labelledby="status_button" class="dropdown-menu">
+                                <li><a class="dropdown-item">Актуально</a></li>
+                                <li><a class="dropdown-item">Устарело</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td>
+                        <input class="input input-id" name="identifier" value="{{ contract.full_name }}">
+                    </td>
+                    <td>
+                        <input class="input input-sum" name="amount" value="{{ contract.amount }}">
+                    </td>
+                    <td>
+                        <div class="url_copy_btn">
+                            <img src="{% static 'icon/file.svg' %}">
+                            <input name="contract_url" type="hidden" value="random_url">
+                            <div class="alert">Ссылка скопирована</div>
+                        </div>
+                    </td>
                 </tr>
                 {% endfor %}
                 </tbody>
@@ -131,13 +131,13 @@
         </div>
     </div>
 
-    <div class="modal fade" id="contract_add_modal" tabindex="-1" aria-hidden="true">
+    <div aria-hidden="true" class="modal fade" id="contract_add_modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <h2>Создать договор</h2>
                 <form action="#" enctype="multipart/form-data" method="post">
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                    <input type="number" placeholder="Сумма" name="amount" class="input">
+                    <input name="csrfmiddlewaretoken" type="hidden" value="{{ csrf_token }}">
+                    <input class="input" name="amount" placeholder="Сумма" type="number">
                     <select class="input" name="status">
                         <option value="Актуально">Актуально</option>
                         <option value="Устарело">Устарело</option>

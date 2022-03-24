@@ -802,6 +802,10 @@ function getContainingBlock(element) {
 
   var currentNode = (0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_2__["default"])(element);
 
+  if ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isShadowRoot)(currentNode)) {
+    currentNode = currentNode.host;
+  }
+
   while ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(currentNode) && ['html', 'body'].indexOf((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_3__["default"])(currentNode)) < 0) {
     var css = (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__["default"])(currentNode); // This is non-exhaustive but covers the most common CSS properties that
     // create a containing block.
@@ -1632,7 +1636,7 @@ function mapToStyles(_ref2) {
 
     if (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.top || (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.left || placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.right) && variation === _enums_js__WEBPACK_IMPORTED_MODULE_1__.end) {
       sideY = _enums_js__WEBPACK_IMPORTED_MODULE_1__.bottom;
-      var offsetY = isFixed && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]
+      var offsetY = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]
       offsetParent[heightProp];
       y -= offsetY - popperRect.height;
       y *= gpuAcceleration ? 1 : -1;
@@ -1640,7 +1644,7 @@ function mapToStyles(_ref2) {
 
     if (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.left || (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.top || placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.bottom) && variation === _enums_js__WEBPACK_IMPORTED_MODULE_1__.end) {
       sideX = _enums_js__WEBPACK_IMPORTED_MODULE_1__.right;
-      var offsetX = isFixed && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]
+      var offsetX = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]
       offsetParent[widthProp];
       x -= offsetX - popperRect.width;
       x *= gpuAcceleration ? 1 : -1;
@@ -3214,7 +3218,11 @@ document.addEventListener('DOMContentLoaded', function () {
         item.addEventListener("click", function () {
           var input = dropdown.querySelector("input");
           input.value = this.innerText.toLowerCase();
-          makeContractUpdateForm(tr);
+          var form = document.getElementById("contract_update_form");
+          var pk_input = tr.querySelector("input[name='contract_template_pk']");
+          form.appendChild(input);
+          form.appendChild(pk_input);
+          form.submit();
         });
       });
     });
@@ -3232,9 +3240,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var contract_url = window.location.origin + '/agreement/' + contract_id + '/';
         copy_url(tr, contract_url);
       });
-    });
-    tr.querySelector(".input-sum").addEventListener("change", function () {
-      makeContractUpdateForm(tr);
     });
   });
   document.querySelectorAll(".tr_contracts_client").forEach(function (tr) {
@@ -3277,15 +3282,13 @@ document.addEventListener('DOMContentLoaded', function () {
       contract_client_form.submit();
     });
   });
-});
-
-function makeContractUpdateForm(tr) {
-  var form = document.getElementById("contract_update_form");
-  tr.querySelectorAll("input").forEach(function (input) {
-    form.appendChild(input);
-  });
-  form.submit();
-}
+}); //function makeContractUpdateForm(tr) {
+//    let form = document.getElementById("contract_update_form");
+//    tr.querySelectorAll("input").forEach(function (input) {
+//        form.appendChild(input);
+//    })
+//    form.submit();
+//}
 
 function xrhPost(url, data, f) {
   var xhr = new XMLHttpRequest();
@@ -3299,9 +3302,9 @@ function xrhPost(url, data, f) {
       response = JSON.parse(xhr.response);
       f(response);
     }
-  };
+  }; //console.log(JSON.stringify(data));
 
-  console.log(JSON.stringify(data));
+
   xhr.send(JSON.stringify(data));
 }
 
@@ -3396,7 +3399,7 @@ function copy_url(elem, url) {
   alert.classList.add("show");
   setTimeout(function () {
     alert.classList.remove("show");
-  }, 2500);
+  }, 1500);
 }
 
 var template_of_contract = document.getElementById('template_of_contract');

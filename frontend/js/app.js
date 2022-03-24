@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     let input = dropdown.querySelector("input");
                     input.value = this.innerText.toLowerCase();
                     let form = document.getElementById("contract_update_form");
-                    let pk_input = tr.querySelector("input[name='pk']");
+                    let pk_input = tr.querySelector("input[name='contract_template_pk']");
                     form.appendChild(input);
                     form.appendChild(pk_input);
                     form.submit();
