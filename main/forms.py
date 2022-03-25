@@ -1,5 +1,5 @@
 import random
-
+from django.utils.safestring import mark_safe
 from django import forms
 from django.core.exceptions import ValidationError
 from django.db.models import Model
@@ -92,11 +92,15 @@ class FillingQuestionnaireForm(forms.Form):
     last_name = forms.CharField(help_text='Фамилия', label='last_name')
     name = forms.CharField(help_text='Имя', label='name')
     sur_name = forms.CharField(help_text='Отчество', required=False, label='sur_name')
-    passport = forms.CharField(help_text='Серия и номер паспорта', max_length=11, label='passport')
+    series_passport = forms.CharField(help_text='Серия и номер паспорта', max_length=4, label='series_passport')
+    num_passport = forms.CharField(help_text='Серия и номер паспорта', max_length=6, label='num_passport')
     email = forms.EmailField(help_text='электронная почта', label='email')
     phone = forms.CharField(help_text='Номер телефона')
     check_box = forms.BooleanField(label='check_box')
     code = forms.IntegerField(required=False)
+
+    # class Meta:
+    #     widgets = {'series': forms.IntegerField}
     # contract_number = forms.IntegerField(widget=forms.HiddenInput)
 
     def __init__(self, *args, **kwargs):

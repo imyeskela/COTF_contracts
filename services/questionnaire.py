@@ -393,7 +393,6 @@ def send_sms(self, request, contract_number):
         from_='+17128827791',
         to=str(phone)
     )
-    print(str(get_actual_code(self, phone=phone)))
     return phone
 
 

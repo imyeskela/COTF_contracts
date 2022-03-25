@@ -174,9 +174,9 @@ class FillingQuestionnaireMixin:
 
     def post(self, request, contract_number):
         form = self.form(request.POST, contract_pk=contract_number)
-
         if 'docx' in request.POST:
             if form.is_valid():
+
                 change_confirmation(self, request, contract_number)
                 docx_base = form_questionnaire(self, request, contract_number)
                 return render(request, self.template_name, {'docx_base': docx_base, 'form': form})
