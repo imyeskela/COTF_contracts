@@ -57,7 +57,7 @@
                 <span>Задачи</span>
             </a>
         </li>
-        <li class="{% if request.path == '/administration/' %}active{% endif %}">
+        <li class="{% if request.path == '/administration/' or request.path == '/' or request.path == '/contracts/' %}active{% endif %}">
             <a href="{% url 'administration' %}">
                 <i class="icon-admin"></i>
                 <span>Администрирование</span>
