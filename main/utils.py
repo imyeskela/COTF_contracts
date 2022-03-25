@@ -53,8 +53,6 @@ class ContractTemplateListAndCreateContractMixin:
             page_obj = paginator.get_page(page_number)
             form_contract_template_change = self.form_contract_template_change()
 
-            print(form_contract_template.is_valid())
-            print(form_contract_template.errors)
             if form_contract_template.is_valid():
                 form_contract_template = form_contract_template.save(commit=False)
                 form_contract_template.save()
