@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', function(){
         url_copy_btn.addEventListener("click",function (e){
             let data = {"create_contract" : true};
             data.identifier = tr.querySelector("input[name='identifier']").value;
-            data.anount = tr.querySelector("input[name='amount']").value;
-            data.pk = tr.querySelector("input[name='pk']").value;
+            data.amount = tr.querySelector("input[name='amount']").value;
+            data.pk = tr.querySelector("input[name='contract_template_pk']").value;
             data.csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
             xrhPost(window.location,data,function (response) {
-                let contract_id = response.contract_id;
-                let contract_url = window.location.origin + '/agreement/' + contract_id + '/';
+                let contract_number = response.contract_number;
+                let contract_url = window.location.origin + '/agreement/' + contract_number + '/';
                 copy_url(tr,contract_url);
             });
         });
