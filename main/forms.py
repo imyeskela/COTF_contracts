@@ -13,6 +13,7 @@ from services.questionnaire import get_actual_code
 
 class ContractTemplateCreateForm(forms.ModelForm):
     """Форма для созданания Шаблона Контракта"""
+    create_form = forms.BooleanField(widget=forms.HiddenInput, required=False)
 
     class Meta:
         model = ContractTemplate
@@ -29,7 +30,13 @@ class ContractTemplateCreateForm(forms.ModelForm):
         renewal_vars = ['sum', 'email', 'passport', 'signature', 'text_sum',
                         'full_name', 'id', 'generated_date', 'short_name', 'phone']
 
-        docx = DocxTemplate(path)
+        try:
+            docx = DocxTemplate(path)
+        except Exception as e:
+            print(e)
+            # Откуда берется сообщение об ошибке, если message is required
+            raise ValidationError('ERROR')
+
         vars_in_docx = list(docx.undeclared_template_variables)
         if type_of_contr == 'Основной':
             for basic in basic_vars:

@@ -57,7 +57,12 @@
                 <span>Задачи</span>
             </a>
         </li>
-
+        <li class="{% if request.path == '/administration/' or request.path == '/' or request.path == '/contracts/' %}active{% endif %}">
+            <a href="{% url 'administration' %}">
+                <i class="icon-admin"></i>
+                <span>Администрирование</span>
+            </a>
+        </li>
     </ul>
 </div>
 
@@ -69,6 +74,10 @@
 
 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 <script src="{% static 'js/app.js' %}"></script>
-
+{% if show_modal %}
+<script>
+    document.getElementById('modal').click();
+</script>
+{% endif %}
 </body>
 </html>

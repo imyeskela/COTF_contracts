@@ -8,7 +8,12 @@ from django.views.generic import CreateView
 from cotf_contracts import settings
 from main.models import Contract
 from services.main_logic import get_template_contracts, get_contracts, get_contract
-from main.utils import ContractTemplateListAndCreateContractMixin, ContractListMixin, FillingQuestionnaireMixin
+from main.utils import (
+    ContractTemplateListAndCreateContractMixin,
+    FillingQuestionnaireMixin,
+    AdministrationMixin,
+    ContractListMixin,
+)
 from main.forms import ContractTemplateCreateForm, FillingQuestionnaireForm
 from services.getting_form import get_contract_form, get_filling_questionnaire_form, get_contract_template_create_form, \
     get_contract_template_form, get_contract_list_form
@@ -23,6 +28,10 @@ class ContractTemplateListAndCreateView(ContractTemplateListAndCreateContractMix
     form_contract_template = get_contract_template_create_form()
     form_contract_template_change = get_contract_template_form()
     template_name = 'contract_templates_list.html'
+
+
+class AdministrationView(AdministrationMixin, View):
+    template_name = 'administration.html'
 
 
 # class ContractCreateView(CreateView):

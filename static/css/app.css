@@ -369,22 +369,22 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   margin-bottom: 40px;
 }
 
-.input {
+.input, #contract_add_modal .modal-content input, #contract_add_modal .modal-content select {
   padding: 5px 12px;
   background: #F7F9FB;
   border: 1px solid rgba(216, 222, 236, 0.8);
   border-radius: 0 2px 2px 0;
 }
-.input::-moz-placeholder {
+.input::-moz-placeholder, #contract_add_modal .modal-content input::-moz-placeholder, #contract_add_modal .modal-content select::-moz-placeholder {
   color: #A8AEBA;
 }
-.input:-ms-input-placeholder {
+.input:-ms-input-placeholder, #contract_add_modal .modal-content input:-ms-input-placeholder, #contract_add_modal .modal-content select:-ms-input-placeholder {
   color: #A8AEBA;
 }
-.input::placeholder {
+.input::placeholder, #contract_add_modal .modal-content input::placeholder, #contract_add_modal .modal-content select::placeholder {
   color: #A8AEBA;
 }
-.input:focus {
+.input:focus, #contract_add_modal .modal-content input:focus, #contract_add_modal .modal-content select:focus {
   border: 1px solid rgba(216, 222, 236, 0.8);
 }
 
@@ -770,7 +770,7 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   padding: 6px 31px;
   color: #ffffff;
 }
-#contract_add_modal .modal-content .input {
+#contract_add_modal .modal-content .input, #contract_add_modal .modal-content input, #contract_add_modal .modal-content select {
   width: 300px;
   margin-bottom: 22px;
 }

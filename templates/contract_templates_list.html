@@ -5,7 +5,7 @@
 <div class="content">
     <div class="container-fluid">
         <div class="page-title">
-            <a class="back" href="{% url 'contract_template_list' %}"><i class="icon-remove"></i></a>
+            <a class="back" href="{% url 'administration' %}"><i class="icon-remove"></i></a>
             <h1>Договоры</h1>
         </div>
     </div>
@@ -96,7 +96,7 @@
                         <div class="dropdown">
                             <input name="status" type="hidden" value="{{ contract.status }}">
                             <button aria-expanded="false"
-                                    class="btn {% if contract.status == 'актуально' %}btn_cyan{% else %}btn_gray{% endif %}"
+                                    class="btn {% if contract.status == 'Актуально' %}btn_cyan{% else %}btn_gray{% endif %}"
                                     data-bs-toggle="dropdown" data-id="status_{{ contract.pk }}"
                                     id="status_button">
                                 {{ contract.status }}
@@ -135,28 +135,33 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <h2>Создать договор</h2>
+<<<<<<< HEAD
                 <form action="#" enctype="multipart/form-data" method="post">
                     <input name="csrfmiddlewaretoken" type="hidden" value="{{ csrf_token }}">
                     <input class="input" name="amount" placeholder="Сумма" type="number">
+=======
+                <form action="" enctype="multipart/form-data" method="post">
+                    {% csrf_token %}
+                    {{ form_contract_template.create_form }}
 
-                    <select class="input" name="status">
-                        <option value="Актуально">Актуально</option>
-                        <option value="Устарело">Устарело</option>
-                    </select>
-                    <select class="input" name="type">
-                        <option>---------</option>
-                        <option value="Основной">Основной</option>
-                        <option value="Продление">Продление</option>
-                    </select>
-                    <select class="input" name="company">
-                        <option>---------</option>
-                        <option value='ООО "КМС"'>ООО "КМС"</option>
-                        <option value='ООО "ДЕЛОВОЙ КЛУБ"'>ООО "ДЕЛОВОЙ КЛУБ"</option>
-                    </select>
-                    <label for="template_of_contract">+ Загрузить договор</label>
-                    <input id="template_of_contract" name="template_of_contract" type="file">
+                    {{ form_contract_template.amount }}
+                    {{ form_contract_template.amount.errors }}
+>>>>>>> 69276285414dc7d0c020b1892a4872620d7ab7e3
+
+                    {{ form_contract_template.status }}
+                    {{ form_contract_template.status.errors }}
+
+                    {{ form_contract_template.type }}
+                    {{ form_contract_template.type.errors }}
+
+                    {{ form_contract_template.company }}
+                    {{ form_contract_template.company.errors }}
+
+                    {{ form_contract_template.template_of_contract }}
+                    {{ form_contract_template.template_of_contract.errors }}
                     <div class="buttons">
                         <button class="btn" type="button">Отмена</button>
+                        <button class="btn btn_grd">Проверить</button>
                         <button class="btn btn_grd">Отправить</button>
                     </div>
 

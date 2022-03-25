@@ -753,6 +753,10 @@ input,select,textarea{
     margin-bottom: 0!important;
   }
   .modal-content{
+      input, select {
+        @extend .input;
+      }
+
     border-radius: 0;
     padding: 28px 70px;
     form{
