@@ -135,18 +135,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <h2>Создать договор</h2>
-<<<<<<< HEAD
-                <form action="#" enctype="multipart/form-data" method="post">
-                    <input name="csrfmiddlewaretoken" type="hidden" value="{{ csrf_token }}">
-                    <input class="input" name="amount" placeholder="Сумма" type="number">
-=======
                 <form action="" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
                     {{ form_contract_template.create_form }}
 
                     {{ form_contract_template.amount }}
                     {{ form_contract_template.amount.errors }}
->>>>>>> 69276285414dc7d0c020b1892a4872620d7ab7e3
 
                     {{ form_contract_template.status }}
                     {{ form_contract_template.status.errors }}
