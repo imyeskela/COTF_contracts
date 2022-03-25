@@ -563,6 +563,18 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   display: none;
 }
 .wizard-wrapper .tab-content .form-group.checkbox input:checked + .fake_checkbox {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+     supported by Chrome, Edge, Opera and Firefox */
   background: linear-gradient(71.59deg, #60326B 0%, #BD2971 100%);
 }
 .wizard-wrapper .tab-content .form-group.checkbox input:checked + .fake_checkbox img {

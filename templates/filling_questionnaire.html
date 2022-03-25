@@ -40,54 +40,58 @@
                     <p class="step">Шаг 1/4. Заполнение данных</p>
                     <div class="form">
                         <div class="form-group">
-                            <label for="id_last_name">Фамилия*</label><br>
+                            {{ form.last_name.label }}
                             {{ form.last_name }}
+                            {{ form.last_name.errors }}
                         </div>
                         <div class="form-group">
-                            <label for="id_name">Имя*</label>
+                            {{ form.name.label }}
                             {{ form.name }}
+                            {{ form.name.errors }}
                         </div>
                         <div class="form-group">
-                            <label for="id_sur_name">Отчество</label>
+                            {{ form.sur_name.label }}
                             {{ form.sur_name }}
+                            {{ form.sur_name.errors }}
                         </div>
                         <div class="d-flex">
                             <div class="form-group passport">
-                                <label for="id_series">Серия паспорта*</label>
-                                    {{ form.series_passport }}
+                                {{ form.series_passport.label }}
+                                {{ form.series_passport }}
+                                {{ form.series_passport.errors }}
                             </div>
                             <div class="form-group">
-                                <label for="id_passport">Номер паспорта*</label>
+                                {{ form.num_passport.label }}
                                 {{ form.num_passport }}
+                                {{ form.num_passport.errors }}
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="id_email">Email*</label>
+                            {{ form.email.label }}
                             {{ form.email }}
+                            {{ form.email.errors }}
                         </div>
                         <div class="form-group checkbox">
                             {{ form.check_box }}
-                            <label for="id_check_box" class="fake_checkbox"><img src="{% static 'icon/check.svg' %}"> </label>
+                            <label for="id_check_box" class="fake_checkbox"><img src="{% static 'icon/check.svg' %}"></label>
                             <span class="label"> Я согласен на <a href="#">обработку персональных данных</a></span>
                         </div>
                         <div class="form-group">
-                            <label for="id_phone">Мобильный телефон*</label>
+                            {{ form.phone.label }}
                             {{ form.phone }}
+                            {{ form.phone.errors }}
                         </div>
-
-                        <button class="btn btn_grd btn_send_sms btn_sms" type="submit" name="code">Отправить код</button>
-
-                        <div>
+                        <button class="btn btn_grd btn_send_sms btn_sms">Отправить код</button>
+                        <button class="btn btn_grd btn_check_code">Сформировать договор</button>
+                        <div class="sms_code_container">
                             <div class="form-group">
-                                <label for="id_code">Введите код</label>
-                                {{ form.code }}
+                                <label for="code">Введите код</label>
+                                <input type="number" id="code" name="code" placeholder="0000">
                             </div>
                             <div class="code_1">
                                 <a class="btn_send_sms" href="#">Отправить код повторно</a><span>через <span id="timer"></span> секунд</span>
                             </div>
-                            <button class="btn btn_grd btn_check_code" type="submit" name="docx">Сформировать договор</button>
                         </div>
-
                     </div>
                 </div>
                 <div class="tab-pane fade" id="nav-2" role="tabpanel" aria-labelledby="nav-2-tab">
