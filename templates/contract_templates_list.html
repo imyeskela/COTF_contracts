@@ -5,7 +5,7 @@
 <div class="content">
     <div class="container-fluid">
         <div class="page-title">
-            <a class="back" href="{% url 'contract_template_list' %}"><i class="icon-remove"></i></a>
+            <a class="back" href="{% url 'administration' %}"><i class="icon-remove"></i></a>
             <h1>Договоры</h1>
         </div>
     </div>
@@ -96,7 +96,7 @@
                         <div class="dropdown">
                             <input name="status" type="hidden" value="{{ contract.status }}">
                             <button aria-expanded="false"
-                                    class="btn {% if contract.status == 'актуально' %}btn_cyan{% else %}btn_gray{% endif %}"
+                                    class="btn {% if contract.status == 'Актуально' %}btn_cyan{% else %}btn_gray{% endif %}"
                                     data-bs-toggle="dropdown" data-id="status_{{ contract.pk }}"
                                     id="status_button">
                                 {{ contract.status }}

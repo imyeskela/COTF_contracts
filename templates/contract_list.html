@@ -3,7 +3,12 @@
 
 {% block content %}
 <div class="content">
-
+    <div class="container-fluid">
+        <div class="page-title">
+            <a class="back" href="{% url 'administration' %}"><i class="icon-remove"></i></a>
+            <h1>Договоры</h1>
+        </div>
+    </div>
     <div class="table-container container-fluid">
         {% include 'common/table_navbar.html' %}
         <div class="table-wrapper">

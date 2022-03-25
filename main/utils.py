@@ -80,8 +80,20 @@ class ContractTemplateListAndCreateContractMixin:
                 form_contract_template_change.save()
                 return redirect('contract_template_list')
 
-        return render(request, self.template_name, {'form_contract': form_contract,
-                                                    })
+        return render(request, self.template_name, {
+            'form_contract': form_contract,
+        })
+
+
+class AdministrationMixin:
+    template_name = None
+
+    def get(self, request):
+        return render(
+            request,
+            self.template_name,
+            {}
+        )
 
 
 class ContractListMixin:
