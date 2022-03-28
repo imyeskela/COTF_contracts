@@ -46,7 +46,8 @@ class ContractTemplateListAndCreateContractMixin:
 
                 if form_contract_template.is_valid():
                     form_contract_template = form_contract_template.save(commit=False)
-                    form_contract_template.save()
+                    if not form_contract_template.check:
+                        form_contract_template.save()
                     return redirect('contract_template_list')
                 else:
                     for field_name, field in form_contract_template.fields.items():

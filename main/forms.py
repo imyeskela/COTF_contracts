@@ -14,6 +14,7 @@ from services.questionnaire import get_actual_code
 class ContractTemplateCreateForm(forms.ModelForm):
     """Форма для созданания Шаблона Контракта"""
     create_form = forms.BooleanField(widget=forms.HiddenInput, required=False)
+    check = forms.BooleanField(widget=forms.HiddenInput, required=False)
 
     class Meta:
         model = ContractTemplate
