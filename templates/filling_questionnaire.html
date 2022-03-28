@@ -73,7 +73,9 @@
                         </div>
                         <div class="form-group checkbox">
                             {{ form.check_box }}
-                            <label for="id_check_box" class="fake_checkbox"><img src="{% static 'icon/check.svg' %}"></label>
+                            <label for="id_check_box" class="fake_checkbox">
+                                <img src="{% static 'icon/check.svg' %}">
+                            </label>
                             <span class="label"> Я согласен на <a href="#">обработку персональных данных</a></span>
                         </div>
                         <div class="form-group">
@@ -81,15 +83,15 @@
                             {{ form.phone }}
                             {{ form.phone.errors }}
                         </div>
-                        <button class="btn btn_grd btn_send_sms btn_sms">Отправить код</button>
-                        <button class="btn btn_grd btn_check_code">Сформировать договор</button>
+                        <button class="btn btn_grd btn_send_sms btn_sms" name="code">Отправить код</button>
+                        <button class="btn btn_grd btn_check_code" name="docx">Сформировать договор</button>
                         <div class="sms_code_container">
                             <div class="form-group">
                                 <label for="code">Введите код</label>
                                 <input type="number" id="code" name="code" placeholder="0000">
                             </div>
                             <div class="code_1">
-                                <a class="btn_send_sms" href="#">Отправить код повторно</a><span>через <span id="timer"></span> секунд</span>
+                                <button class="btn_send_sms" name="code">Отправить код повторно</button><span>через <span id="timer"></span> секунд</span>
                             </div>
                         </div>
                     </div>
@@ -98,28 +100,9 @@
                     <p class="step">Шаг 2/4. Договор</p>
                     <div class="treaty">
                         <div class="treaty_1">
-                            <h2>Договор №4895764983673 о текст текст текст текст текст от 02.06.2021г.</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nibh leo, varius sed feugiat
-                                consequat, facilisis pellentesque dui. Praesent et enim maximus, rhoncus nisi eget,
-                                faucibus velit. Nunc hendrerit ex leo, ac rutrum est pretium et. In ut imperdiet lectus,
-                                et ultrices lorem. Integer ultricies a arcu vitae rutrum. Ut ullamcorper magna ac
-                                blandit feugiat. Nullam tempor purus ex, vitae pellentesque lorem dapibus quis. In enim
-                                enim, imperdiet ut nunc consectetur, iaculis maximus eros. Proin mollis enim sit amet
-                                neque tincidunt blandit.</p>
-                            <p>Etiam pretium porta enim non eleifend. Maecenas egestas risus a neque condimentum mollis.
-                                In hac habitasse platea dictumst. Fusce massa risus, viverra nec elit eget, facilisis
-                                viverra ligula. Sed imperdiet sed purus quis fringilla. In neque elit, consequat vel
-                                mollis et, commodo vitae risus. Sed risus nulla, luctus sed tincidunt non, porta et
-                                metus. Fusce condimentum magna arcu, a semper ligula rutrum vel.</p>
-                            <p>Nam libero mi, pulvinar sit amet varius sit amet, posuere et magna. Sed eget nunc
-                                eleifend, faucibus quam in, molestie elit. Pellentesque sapien erat, maximus id lectus
-                                ut, bibendum posuere turpis. Donec ac enim at turpis facilisis sagittis vitae nec arcu.
-                                Duis efficitur quis nisl lacinia pretium. Phasellus condimentum est at luctus porttitor.
-                                Sed vestibulum eros urna, et pretium nibh facilisis in. In feugiat sem at purus
-                                consectetur viverra. Fusce consectetur ex non turpis ornare fermentum. Curabitur tortor
-                                odio, consequat eu pharetra semper, convallis ac ligula. Sed ac neque elit.</p>
+                            {{ docx_base }}
                         </div>
-                        <button class="btn btn_grd btn_wizard_100">Принимаю условия договора</button>
+                        <button class="btn btn_grd btn_wizard_100" type="button">Принимаю условия договора</button>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="nav-3" role="tabpanel" aria-labelledby="nav-3-tab">
@@ -128,10 +111,10 @@
                         <h2>Поставьте свою подпись, используя сенсорный ввод</h2>
                         <div class="signature_1 d-flex justify-content-center align-items-center">
                             <canvas id="paint" width="343" height="430"></canvas>
-                            <input type="hidden" name="signature">
+                            <input type="hidden" name="sign">
                             <button>Стереть</button>
                         </div>
-                        <button class="btn btn_grd btn_wizard_100">Подписать договор</button>
+                        <button class="btn btn_grd btn_wizard_100" name="qr_code">Подписать договор</button>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="nav-4" role="tabpanel" aria-labelledby="nav-4-tab">
