@@ -164,7 +164,8 @@
                 </thead>
                 <tbody>
                 {% for contracts in contract_list %}
-                <tr class="tr_contracts_client" data-pk="{{ contracts.pk }}">
+                <tr class="tr_contracts_client" data-pk="{{ contracts.pk }}"
+                    data-contract-number="{{ contracts.number }}">
                     <td>
                         <div class="url_copy_btn">
                             <img src="{% static 'icon/file.svg' %}">
