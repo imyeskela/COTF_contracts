@@ -192,6 +192,7 @@ class FillingQuestionnaireMixin:
             send_sms(self, request, contract_number)
             time_sms = get_time_for_resend_sms(self, request, contract_number)
             return render(request, self.template_name, {'form': form, 'time_sms': time_sms})
+
         return render(request, self.template_name, {'form': form})
 
 

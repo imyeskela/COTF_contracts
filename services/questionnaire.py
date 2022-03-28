@@ -36,7 +36,7 @@ def get_data_from_forms(self, request, contract_number):
         date_created = contract.date_created
         generated_date = format_date(date_created, 'd MMMM yyyy', locale='ru')
         phone = request.POST['phone']
-        passport = request.POST['passport']
+        passport = request.POST['series_passport'] +  request.POST['num_passport']
         email = request.POST['email']
         company = contract.contract_template.company
         if sur_name:
@@ -226,7 +226,8 @@ def finally_rich(self, request, contract_number):
         os.remove(new_path_docx)
         contract.identifier = get_data_from_forms(self, request, contract_number).get('short_name')
         contract.email = email
-        contract.passport = get_data_from_forms(self, request, contract_number).get('passport')
+        contract.series_passport = get_data_from_forms(self, request, contract_number).get('series_passport')
+        contract.num_passport = get_data_from_forms(self, request, contract_number).get('num_passport')
         contract.phone = get_data_from_forms(self, request, contract_number).get('phone')
         contract.payment = path_payment
         contract.signed_contract = path_pdf
@@ -295,7 +296,8 @@ def finally_rich(self, request, contract_number):
         os.remove(new_path_docx)
         contract.identifier = get_data_from_forms(self, request, contract_number).get('short_name')
         contract.email = email
-        contract.passport = get_data_from_forms(self, request, contract_number).get('passport')
+        contract.series_passport = get_data_from_forms(self, request, contract_number).get('series_passport')
+        contract.num_passport = get_data_from_forms(self, request, contract_number).get('num_passport')
         contract.phone = get_data_from_forms(self, request, contract_number).get('phone')
         contract.payment = path_payment
         contract.date_signed = timezone.now()
@@ -390,7 +392,7 @@ def send_sms(self, request, contract_number):
 
     message = client.messages.create(
         body=str(get_actual_code(self, phone=phone)),
-        from_='+17128827791',
+        from_='+19378842345',
         to=str(phone)
     )
     return phone
