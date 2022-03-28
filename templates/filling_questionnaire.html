@@ -85,10 +85,10 @@
                         </div>
                         <button class="btn btn_grd btn_send_sms btn_sms" name="code">Отправить код</button>
                         <button class="btn btn_grd btn_check_code" name="docx">Сформировать договор</button>
-                        <div class="sms_code_container">
+                        <div class="">
                             <div class="form-group">
                                 <label for="code">Введите код</label>
-                                <input type="number" id="code" name="code" placeholder="0000">
+                                {{ form.code }}
                             </div>
                             <div class="code_1">
                                 <button class="btn_send_sms" name="code">Отправить код повторно</button><span>через <span id="timer"></span> секунд</span>
