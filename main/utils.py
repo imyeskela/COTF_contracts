@@ -179,11 +179,13 @@ class FillingQuestionnaireMixin:
 
         if 'docx' in request.POST:
             if form.is_valid():
+                print('VALID')
                 change_confirmation(self, request, contract_number)
                 docx_base = form_questionnaire(self, request, contract_number)
                 return render(request, self.template_name, {'docx_base': docx_base, 'form': form})
 
         elif 'qr_code' in request.POST:
+            print(request.POST)
             img_base = finally_rich(self, request, contract_number)
             get_sign_img(self, request, contract_number)
             change_contract_status(self)
