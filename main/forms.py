@@ -14,6 +14,7 @@ from services.questionnaire import get_actual_code
 class ContractTemplateCreateForm(forms.ModelForm):
     """Форма для созданания Шаблона Контракта"""
     create_form = forms.BooleanField(widget=forms.HiddenInput, required=False)
+    check = forms.BooleanField(widget=forms.HiddenInput, required=False)
 
     class Meta:
         model = ContractTemplate
@@ -89,19 +90,73 @@ class ContractListForm(forms.Form):
 
 class FillingQuestionnaireForm(forms.Form):
     """Форма для подписание Контракта"""
-    last_name = forms.CharField(help_text='Фамилия', label='last_name')
-    name = forms.CharField(help_text='Имя', label='name')
-    sur_name = forms.CharField(help_text='Отчество', required=False, label='sur_name')
-    series_passport = forms.CharField(help_text='Серия и номер паспорта', max_length=4, label='series_passport')
-    num_passport = forms.CharField(help_text='Серия и номер паспорта', max_length=6, label='num_passport')
-    email = forms.EmailField(help_text='электронная почта', label='email')
-    phone = forms.CharField(help_text='Номер телефона')
+    last_name = forms.CharField(
+        label='Фамилия*',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Фамилия'
+            }
+        )
+    )
+    name = forms.CharField(
+        label='Имя*',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Имя'
+            }
+        )
+    )
+    sur_name = forms.CharField(
+        required=False,
+        label='Отчество',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Отчество'
+            }
+        )
+    )
+    series_passport = forms.CharField(
+        max_length=4,
+        required=True,
+        label='Серия паспорта*',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Серия паспорта'
+            }
+        )
+    )
+    num_passport = forms.CharField(
+        max_length=6,
+        required=True,
+        label='Номер паспорта*',
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Номер паспорта'
+            }
+        )
+    )
+    email = forms.EmailField(
+        label='Email*',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Серия паспорта'
+            }
+        )
+    )
+    phone = forms.CharField(
+        label='Мобильный телефона*',
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'placeholder': 'Мобильный телефона'
+            }
+        )
+    )
     check_box = forms.BooleanField(label='check_box')
     code = forms.IntegerField(required=False)
-
-    # class Meta:
-    #     widgets = {'series': forms.IntegerField}
-    # contract_number = forms.IntegerField(widget=forms.HiddenInput)
 
     def __init__(self, *args, **kwargs):
         # use self to store id
@@ -122,8 +177,3 @@ class FillingQuestionnaireForm(forms.Form):
                     raise ValidationError('Неправильный код')
             else:
                 pass
-
-
-
-
-

@@ -46,9 +46,14 @@ class ContractTemplateListAndCreateContractMixin:
 
                 if form_contract_template.is_valid():
                     form_contract_template = form_contract_template.save(commit=False)
-                    form_contract_template.save()
+                    if not form_contract_template.check:
+                        form_contract_template.save()
                     return redirect('contract_template_list')
                 else:
+                    for field_name, field in form_contract_template.fields.items():
+                        if field_name in form_contract_template.errors:
+                            field.widget.attrs['class'] = 'invalid'
+
                     return render(
                         request,
                         self.template_name,
@@ -72,15 +77,12 @@ class ContractTemplateListAndCreateContractMixin:
             # Create client
             payload = json.loads(request.body)
 
-            print(payload)
-
             create_contract = payload.get('create_contract')
             identifier = payload.get('identifier')
             amount = payload.get('amount')
             pk = payload.get('pk')
 
             if create_contract:
-
                 contract_template = ContractTemplate.objects.get(pk=pk)
 
                 contract = Contract(
@@ -174,9 +176,9 @@ class FillingQuestionnaireMixin:
 
     def post(self, request, contract_number):
         form = self.form(request.POST, contract_pk=contract_number)
+
         if 'docx' in request.POST:
             if form.is_valid():
-
                 change_confirmation(self, request, contract_number)
                 docx_base = form_questionnaire(self, request, contract_number)
                 return render(request, self.template_name, {'docx_base': docx_base, 'form': form})

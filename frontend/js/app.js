@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     });
     document.querySelectorAll(".tr_contracts_client").forEach(function (tr) {
-        let pk = tr.dataset.pk;
+        let pk = tr.dataset.contractNumber;
         let url_copy_btn = tr.querySelector(".url_copy_btn");
         let url = window.location.origin + "/agreement/" + pk + "/";
         url_copy_btn.querySelector("input[name='contract_url']").value = url;

@@ -3247,7 +3247,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
   document.querySelectorAll(".tr_contracts_client").forEach(function (tr) {
-    var pk = tr.dataset.pk;
+    var pk = tr.dataset.contractNumber;
     var url_copy_btn = tr.querySelector(".url_copy_btn");
     var url = window.location.origin + "/agreement/" + pk + "/";
     url_copy_btn.querySelector("input[name='contract_url']").value = url;
