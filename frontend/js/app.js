@@ -79,14 +79,6 @@ document.addEventListener('DOMContentLoaded', function(){
     })
 });
 
-//function makeContractUpdateForm(tr) {
-//    let form = document.getElementById("contract_update_form");
-//    tr.querySelectorAll("input").forEach(function (input) {
-//        form.appendChild(input);
-//    })
-//    form.submit();
-//}
-
 function xrhPost(url,data,f) {
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -175,4 +167,18 @@ if(acceptButton){
             }
         });
     })
+}
+
+let timer = document.getElementById("timer");
+if(timer){
+    let seconds = parseInt(timer.innerText);
+    let interval = setInterval(function (){
+        seconds--;
+        if(seconds === 0){
+            clearInterval(interval);
+            document.querySelector(".btn_new_code").removeAttribute("disabled");
+            timer.parentElement.remove();
+        }
+        timer.innerText = seconds;
+    },1000);
 }
