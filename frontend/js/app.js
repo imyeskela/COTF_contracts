@@ -105,6 +105,11 @@ function xrhPost(url,data,f) {
 }
 
 if(document.getElementById("paint")){
+    let tab_pane = document.querySelectorAll(".tab-pane").forEach(function (item){
+        if(item.clientWidth > 0){
+            document.getElementById("paint").setAttribute("width",item.clientWidth);
+        }
+    })
     let c = new fabric.Canvas('paint');
     c.isDrawingMode = true;
     c.freeDrawingBrush.width = 3;
@@ -150,7 +155,24 @@ if(modal){
     })
 }
 
-let acceptButton = document.getElementById('acceptButton').addEventListener('click', function (e) {
-    let signPage = document.getElementById('nav-3-tab');
-    signPage.click();
-})
+let acceptButton = document.getElementById('acceptButton');
+if(acceptButton){
+    acceptButton.addEventListener('click', function (e) {
+        document.querySelectorAll(".nav-link").forEach(function (item,i){
+            if(i == 2){
+                item.classList.add('active');
+            }else{
+                item.classList.remove('active')
+            }
+        })
+        document.querySelectorAll(".tab-pane").forEach(function (item,i){
+            if(i == 2){
+                item.classList.add('active');
+                item.classList.add('show');
+            }else{
+                item.classList.remove('active');
+                item.classList.remove('show');
+            }
+        });
+    })
+}
