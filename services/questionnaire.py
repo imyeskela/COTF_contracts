@@ -236,15 +236,15 @@ def finally_rich(self, request, contract_number):
         contract.signed_contract = path_pdf
         contract.date_signed = timezone.now()
         contract.save()
-        email_send = EmailMessage(
-            subject='Клуб Первых',
-            body='Оплатить счёт возможно в течение 5 рабочих дней. До встречи в Клубе Первых!',
-            from_email=EMAIL_HOST_USER,
-            to=[str(email)],
-        )
-        email_send.attach_file(path_payment)
-        email_send.attach_file(path_pdf)
-        email_send.send()
+        # email_send = EmailMessage(
+        #     subject='Клуб Первых',
+        #     body='Оплатить счёт возможно в течение 5 рабочих дней. До встречи в Клубе Первых!',
+        #     from_email=EMAIL_HOST_USER,
+        #     to=[str(email)],
+        # )
+        # email_send.attach_file(path_payment)
+        # email_send.attach_file(path_pdf)
+        # email_send.send()
 
         return img_base
     elif company == 'ООО "ДЕЛОВОЙ КЛУБ"':
@@ -306,29 +306,29 @@ def finally_rich(self, request, contract_number):
         contract.date_signed = timezone.now()
         contract.signed_contract = path_pdf
         contract.save()
-        email_send = EmailMessage(
-            subject='Клуб Первых',
-            body='Оплатить счёт возможно в течение 5 рабочих дней. До встречи в Клубе Первых!',
-            from_email=EMAIL_HOST_USER,
-            to=[str(email)],
-        )
-        email_send.attach_file(path_payment)
-        email_send.attach_file(path_pdf)
-        email_send.send()
+        # email_send = EmailMessage(
+        #     subject='Клуб Первых',
+        #     body='Оплатить счёт возможно в течение 5 рабочих дней. До встречи в Клубе Первых!',
+        #     from_email=EMAIL_HOST_USER,
+        #     to=[str(email)],
+        # )
+        # email_send.attach_file(path_payment)
+        # email_send.attach_file(path_pdf)
+        # email_send.send()
         return img_base
 
 
 def send_email_contract_signed(self, request, contract_number):
     full_name = get_data_from_forms(self, request, contract_number).get('full_name')
-    email = get_data_from_forms(self, request, contract_number).get('email')
-
-    email_send = EmailMessage(
-        subject='Клуб Первых',
-        body=full_name + ' подписал(а) договор',
-        from_email=EMAIL_HOST_USER,
-        to=[str(email)],
-    )
-    email_send.send()
+    # email = get_data_from_forms(self, request, contract_number).get('email')
+    #
+    # email_send = EmailMessage(
+    #     subject='Клуб Первых',
+    #     body=full_name + ' подписал(а) договор',
+    #     from_email=EMAIL_HOST_USER,
+    #     to=[str(email)],
+    # )
+    # email_send.send()
     return full_name
 
 def _create_new_code():
