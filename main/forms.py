@@ -14,7 +14,7 @@ from services.questionnaire import get_actual_code
 class ContractTemplateCreateForm(forms.ModelForm):
     """Форма для созданания Шаблона Контракта"""
     create_form = forms.BooleanField(widget=forms.HiddenInput, required=False)
-    check = forms.BooleanField(widget=forms.HiddenInput, required=False)
+    check_file = forms.BooleanField(widget=forms.HiddenInput, required=False)
 
     class Meta:
         model = ContractTemplate
@@ -165,15 +165,20 @@ class FillingQuestionnaireForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(FillingQuestionnaireForm, self).clean()
-        user_code = cleaned_data['code']
+        user_code = cleaned_data.get('code')
+        if not user_code:
+            raise ValidationError('Неправильный код')
+
         phone = cleaned_data['phone']
         contract = Contract.objects.get(number=self.form_contract_number)
-        code = AuthenticationCode.objects.filter(phone=phone, contract=contract, relevance=True).values('code')
-        for c in code:
-            code_code = c
-            if code_code is not None:
-                code_n = code_code.get('code')
-                if str(user_code) != str(code_n):
-                    raise ValidationError('Неправильный код')
-            else:
-                pass
+        codes = AuthenticationCode.objects.filter(phone=phone, contract=contract, relevance=True).values('code')
+
+        check = False
+        for code in codes:
+            code_n = code.get('code')
+            print(code_n, user_code)
+            if str(user_code) == str(code_n):
+                check = True
+
+        if not check:
+            raise ValidationError('Неправильный код')

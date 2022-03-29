@@ -139,25 +139,38 @@
                     {% csrf_token %}
                     {{ form_contract_template.create_form }}
 
-                    {{ form_contract_template.amount }}
-                    {{ form_contract_template.amount.errors }}
+                    <div class="form-group">
+                        {{ form_contract_template.amount }}
+                        {{ form_contract_template.amount.errors }}
+                    </div>
 
-                    {{ form_contract_template.status }}
-                    {{ form_contract_template.status.errors }}
-
-                    {{ form_contract_template.type }}
-                    {{ form_contract_template.type.errors }}
-
-                    {{ form_contract_template.company }}
-                    {{ form_contract_template.company.errors }}
+                    <div class="form-group">
+                        {{ form_contract_template.status }}
+                        {{ form_contract_template.status.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_contract_template.type }}
+                        {{ form_contract_template.type.errors }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_contract_template.company }}
+                        {{ form_contract_template.company.errors }}
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <label for="id_template_of_contract">+ Загрузить договор</label>
+                        <div class="d-flex">
+                            <span class="refresh"><img src="{% static 'icon/refresh-ccw.svg' %}"></span>
+                            <span class="clear"><img src="{% static 'icon/x-circle.svg' %}"></span>
+                        </div>
+                    </div>
 
                     {{ form_contract_template.template_of_contract }}
                     {{ form_contract_template.template_of_contract.errors }}
 
-                    {{ form_contract_template.check }}
+                    {{ form_contract_template.check_file }}
+                    {{ message }}
                     <div class="buttons">
-                        <button class="btn" type="button">Отмена</button>
-                        <button class="btn btn_grd">Проверить</button>
+                        <button class="btn" data-bs-dismiss="modal" type="button">Отмена</button>
                         <button class="btn btn_grd">Отправить</button>
                     </div>
 

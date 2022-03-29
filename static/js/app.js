@@ -3215,6 +3215,7 @@ function capitalize(str) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  document.querySelector("body").addEventListener("click", function (e) {});
   var contract_client_form = document.getElementById("contract_client_form");
   document.querySelectorAll(".tr_contract").forEach(function (tr) {
     tr.querySelectorAll(".dropdown").forEach(function (dropdown) {
@@ -3317,82 +3318,13 @@ if (document.getElementById("paint")) {
   c.isDrawingMode = true;
   c.freeDrawingBrush.width = 3;
   c.freeDrawingBrush.color = "#000";
-  document.querySelector(".clear_convas").addEventListener("click", function () {
+  document.querySelector("#clearCanvas").addEventListener("click", function () {
     c.clear();
-  }); // document.querySelector("BUTTON").addEventListener("click",() => {
-  //     let input = document.querySelector("INPUT").value =
-  //     document.getElementById("paint").toDataURL('image/jpeg', 1.0)
-  // })
-} // let wizard = {
-//     wizard_elem: document.getElementById("wizard"),
-//     page: 1,
-//     next:function(){
-//         this.page++;
-//         this.wizard_elem.querySelectorAll(".tab-pane").forEach(function (item) {
-//             item.classList.remove("show");
-//             item.classList.remove("active");
-//         })
-//         this.wizard_elem.querySelector("#nav-"+this.page).classList.add("show");
-//         this.wizard_elem.querySelector("#nav-"+this.page).classList.add("active");
-//         this.wizard_elem.querySelectorAll(".nav-link").forEach( (item) => {
-//             item.classList.remove("active");
-//         })
-//         this.wizard_elem.querySelector("#nav-"+this.page+"-tab").classList.add("active");
-//     },
-//     makeSignature: function () {
-//
-//     },
-//     init:function () {
-//         if(this.wizard_elem){
-//             this.makeSignature();
-//             this.wizard_elem.querySelectorAll(".btn_next").forEach( (button) => {
-//                 button.addEventListener("click", () => {
-//                     this.next();
-//                 })
-//             })
-//         }
-//         this.wizard_elem.querySelector(".btn_submit").addEventListener("click",() => {
-//             this.makeForm()
-//         })
-//         this.wizard_elem.querySelector(".btn_send_sms").addEventListener("click",() => {
-//             let data = {
-//                 send_code: true,
-//                 phone: this.wizard_elem.querySelector("#phone")
-//             };
-//             xrhPost(window.location,data,function (callback) {
-//                 console.log(callback);
-//             })
-//         })
-//         this.wizard_elem.querySelector(".btn_check_code").addEventListener("click",() => {
-//             let data = {
-//                 check_code: true,
-//                 code: this.wizard_elem.querySelector("#code")
-//             };
-//             xrhPost(window.location,data,function (callback) {
-//                 console.log(callback);
-//             })
-//         })
-//     },
-//     makeForm:function () {
-//         let data = {
-//             signature: this.wizard_elem.querySelector("#paint").toDataURL('image/jpeg', 1.0),
-//             fname: this.wizard_elem.querySelector("#fname").value,
-//             lname: this.wizard_elem.querySelector("#lname").value,
-//             mname: this.wizard_elem.querySelector("#mname").value,
-//             passport: this.wizard_elem.querySelector("#passport").value +
-//                 this.wizard_elem.querySelector("#passport_num").value,
-//             email: this.wizard_elem.querySelector("#email"),
-//             phone: this.wizard_elem.querySelector("#phone"),
-//         }
-//         xrhPost(window.location,data,function (callback) {
-//             console.log(callback);
-//         })
-//     },
-//
-// }
-//
-// wizard.init();
-
+  });
+  document.getElementById("signContract").addEventListener("click", function () {
+    document.getElementById("sign").value = document.getElementById("paint").toDataURL('image/jpeg', 1.0);
+  });
+}
 
 function copy_url(elem, url) {
   var contract_url_input = elem.querySelector("input[name=contract_url]");
@@ -3406,14 +3338,34 @@ function copy_url(elem, url) {
   }, 1500);
 }
 
-var template_of_contract = document.getElementById('template_of_contract');
+var modal = document.getElementById("contract_add_modal");
 
-if (template_of_contract) {
-  template_of_contract.onchange = function () {
-    var file_name = this.value.split("\\").pop();
-    document.querySelector("label[for='template_of_contract']").innerText = file_name;
-  };
+if (modal) {
+  var template_of_contract = document.getElementById('id_template_of_contract');
+  var file_label = document.querySelector("label[for='id_template_of_contract']");
+
+  if (template_of_contract) {
+    template_of_contract.onchange = function () {
+      var file_name = this.value.split("\\").pop();
+      file_label.innerText = file_name;
+    };
+  }
+
+  var form = modal.querySelector("form");
+  modal.querySelector(".refresh").addEventListener("click", function () {
+    form.querySelector("input#id_check_file").value = true;
+    form.querySelector(".buttons .btn_grd").click();
+  });
+  modal.querySelector(".clear").addEventListener("click", function () {
+    template_of_contract.value = "";
+    file_label.innerText = "+ Загрузить договор";
+  });
 }
+
+var acceptButton = document.getElementById('acceptButton').addEventListener('click', function (e) {
+  var signPage = document.getElementById('nav-3-tab');
+  signPage.click();
+});
 
 /***/ }),
 

@@ -358,7 +358,7 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   color: #fff;
   padding: 6px 12px;
   margin: 0;
-  top: 30px;
+  top: 20px;
 }
 .url_copy_btn .alert.show {
   display: block;
@@ -782,20 +782,33 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   padding: 6px 31px;
   color: #ffffff;
 }
+#contract_add_modal .modal-content .form-group {
+  margin-bottom: 22px;
+}
 #contract_add_modal .modal-content .input, #contract_add_modal .modal-content input, #contract_add_modal .modal-content select {
   width: 300px;
-  margin-bottom: 22px;
+}
+#contract_add_modal .modal-content .input.invalid, #contract_add_modal .modal-content input.invalid, #contract_add_modal .modal-content select.invalid {
+  border-color: #5F0422;
 }
 #contract_add_modal .modal-content .buttons {
   margin-top: 40px;
   display: flex;
   justify-content: end;
 }
-#contract_add_modal .modal-content #template_of_contract {
+#contract_add_modal .modal-content label {
+  cursor: pointer;
+}
+#contract_add_modal .modal-content #id_template_of_contract {
   display: none;
+}
+#contract_add_modal .modal-content .refresh, #contract_add_modal .modal-content .clear {
+  margin-left: 14px;
+  cursor: pointer;
 }
 
 .tr_contracts_client .url_copy_btn .alert {
   left: -10px;
   transform: translateX(0);
+  top: 14px;
 }

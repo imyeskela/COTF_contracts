@@ -46,8 +46,23 @@ class ContractTemplateListAndCreateContractMixin:
 
                 if form_contract_template.is_valid():
                     form_contract_template = form_contract_template.save(commit=False)
-                    if not form_contract_template.check:
-                        form_contract_template.save()
+
+                    if 'check_file' in request.POST:
+                        if request.POST['check_file'] == 'true':
+                            return render(
+                                request,
+                                self.template_name,
+                                {
+                                    'show_modal': True,
+                                    'contract_template_list': page_obj,
+                                    'form_contract': self.form_contract,
+                                    'form_contract_template': form_contract_template,
+                                    'form_contract_template_change': form_contract_template_change,
+                                    'message': 'Form is valid!'
+                                }
+                            )
+                        else:
+                            form_contract_template.save()
                     return redirect('contract_template_list')
                 else:
                     for field_name, field in form_contract_template.fields.items():
@@ -172,7 +187,11 @@ class FillingQuestionnaireMixin:
         contract = self.contract()
         if contract.status == 'Подписан':
             return HttpResponseNotFound('404')
-        return render(request, self.template_name, {'form': self.form(contract_pk=contract_number), 'contract': contract})
+        return render(request, self.template_name, {
+            'form': self.form(contract_pk=contract_number),
+            'contract': contract,
+            'step': 'send_sms'
+        })
 
     def post(self, request, contract_number):
         form = self.form(request.POST, contract_pk=contract_number)
@@ -182,7 +201,15 @@ class FillingQuestionnaireMixin:
                 print('VALID')
                 change_confirmation(self, request, contract_number)
                 docx_base = form_questionnaire(self, request, contract_number)
-                return render(request, self.template_name, {'docx_base': docx_base, 'form': form})
+                return render(request, self.template_name, {
+                    'docx_base': docx_base,
+                    'form': form,
+                    'step': 'docx'
+                })
+            else:
+                print('INVALID')
+                print(form.fields)
+                return render(request, self.template_name, {'form': form})
 
         elif 'qr_code' in request.POST:
             print(request.POST)
@@ -191,13 +218,16 @@ class FillingQuestionnaireMixin:
             change_contract_status(self)
             send_email_contract_signed(self, request, contract_number)
             return render(request, self.template_name, {'img_base': img_base})
+
         elif 'code' in request.POST:
             create_new_code_obj(self, request, contract_number)
             send_sms(self, request, contract_number)
             time_sms = get_time_for_resend_sms(self, request, contract_number)
-            return render(request, self.template_name, {'form': form, 'time_sms': time_sms})
+
+            return render(request, self.template_name, {
+                'form': form,
+                'time_sms': time_sms,
+                'step': 'resend_sms'
+            })
 
         return render(request, self.template_name, {'form': form})
-
-
-

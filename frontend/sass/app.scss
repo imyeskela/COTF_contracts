@@ -352,7 +352,7 @@ input,select,textarea{
     color: #fff;
     padding: 6px 12px;
     margin: 0;
-    top: 30px;
+    top: 20px;
     &.show{
       display: block;
     }
@@ -789,17 +789,29 @@ input,select,textarea{
       padding: 6px 31px;
       color: #ffffff;
     }
+    .form-group{
+      margin-bottom: 22px;
+    }
     .input{
       width: 300px;
-      margin-bottom: 22px;
+      &.invalid{
+        border-color: #5F0422;
+      }
     }
     .buttons{
       margin-top: 40px;
       display: flex;
       justify-content: end;
     }
-    #template_of_contract{
+    label{
+      cursor: pointer;
+    }
+    #id_template_of_contract{
       display: none;
+    }
+    .refresh,.clear{
+      margin-left: 14px;
+      cursor: pointer;
     }
   }
 }
@@ -809,6 +821,7 @@ input,select,textarea{
     .alert{
       left: -10px;
       transform: translateX(0);
+      top: 14px;
     }
   }
 }
