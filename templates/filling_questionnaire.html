@@ -40,34 +40,34 @@
                     <p class="step">Шаг 1/4. Заполнение данных</p>
                     <div class="form">
                         <div class="form-group">
-                            {{ form.last_name.label }}
+                            <label for="id_last_name">{{ form.last_name.label }}</label>
                             {{ form.last_name }}
                             {{ form.last_name.errors }}
                         </div>
                         <div class="form-group">
-                            {{ form.name.label }}
+                            <label for="id_name">{{ form.name.label }}</label>
                             {{ form.name }}
                             {{ form.name.errors }}
                         </div>
                         <div class="form-group">
-                            {{ form.sur_name.label }}
+                            <label for="id_sur_name">{{ form.sur_name.label }}</label>
                             {{ form.sur_name }}
                             {{ form.sur_name.errors }}
                         </div>
                         <div class="d-flex">
                             <div class="form-group passport">
-                                {{ form.series_passport.label }}
+                                <label for="id_series_passport">{{ form.series_passport.label }}</label>
                                 {{ form.series_passport }}
                                 {{ form.series_passport.errors }}
                             </div>
                             <div class="form-group">
-                                {{ form.num_passport.label }}
+                                <label for="id_num_passport">{{ form.num_passport.label }}</label>
                                 {{ form.num_passport }}
                                 {{ form.num_passport.errors }}
                             </div>
                         </div>
                         <div class="form-group">
-                            {{ form.email.label }}
+                            <label for="id_email">{{ form.email.label }}</label>
                             {{ form.email }}
                             {{ form.email.errors }}
                         </div>
@@ -79,7 +79,7 @@
                             <span class="label"> Я согласен на <a href="#">обработку персональных данных</a></span>
                         </div>
                         <div class="form-group">
-                            {{ form.phone.label }}
+                            <label for="id_phone">{{ form.phone.label }}</label>
                             {{ form.phone }}
                             {{ form.phone.errors }}
                         </div>
@@ -87,8 +87,9 @@
                         <button class="btn btn_grd btn_check_code" name="docx">Сформировать договор</button>
                         <div class="">
                             <div class="form-group">
-                                <label for="code">Введите код</label>
+                                <label for="id_code">Введите код</label>
                                 {{ form.code }}
+                                {{ form.code.errors }}
                             </div>
                             <div class="code_1">
                                 <button class="btn_send_sms" name="code">Отправить код повторно</button><span>через <span id="timer"></span> секунд</span>
