@@ -389,18 +389,17 @@ def create_new_code_obj(self, request, contract_number):
 
 def send_sms(self, request, contract_number):
     phone = get_data_from_forms(self, request, contract_number).get('phone')
-    # account_sid = ACCOUNT_SID
-    # auth_token = AUTH_TOKEN
-    # client = Client(account_sid, auth_token)
-    #
-    # message = client.messages.create(
-    #     body=str(get_actual_code(self, phone=phone)),
-    #     from_='+19378842345',
-    #     to=str(phone)
-    # )
-    # # print(message.sid)
-    return print(get_actual_code(self, phone=phone))
+    account_sid = ACCOUNT_SID
+    auth_token = AUTH_TOKEN
+    client = Client(account_sid, auth_token)
 
+    message = client.messages.create(
+        body=str(get_actual_code(self, phone=phone)),
+        from_='+19378842345',
+        to=str(phone)
+    )
+    # print(message.sid)
+    return phone
 
 def get_time_for_resend_sms(self, request, contract_number):
     actual_code = get_actual_code(self, phone=get_data_from_forms(self, request, contract_number).get('phone'))
