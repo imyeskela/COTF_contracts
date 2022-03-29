@@ -24,6 +24,8 @@ from services.main_logic import get_contract, get_codes_of_obj, get_num_attempts
 from services.num_to_text import num2text
 from main.models import AuthenticationCode
 
+import mammoth
+
 
 def get_data_from_forms(self, request, contract_number):
     if request.method == 'POST':
@@ -100,8 +102,9 @@ def create_docx(self, request, contract_number):
 
 def form_questionnaire(self, request, contract_number):
     docx = create_docx(self, request, contract_number)
-    text = docx2txt.process(docx)
-    return text
+    html = mammoth.convert_to_html(docx)
+    result = html.value
+    return result
 
 
 def get_sign_img(self, request, contract_number):
@@ -395,8 +398,8 @@ def send_sms(self, request, contract_number):
     #     from_='+19378842345',
     #     to=str(phone)
     # )
-    # print(message.sid)
-    return print(str(get_actual_code(self, phone=phone)))
+    # # print(message.sid)
+    return print(get_actual_code(self, phone=phone))
 
 
 def get_time_for_resend_sms(self, request, contract_number):
