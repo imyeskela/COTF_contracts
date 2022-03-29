@@ -3287,13 +3287,7 @@ document.addEventListener('DOMContentLoaded', function () {
       contract_client_form.submit();
     });
   });
-}); //function makeContractUpdateForm(tr) {
-//    let form = document.getElementById("contract_update_form");
-//    tr.querySelectorAll("input").forEach(function (input) {
-//        form.appendChild(input);
-//    })
-//    form.submit();
-//}
+});
 
 function xrhPost(url, data, f) {
   var xhr = new XMLHttpRequest();
@@ -3314,6 +3308,11 @@ function xrhPost(url, data, f) {
 }
 
 if (document.getElementById("paint")) {
+  var tab_pane = document.querySelectorAll(".tab-pane").forEach(function (item) {
+    if (item.clientWidth > 0) {
+      document.getElementById("paint").setAttribute("width", item.clientWidth);
+    }
+  });
   var c = new fabric.Canvas('paint');
   c.isDrawingMode = true;
   c.freeDrawingBrush.width = 3;
@@ -3362,10 +3361,45 @@ if (modal) {
   });
 }
 
-var acceptButton = document.getElementById('acceptButton').addEventListener('click', function (e) {
-  var signPage = document.getElementById('nav-3-tab');
-  signPage.click();
-});
+var acceptButton = document.getElementById('acceptButton');
+
+if (acceptButton) {
+  acceptButton.addEventListener('click', function (e) {
+    document.querySelectorAll(".nav-link").forEach(function (item, i) {
+      if (i == 2) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+    document.querySelectorAll(".tab-pane").forEach(function (item, i) {
+      if (i == 2) {
+        item.classList.add('active');
+        item.classList.add('show');
+      } else {
+        item.classList.remove('active');
+        item.classList.remove('show');
+      }
+    });
+  });
+}
+
+var timer = document.getElementById("timer");
+
+if (timer) {
+  var seconds = parseInt(timer.innerText);
+  var interval = setInterval(function () {
+    seconds--;
+
+    if (seconds === 0) {
+      clearInterval(interval);
+      document.querySelector(".btn_new_code").removeAttribute("disabled");
+      timer.parentElement.remove();
+    }
+
+    timer.innerText = seconds;
+  }, 1000);
+}
 
 /***/ }),
 

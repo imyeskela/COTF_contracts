@@ -155,22 +155,21 @@ class ContractListMixin:
 
     def post(self, request):
         form_contract_template = self.form_contract_template(request.POST, request.FILES)
-        # form_contract = self.form_contract(request.POST)
-        if 'create_contract_template' in request.POST:
-            if form_contract_template.is_valid():
-                form_contract_template = form_contract_template.save(commit=False)
-                form_contract_template.save()
-                return redirect('contract_template_list')
-            else:
-                return render(request, self.template_name,
-                              {'form_contract_template': form_contract_template})
 
-        # elif 'download_contract' in request.POST:
-        #     contract_number = request.POST.get('contract_number')
-        #     zip_file = download(contract_number=contract_number)
-        #
-        #     return render(request, self.template_name,
-        #                   {'response': zip_file})
+        download_contract = request.POST.get('download_contract')
+        contract_number = request.POST.get('pk')
+        status = request.POST.get('status')
+
+        if 'status' in request.POST:
+            contract = Contract.objects.get(number=contract_number)
+            contract.status = status
+            contract.save()
+
+            return redirect('contract_list')
+
+        if download_contract:
+            zip_file = download(contract_number=contract_number)
+            return zip_file
 
         return render(request, self.template_name,
                       {'form_contract_template': form_contract_template})
@@ -217,7 +216,10 @@ class FillingQuestionnaireMixin:
             get_sign_img(self, request, contract_number)
             change_contract_status(self)
             send_email_contract_signed(self, request, contract_number)
-            return render(request, self.template_name, {'img_base': img_base})
+            return render(request, self.template_name, {
+                'img_base': img_base,
+                'step': 'qr_code'
+            })
 
         elif 'code' in request.POST:
             create_new_code_obj(self, request, contract_number)

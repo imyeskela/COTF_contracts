@@ -17,7 +17,7 @@ def get_contract_and_payment(contract_number):
     return contract_and_payment
 
 
-def download(self, contract_number):
+def download(contract_number):
     files = get_contract_and_payment(contract_number)
     print(files)
     zip_subdir = str(contract_number)

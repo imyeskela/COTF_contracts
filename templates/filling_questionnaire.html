@@ -16,27 +16,21 @@
                 <h1>Договор оказания услуг</h1>
                 <nav>
                     <div class="nav nav-tabs" role="tablist">
-                        <button aria-controls="nav-1"
-                                aria-selected="true" class="nav-link {% if step == 'send_sms' or step == 'resend_sms' %}active{% endif %}" data-bs-target="#nav-1"
-                                data-bs-toggle="tab" id="nav-1-tab" role="tab" type="button"><img
-                                src="{% static 'icon/check.svg' %}"><span>1</span></button>
+                        <button class="nav-link {% if step == 'send_sms' or step == 'resend_sms' %}active{% endif %}"
+                                type="button"><img src="{% static 'icon/check.svg' %}"><span>1</span></button>
                         <div class="line"></div>
-                        <button aria-controls="nav-2" aria-selected="false"
-                                class="nav-link {% if step == 'docx' %}active{% endif %}" data-bs-target="#nav-2" data-bs-toggle="tab"
-                                id="nav-2-tab" role="tab" type="button"><img
-                                src="{% static 'icon/check.svg' %}"><span>2</span></button>
+                        <button class="nav-link {% if step == 'docx' %}active{% endif %}" type="button">
+                            <img src="{% static 'icon/check.svg' %}"><span>2</span>
+                        </button>
                         <div class="line"></div>
-                        <button aria-controls="nav-3" aria-selected="false" class="nav-link" data-bs-target="#nav-3"
-                                data-bs-toggle="tab"
-                                id="nav-3-tab" role="tab" type="button"><img
-                                src="{% static 'icon/check.svg' %}"><span>3</span></button>
+                        <button class="nav-link" data-bs-target="#nav-3" type="button">
+                            <img src="{% static 'icon/check.svg' %}"><span>3</span>
+                        </button>
                         <div class="line"></div>
-                        <button aria-controls="nav-4" aria-selected="false" class="nav-link" data-bs-target="#nav-4"
-                                data-bs-toggle="tab"
-                                id="nav-4-tab" role="tab" type="button"><img
-                                src="{% static 'icon/check.svg' %}"><span>4</span></button>
-                        <button aria-controls="nav-5" aria-selected="false" class="nav-link d-none" data-bs-target="#nav-5"
-                                data-bs-toggle="tab" id="nav-5-tab" role="tab" type="button"></button>
+                        <button class="nav-link {% if step == 'qr_code' %}active{% endif %}" type="button">
+                            <img src="{% static 'icon/check.svg' %}"><span>4</span>
+                        </button>
+                        <button class="nav-link d-none" type="button"></button>
                     </div>
                 </nav>
                 <div class="tab-content">
@@ -101,7 +95,7 @@
                                     {{ form.code.errors }}
                                 </div>
                                 <div class="code_1">
-                                    <button class="btn btn-link" name="code">
+                                    <button class="btn_new_code a" disabled name="code">
                                         Отправить код повторно
                                     </button>
                                     <span>через <span id="timer">{{ time_sms }}</span> секунд</span>
@@ -139,16 +133,20 @@
                             </button>
                         </div>
                     </div>
-                    <div aria-labelledby="nav-4-tab" class="tab-pane fade" id="nav-4" role="tabpanel">
+                    <div aria-labelledby="nav-4-tab" class="tab-pane fade {% if step == 'qr_code' %}show active{% endif %}" id="nav-4" role="tabpanel">
                         <p class="step">Шаг 4/4. Получение счета</p>
                         <div class="qr_code">
                             <h2>Договор отправлен на указанную вами почту.</h2>
                             <p>Оплатить счет вы можете в течение 5 рабочих дней по данному QR-коду (полная версия счета
                                 отправлена на почту).</p>
                             <span>До встречи в Клубе Первых!</span>
-                            <img class="qr" height="248" src="{% static 'image3.png' %}" width="248"/>
+                            <img src="data:application/octet-stream;base64,{{ img_base }}" width="248" />
                         </div>
-                        <button class="btn btn_grd btn_wizard_100">Скачать QR-код для оплаты</button>
+
+                        <a download="qrcode" href="data:image/png;base64,{{ img_base }}"
+                           class="btn btn_grd btn_wizard_100">
+                            Скачать QR-код для оплаты
+                        </a>
                     </div>
                     <div aria-labelledby="nav-5-tab" class="tab-pane fade" id="nav-5" role="tabpanel">
                         <p class="step">Все этапы заполнены</p>

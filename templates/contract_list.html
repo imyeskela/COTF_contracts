@@ -211,7 +211,7 @@
             {% include 'common/pagination.html' with items=contracts_client %}
         </div>
     </div>
-    <form action="#" id="contract_client_form" method="POST">
+    <form action="#" id="contract_client_form" class="d-none" method="POST">
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
     </form>
 </div>

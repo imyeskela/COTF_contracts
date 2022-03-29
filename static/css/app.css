@@ -447,6 +447,9 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   font-size: 28px;
   line-height: 30px;
 }
+.wizard-wrapper .btn_check_code {
+  width: 100%;
+}
 .wizard-wrapper .nav-tabs {
   width: 100%;
   display: flex;
@@ -574,7 +577,7 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   /* Internet Explorer/Edge */
   user-select: none;
   /* Non-prefixed version, currently
-     supported by Chrome, Edge, Opera and Firefox */
+                                                   supported by Chrome, Edge, Opera and Firefox */
   background: linear-gradient(71.59deg, #60326B 0%, #BD2971 100%);
 }
 .wizard-wrapper .tab-content .form-group.checkbox input:checked + .fake_checkbox img {
@@ -600,11 +603,20 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   width: 133px;
   margin-right: 20px;
 }
-.wizard-wrapper .tab-content .code_1 a {
+.wizard-wrapper .tab-content .form-group.passport ~ .form-group {
+  width: 100%;
+}
+.wizard-wrapper .tab-content .code_1 {
+  margin-bottom: 20px;
+}
+.wizard-wrapper .tab-content .code_1 .a {
   color: #902d6e;
   font-weight: 500;
   font-size: 12px;
   margin-right: 5px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
 }
 .wizard-wrapper .tab-content .code_1 span {
   color: #8B8F97;
@@ -789,7 +801,12 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   width: 300px;
 }
 #contract_add_modal .modal-content .input.invalid, #contract_add_modal .modal-content input.invalid, #contract_add_modal .modal-content select.invalid {
-  border-color: #5F0422;
+  border-color: #dc3545;
+}
+#contract_add_modal .modal-content .errorlist li {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: #dc3545;
 }
 #contract_add_modal .modal-content .buttons {
   margin-top: 40px;
@@ -798,6 +815,13 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
 }
 #contract_add_modal .modal-content label {
   cursor: pointer;
+}
+#contract_add_modal .modal-content label[for=id_template_of_contract] {
+  max-width: 240px;
+  text-overflow: ellipsis;
+  height: 2rem;
+  overflow: hidden;
+  white-space: nowrap;
 }
 #contract_add_modal .modal-content #id_template_of_contract {
   display: none;
