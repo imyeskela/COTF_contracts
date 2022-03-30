@@ -45,10 +45,9 @@ class ContractTemplateListAndCreateContractMixin:
                 form_contract_template_change = self.form_contract_template_change()
 
                 if form_contract_template.is_valid():
-                    form_contract_template = form_contract_template.save(commit=False)
-
                     if 'check_file' in request.POST:
                         if request.POST['check_file'] == 'true':
+                            print('AAA')
                             return render(
                                 request,
                                 self.template_name,
@@ -62,6 +61,7 @@ class ContractTemplateListAndCreateContractMixin:
                                 }
                             )
                         else:
+                            form_contract_template = form_contract_template.save(commit=False)
                             form_contract_template.save()
                     return redirect('contract_template_list')
                 else:
