@@ -25,16 +25,18 @@ document.addEventListener('DOMContentLoaded', function(){
         });
         let url_copy_btn = tr.querySelector(".url_copy_btn")
         url_copy_btn.addEventListener("click",function (e){
-            let data = {"create_contract" : true};
-            data.identifier = tr.querySelector("input[name='identifier']").value;
-            data.amount = tr.querySelector("input[name='amount']").value;
-            data.pk = tr.querySelector("input[name='contract_template_pk']").value;
-            data.csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-            xrhPost(window.location,data,function (response) {
-                let contract_number = response.contract_number;
-                let contract_url = window.location.origin + '/agreement/' + contract_number + '/';
-                copy_url(tr,contract_url);
-            });
+            if (url_copy_btn.dataset.status === 'Актуально') {
+                let data = {"create_contract" : true};
+                data.identifier = tr.querySelector("input[name='identifier']").value;
+                data.amount = tr.querySelector("input[name='amount']").value;
+                data.pk = tr.querySelector("input[name='contract_template_pk']").value;
+                data.csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                xrhPost(window.location,data,function (response) {
+                    let contract_number = response.contract_number;
+                    let contract_url = window.location.origin + '/agreement/' + contract_number + '/';
+                    copy_url(tr, contract_url);
+                });
+            }
         });
     });
     document.querySelectorAll(".tr_contracts_client").forEach(function (tr) {
@@ -114,7 +116,7 @@ if(document.getElementById("paint")){
     })
 }
 
-function copy_url(elem,url) {
+function copy_url(elem, url) {
     let contract_url_input = elem.querySelector("input[name=contract_url]")
     contract_url_input.value = url;
     contract_url_input.select();
