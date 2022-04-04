@@ -110,7 +110,8 @@ def form_questionnaire(self, request, contract_number):
 def get_sign_img(self, request, contract_number):
     if request.method == 'POST':
         img = request.POST['sign']
-        img = img[22:]
+        print(img)
+        img = img[23:]
         return img
 
 
@@ -195,7 +196,7 @@ def finally_rich(self, request, contract_number):
 
         img = qr_kms.make_image(fill_color="black", back_color="white")
         bytes_io = BytesIO()
-        img.save(bytes_io, format='png')
+        img.save(bytes_io, format='jpeg')
         img_base = base64.b64encode(bytes_io.getvalue()).decode()
 
         workbook = load_workbook(os.path.join(BASE_DIR, 'Шаблон Счета на оплату КМС.xlsx'))
@@ -267,7 +268,7 @@ def finally_rich(self, request, contract_number):
         qr_dk.make(fit=True)
         img = qr_dk.make_image(fill_color="black", back_color="white")
         bytes_io = BytesIO()
-        img.save(bytes_io, format='png')
+        img.save(bytes_io, format='jpeg')
         img_base = base64.b64encode(bytes_io.getvalue()).decode()
         workbook = load_workbook(os.path.join(BASE_DIR, 'Шаблон Счета на оплату ДК.xlsx'))
         sheet = workbook.active
@@ -389,16 +390,16 @@ def create_new_code_obj(self, request, contract_number):
 
 def send_sms(self, request, contract_number):
     phone = get_data_from_forms(self, request, contract_number).get('phone')
-    account_sid = ACCOUNT_SID
-    auth_token = AUTH_TOKEN
-    client = Client(account_sid, auth_token)
-
-    message = client.messages.create(
-        body=str(get_actual_code(self, phone=phone)),
-        from_='+19378842345',
-        to=str(phone)
-    )
-    # print(message.sid)
+    # account_sid = ACCOUNT_SID
+    # auth_token = AUTH_TOKEN
+    # client = Client(account_sid, auth_token)
+    #
+    # message = client.messages.create(
+    #     body=str(get_actual_code(self, phone=phone)),
+    #     from_='+19378842345',
+    #     to=str(phone)
+    # )
+    print(get_actual_code(self, phone=phone))
     return phone
 
 def get_time_for_resend_sms(self, request, contract_number):

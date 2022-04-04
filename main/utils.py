@@ -207,11 +207,9 @@ class FillingQuestionnaireMixin:
                 })
             else:
                 print('INVALID')
-                print(form.fields)
                 return render(request, self.template_name, {'form': form})
 
         elif 'qr_code' in request.POST:
-            print(request.POST)
             img_base = finally_rich(self, request, contract_number)
             get_sign_img(self, request, contract_number)
             change_contract_status(self)

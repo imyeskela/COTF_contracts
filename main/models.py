@@ -105,10 +105,10 @@ class Contract(models.Model):
     full_name = models.CharField('ФИО', null=False, max_length=300)
     amount = models.PositiveIntegerField('Сумма', null=True,max_length=300)
     name = models.CharField('Название', max_length=400, null=False)
-    series_passport = models.CharField('Серия паспорт', max_length=4, blank=True, null=True, default='Данных нет')
-    num_passport = models.CharField('Номер паспорт', max_length=6, blank=True, null=True, default='Данных нет')
-    email = models.EmailField('Почта', max_length=50, blank=True, null=True, default='Данных нет')
-    phone = models.CharField('Телефон', max_length=20, blank=True, null=True, default='Данных нет')
+    series_passport = models.PositiveIntegerField('Серия паспорт', max_length=4, blank=True, null=True)
+    num_passport = models.PositiveIntegerField('Номер паспорт', max_length=6, blank=True, null=True)
+    email = models.EmailField('Почта', max_length=50, blank=True, null=True)
+    phone = models.CharField('Телефон', max_length=20, blank=True, null=True)
     identifier = models.CharField('Индетификатор', max_length=50, blank=True, null=True, default='Данных нет')
 
     class Meta:
