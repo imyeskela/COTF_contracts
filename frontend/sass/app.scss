@@ -953,6 +953,17 @@ input, select, textarea {
   }
 }
 
+
+.bg-signed {
+    background-color: #deecf1;
+}
+.bg-sent {
+    background-color: #fff3dd;
+}
+.bg-canceled {
+    background-color: #fff3dd;
+}
+
 .tr_contracts_client {
   .url_copy_btn {
     .alert {

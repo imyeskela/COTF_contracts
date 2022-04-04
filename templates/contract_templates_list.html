@@ -92,7 +92,7 @@
                     <input name="contract_template_pk" type="hidden" value="{{ contract.pk }}">
                     <td>{{ contract.name }}</td>
                     <td class="light">Договор {{ contract.pk }}</td>
-                    <td>
+                    <td id="status">
                         <div class="dropdown">
                             <input name="status" type="hidden" value="{{ contract.status }}">
                             <button aria-expanded="false"
@@ -109,13 +109,17 @@
                         </div>
                     </td>
                     <td>
-                        <input class="input input-id" name="identifier" value="{{ contract.full_name }}">
+                        <input class="input input-id" name="identifier" value="{{ contract.full_name }}"
+                               {% if contract.status == 'Устарело' %}disabled{% endif %}
+                        >
                     </td>
                     <td>
-                        <input class="input input-sum" name="amount" value="{{ contract.amount }}">
+                        <input class="input input-sum" name="amount" value="{{ contract.amount }}"
+                               {% if contract.status == 'Устарело' %}disabled{% endif %}
+                        >
                     </td>
                     <td>
-                        <div class="url_copy_btn">
+                        <div class="url_copy_btn" data-status="{{ contract.status }}">
                             <img src="{% static 'icon/file.svg' %}">
                             <input name="contract_url" type="hidden" value="random_url">
                             <div class="alert">Ссылка скопирована</div>

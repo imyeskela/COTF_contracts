@@ -3233,18 +3233,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     var url_copy_btn = tr.querySelector(".url_copy_btn");
     url_copy_btn.addEventListener("click", function (e) {
-      var data = {
-        "create_contract": true
-      };
-      data.identifier = tr.querySelector("input[name='identifier']").value;
-      data.amount = tr.querySelector("input[name='amount']").value;
-      data.pk = tr.querySelector("input[name='contract_template_pk']").value;
-      data.csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-      xrhPost(window.location, data, function (response) {
-        var contract_number = response.contract_number;
-        var contract_url = window.location.origin + '/agreement/' + contract_number + '/';
-        copy_url(tr, contract_url);
-      });
+      if (url_copy_btn.dataset.status === 'Актуально') {
+        var data = {
+          "create_contract": true
+        };
+        data.identifier = tr.querySelector("input[name='identifier']").value;
+        data.amount = tr.querySelector("input[name='amount']").value;
+        data.pk = tr.querySelector("input[name='contract_template_pk']").value;
+        data.csrfmiddlewaretoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        xrhPost(window.location, data, function (response) {
+          var contract_number = response.contract_number;
+          var contract_url = window.location.origin + '/agreement/' + contract_number + '/';
+          copy_url(tr, contract_url);
+        });
+      }
     });
   });
   document.querySelectorAll(".tr_contracts_client").forEach(function (tr) {
