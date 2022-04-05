@@ -6,9 +6,10 @@ from django.db.models import Model
 from docxtpl import DocxTemplate
 
 from main.models import ContractTemplate, Contract, AuthenticationCode
-from services.ordering import get_ordered_contracts
 
+from services.ordering import get_ordered_contracts
 from services.questionnaire import get_actual_code
+from services.validation import are_there_ru_words, are_there_special_symbols, are_there_nums, is_valid_
 
 
 class ContractTemplateCreateForm(forms.ModelForm):
@@ -165,23 +166,39 @@ class FillingQuestionnaireForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(FillingQuestionnaireForm, self).clean()
-        user_code = cleaned_data.get('code')
-        if not user_code:
-            raise ValidationError('Неправильный код')
+
+        name = cleaned_data.get('name')
+        if not is_valid_(name):
+            raise ValidationError('Укажите корректное имя')
+
+        last_name = cleaned_data.get('last_name')
+        if not is_valid_(last_name):
+            raise ValidationError('Укажите корректную фамилию')
+
+        sur_name = cleaned_data.get('sur_name')
+        if not is_valid_(sur_name):
+            raise ValidationError('Укажите корректное отчество')
+
+        series_passport = cleaned_data.get('series_passport')
+        if are_there_ru_words(series_passport):
+            raise ValidationError('Некорректная серия')
+
+        num_passport = cleaned_data.get('num_passport')
+        if are_there_ru_words(num_passport):
+            raise ValidationError('Некорректный номер')
+
+        check_box = cleaned_data.get('check_box')
+        if not check_box:
+            raise ValidationError('Подтвердите согласие на обработку персональных данных')
 
         phone = cleaned_data['phone']
+        if are_there_ru_words(phone):
+            raise ValidationError('Укажите корректный номер телефона')
+
         contract = Contract.objects.get(number=self.form_contract_number)
         codes = AuthenticationCode.objects.filter(phone=phone, contract=contract, relevance=True).values('code')
-
+        user_code = cleaned_data.get('code')
         if str(user_code) != str(codes):
             raise ValidationError('Неправильный код')
 
-        # check = False
-        # for code in codes:
-        #     code_n = code.get('code')
-        #     print(code_n, user_code)
-        #     if str(user_code) == str(code_n):
-        #         check = True
-        #
-        # if not check:
-        #     raise ValidationError('Неправильный код')
+
