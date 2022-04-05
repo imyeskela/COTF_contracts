@@ -206,8 +206,8 @@ class FillingQuestionnaireMixin:
                     'step': 'docx'
                 })
             else:
-                print(form.errors)
                 print('INVALID')
+
                 return render(request, self.template_name, {
                     'form': form,
                     'step': 'resend_sms'

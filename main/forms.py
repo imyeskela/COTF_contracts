@@ -169,38 +169,43 @@ class FillingQuestionnaireForm(forms.Form):
 
         name = cleaned_data.get('name')
         if not is_valid_(name):
-            raise ValidationError('Укажите корректное имя')
+            self.add_error('name', 'Укажите корректное имя')
 
         last_name = cleaned_data.get('last_name')
         if not is_valid_(last_name):
-            raise ValidationError('Укажите корректную фамилию')
+            self.add_error('last_name', 'Укажите корректную фамилию')
 
         sur_name = cleaned_data.get('sur_name')
         if not is_valid_(sur_name):
-            raise ValidationError('Укажите корректное отчество')
+            self.add_error('sur_name', 'Укажите корректное отчество')
 
         series_passport = cleaned_data.get('series_passport')
         if are_there_ru_words(series_passport):
-            raise ValidationError('Некорректная серия')
+            self.add_error('series_passport', 'Некорректная серия')
 
         num_passport = cleaned_data.get('num_passport')
         if are_there_ru_words(num_passport):
-            raise ValidationError('Некорректный номер')
+            self.add_error('num_passport', 'Некорректный номер')
 
         check_box = cleaned_data.get('check_box')
         if not check_box:
-            raise ValidationError('Подтвердите согласие на обработку персональных данных')
+            self.add_error('check_box', 'Подтвердите согласие на обработку персональных данных')
 
         phone = cleaned_data['phone']
         if are_there_ru_words(phone):
-            raise ValidationError('Укажите корректный номер телефона')
+            self.add_error('phone', 'Укажите корректный номер телефона')
 
         contract = Contract.objects.get(number=self.form_contract_number)
-        codes = AuthenticationCode.objects.get(phone=phone, contract=contract, relevance=True)
+        try:
+            codes = AuthenticationCode.objects.get(phone=phone, contract=contract, relevance=True)
+        except:
+            codes = None
+
+
         user_code = cleaned_data.get('code')
 
 
         if str(user_code) != str(codes):
-            raise ValidationError('Неправильный код')
+            self.add_error('code', 'Неверный код')
 
 
