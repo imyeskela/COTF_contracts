@@ -245,12 +245,21 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   white-space: nowrap;
 }
 .table-container .table thead td .table_title .sort_controls {
-  display: flex;
-  flex-direction: column;
   font-size: 7px;
   margin-top: -2px;
   margin-left: 3px;
+}
+.table-container .table thead td .table_title .sort_controls form {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+}
+.table-container .table thead td .table_title .sort_controls button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
 }
 .table-container .table thead td .table_title .sort_controls .down {
   margin-top: -9px;

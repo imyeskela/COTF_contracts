@@ -268,13 +268,21 @@ input, select, textarea {
           }
 
           .sort_controls {
-            display: flex;
-            flex-direction: column;
             font-size: 7px;
             margin-top: -2px;
             margin-left: 3px;
-            justify-content: center;
-
+            form{
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+            }
+            button{
+              background: none;
+              border: none;
+              padding: 0;
+              margin: 0;
+              outline: none;
+            }
             .down {
               margin-top: -9px;
             }
