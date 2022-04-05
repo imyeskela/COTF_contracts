@@ -3215,7 +3215,24 @@ function capitalize(str) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  document.querySelector("body").addEventListener("click", function (e) {});
+  var phone_input = document.getElementById("id_phone");
+
+  if (phone_input) {
+    var phone = phone_input.value;
+
+    if (phone.substring(0, 2) != "+7") {
+      phone_input.value = "+7";
+    }
+
+    phone_input.addEventListener("input", function (e) {
+      var phone = this.value;
+
+      if (phone.substring(0, 2) != "+7") {
+        phone_input.value = "+7";
+      }
+    });
+  }
+
   var contract_client_form = document.getElementById("contract_client_form");
   document.querySelectorAll(".tr_contract").forEach(function (tr) {
     tr.querySelectorAll(".dropdown").forEach(function (dropdown) {
@@ -3401,6 +3418,19 @@ if (timer) {
 
     timer.innerText = seconds;
   }, 1000);
+}
+
+var wizard = document.getElementById("wizard");
+
+if (wizard) {
+  wizard.querySelectorAll(".nav-link").forEach(function (item, i) {
+    item.setAttribute("data-bs-toggle", "tab");
+    item.setAttribute("data-bs-target", "#nav-" + (i + 1));
+
+    if (item.classList.contains("active")) {
+      return;
+    }
+  });
 }
 
 /***/ }),

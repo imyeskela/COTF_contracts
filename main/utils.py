@@ -207,7 +207,10 @@ class FillingQuestionnaireMixin:
                 })
             else:
                 print('INVALID')
-                return render(request, self.template_name, {'form': form})
+                return render(request, self.template_name, {
+                    'form': form,
+                    'step': 'resend_sms'
+                })
 
         elif 'qr_code' in request.POST:
             img_base = finally_rich(self, request, contract_number)

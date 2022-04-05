@@ -510,6 +510,30 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
 .wizard-wrapper .nav-tabs .nav-link.active ~ .line {
   background: rgba(216, 222, 236, 0.8) !important;
 }
+.wizard-wrapper #nav-1 {
+  position: relative;
+}
+.wizard-wrapper #nav-1.m_open {
+  height: 650px;
+  overflow: hidden;
+}
+.wizard-wrapper #nav-1.m_open .step_1_modal {
+  display: block;
+}
+.wizard-wrapper .step_1_modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  bottom: 0;
+  height: calc(100% - 100px);
+  display: none;
+}
+.wizard-wrapper .step_1_modal .treaty {
+  background-color: #F5F5F5;
+  height: 100%;
+}
 .wizard-wrapper .tab-content {
   margin-bottom: 20px;
 }
@@ -759,6 +783,15 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   display: none;
 }
 
+.form-group .errorlist li {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: #dc3545;
+}
+.form-group input.invalid {
+  border-color: #dc3545 !important;
+}
+
 #contract_add_modal .modal-dialog {
   width: auto !important;
   max-width: -webkit-fit-content !important;
@@ -799,14 +832,6 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
 }
 #contract_add_modal .modal-content .input, #contract_add_modal .modal-content input, #contract_add_modal .modal-content select {
   width: 300px;
-}
-#contract_add_modal .modal-content .input.invalid, #contract_add_modal .modal-content input.invalid, #contract_add_modal .modal-content select.invalid {
-  border-color: #dc3545;
-}
-#contract_add_modal .modal-content .errorlist li {
-  margin-top: 0.25rem;
-  font-size: 0.8rem;
-  color: #dc3545;
 }
 #contract_add_modal .modal-content .buttons {
   margin-top: 40px;
