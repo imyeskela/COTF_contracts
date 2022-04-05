@@ -578,7 +578,30 @@ input, select, textarea {
       }
     }
   }
-
+  #nav-1{
+    position: relative;
+    &.m_open{
+      height: 650px;
+      overflow: hidden;
+      .step_1_modal{
+        display: block;
+      }
+    }
+  }
+  .step_1_modal{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+    bottom: 0;
+    height: calc(100% - 100px);
+    display: none;
+    .treaty{
+      background-color: #F5F5F5;
+      height: 100%;
+    }
+  }
   .tab-content {
     margin-bottom: 20px;
 
@@ -863,6 +886,17 @@ input, select, textarea {
   }
 }
 
+.form-group{
+  .errorlist li {
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+    color: #dc3545;
+  }
+  input.invalid {
+    border-color: #dc3545!important;
+  }
+}
+
 #contract_add_modal {
   .modal-dialog {
     width: auto !important;
@@ -912,16 +946,6 @@ input, select, textarea {
 
     .input {
       width: 300px;
-
-      &.invalid {
-        border-color: #dc3545;
-      }
-    }
-
-    .errorlist li {
-      margin-top: 0.25rem;
-      font-size: 0.8rem;
-      color: #dc3545;
     }
 
     .buttons {
