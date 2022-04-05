@@ -196,8 +196,10 @@ class FillingQuestionnaireForm(forms.Form):
             raise ValidationError('Укажите корректный номер телефона')
 
         contract = Contract.objects.get(number=self.form_contract_number)
-        codes = AuthenticationCode.objects.filter(phone=phone, contract=contract, relevance=True).values('code')
+        codes = AuthenticationCode.objects.get(phone=phone, contract=contract, relevance=True)
         user_code = cleaned_data.get('code')
+
+
         if str(user_code) != str(codes):
             raise ValidationError('Неправильный код')
 
