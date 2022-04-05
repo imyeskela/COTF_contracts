@@ -173,12 +173,15 @@ class FillingQuestionnaireForm(forms.Form):
         contract = Contract.objects.get(number=self.form_contract_number)
         codes = AuthenticationCode.objects.filter(phone=phone, contract=contract, relevance=True).values('code')
 
-        check = False
-        for code in codes:
-            code_n = code.get('code')
-            print(code_n, user_code)
-            if str(user_code) == str(code_n):
-                check = True
-
-        if not check:
+        if str(user_code) != str(codes):
             raise ValidationError('Неправильный код')
+
+        # check = False
+        # for code in codes:
+        #     code_n = code.get('code')
+        #     print(code_n, user_code)
+        #     if str(user_code) == str(code_n):
+        #         check = True
+        #
+        # if not check:
+        #     raise ValidationError('Неправильный код')
