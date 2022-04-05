@@ -1,7 +1,7 @@
 from django.db.models import Q
 
 from main.models import Contract
-from services.main_logic import get_contracts
+from services.main_logic import get_contracts, get_template_contracts
 
 
 def _is_valid(value):
@@ -10,12 +10,30 @@ def _is_valid(value):
     return value != '' and value is not None
 
 
+def get_ordered_templates(self):
+    templates = get_template_contracts()
+    qs_templates = templates
+
+    all_contracts = self.request.GET.get('all_contracts')
+
+    status_min = self.request.GET.get('status_min')
+    status_max = self.request.GET.get('status_max')
+
+    if _is_valid(all_contracts):
+        qs_templates = qs_templates
+
+    if _is_valid(status_min):
+        qs_templates = qs_templates.order_by('status')
+    if _is_valid(status_max):
+        qs_templates = qs_templates.order_by('-status')
+
+    return qs_templates
+
+
 def get_ordered_contracts(self):
     qs_contracts = get_contracts()
 
     all_contracts = self.request.GET.get('all_contracts')
-    contract_number_min = self.request.GET.get('contract_number_min')
-    contract_number_max = self.request.GET.get('contract_number_max')
 
     date_created_min = self.request.GET.get('date_created_min')
     date_created_max = self.request.GET.get('date_created_max')
@@ -31,10 +49,6 @@ def get_ordered_contracts(self):
     if _is_valid(all_contracts):
         qs_contracts = qs_contracts
 
-    if _is_valid(contract_number_min):
-        qs_contracts = qs_contracts.order_by('number')
-    if _is_valid(contract_number_max):
-        qs_contracts = qs_contracts.order_by('-number')
 
     if _is_valid(date_created_min):
         qs_contracts = qs_contracts.order_by('date_created')
