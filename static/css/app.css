@@ -107,7 +107,7 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
 .main-content .nav .nav-left .search-box .search::placeholder {
   color: #BAB8B2;
 }
-.main-content .nav .nav-left .icons i {
+.main-content .nav .nav-left .icons img {
   margin: 0 18px;
 }
 .main-content .nav .nav-right {
@@ -221,7 +221,11 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   background-color: #ffffff;
 }
 .table-container .table-controls .btn_plus {
-  padding: 6px 17px;
+  padding: 9px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
 }
 .table-container .table {
   margin-top: 25px;
@@ -304,6 +308,7 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   display: flex;
   align-items: center;
   position: relative;
+  margin-left: -6px;
 }
 .table-container .table tbody td .status_box .cancel {
   position: absolute;
@@ -453,7 +458,7 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
 .wizard-wrapper h1 {
   margin: 20px 0;
   font-weight: 700;
-  font-size: 28px;
+  font-size: 32px;
   line-height: 30px;
 }
 .wizard-wrapper .btn_check_code {
@@ -670,6 +675,9 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   line-height: 22px;
   color: #171619;
 }
+.wizard-wrapper .treaty .treaty_1 strong {
+  font-weight: 700;
+}
 .wizard-wrapper .treaty .treaty_1 p {
   font-weight: 300;
   font-size: 14px;
@@ -743,6 +751,12 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   color: #171619;
   margin-bottom: 44px;
   text-align: center;
+}
+@media only screen and (max-width: 576px) {
+  .wizard-wrapper h1 {
+    font-size: 28px;
+    line-height: 30px;
+  }
 }
 @media only screen and (min-width: 575px) {
   .wizard-wrapper .tab-content {

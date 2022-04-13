@@ -3306,6 +3306,17 @@ document.addEventListener('DOMContentLoaded', function () {
       contract_client_form.submit();
     });
   });
+  var spasn = document.querySelectorAll(".nav-link span");
+
+  if (spasn.length > 0) {
+    spasn.forEach(function (span) {
+      console.log(span.offsetWidth);
+
+      if (span.offsetWidth != 10) {
+        span.style.marginLeft = "-1px";
+      }
+    });
+  }
 });
 
 function xrhPost(url, data, f) {

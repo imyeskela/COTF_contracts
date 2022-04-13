@@ -124,7 +124,7 @@ class FillingQuestionnaireForm(forms.Form):
         label='Серия паспорта*',
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Серия паспорта'
+                'placeholder': '0000'
             }
         )
     )
@@ -134,7 +134,7 @@ class FillingQuestionnaireForm(forms.Form):
         label='Номер паспорта*',
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Номер паспорта'
+                'placeholder': '000000'
             }
         )
     )
@@ -143,7 +143,7 @@ class FillingQuestionnaireForm(forms.Form):
         required=True,
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Серия паспорта'
+                'placeholder': 'Email'
             }
         )
     )
