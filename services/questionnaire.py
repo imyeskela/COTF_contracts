@@ -1,4 +1,5 @@
 import random
+import time
 from io import BytesIO
 from django.utils import timezone
 from django.core.files.base import ContentFile
@@ -368,7 +369,11 @@ def create_num_attempts(self):
 
 
 def get_actual_code(self, phone):
-    return AuthenticationCode.objects.get(phone=phone, contract=get_contract(self), relevance=True)
+    try:
+        return AuthenticationCode.objects.get(phone=phone, contract=get_contract(self), relevance=True)
+    except:
+        return None
+
 
 
 def create_new_code_obj(self, request, contract_number):
@@ -379,7 +384,7 @@ def create_new_code_obj(self, request, contract_number):
     new_obj = AuthenticationCode.objects.create(code=new_code,
                                                 phone=phone,
                                                 contract_id=contract_pk,
-                                                date_generated_code=timezone.now(),
+                                                date_generated_code=str(time.time()),
                                                 confirmation=False,
                                                 relevance=True,
                                                 number_of_attempts=new_attempts
@@ -402,8 +407,10 @@ def send_sms(self, request, contract_number):
     print(get_actual_code(self, phone=phone))
     return phone
 
+
 def get_time_for_resend_sms(self, request, contract_number):
     actual_code = get_actual_code(self, phone=get_data_from_forms(self, request, contract_number).get('phone'))
+    print()
     attempts = actual_code.number_of_attempts
 
     if attempts is None:

@@ -5,7 +5,11 @@ def are_there_ru_words(text):
 
 def are_there_special_symbols(text):
     special_symbols = set('!@#$^&*()_+="№;:?:;<>/|{}[]~`')
-    return special_symbols.isdisjoint(text.lower())
+    try:
+        int(text)
+        return special_symbols.isdisjoint(text)
+    except:
+        return special_symbols.isdisjoint(text.lower())
 
 
 def are_there_nums(text):
@@ -19,4 +23,13 @@ def is_valid_(text):
         return True
     else:
         return False
+
+
+def is_int(num):
+    try:
+        int(num)
+        return True
+    except:
+        return False
+
 

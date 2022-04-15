@@ -9,7 +9,7 @@ from main.models import ContractTemplate, Contract, AuthenticationCode
 
 from services.ordering import get_ordered_contracts
 from services.questionnaire import get_actual_code
-from services.validation import are_there_ru_words, are_there_special_symbols, are_there_nums, is_valid_
+from services.validation import are_there_ru_words, are_there_special_symbols, are_there_nums, is_valid_, is_int
 
 
 class ContractTemplateCreateForm(forms.ModelForm):
@@ -94,6 +94,7 @@ class FillingQuestionnaireForm(forms.Form):
     last_name = forms.CharField(
         label='Фамилия*',
         required=True,
+        max_length=20,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Фамилия'
@@ -103,6 +104,7 @@ class FillingQuestionnaireForm(forms.Form):
     name = forms.CharField(
         label='Имя*',
         required=True,
+        max_length=20,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Имя'
@@ -112,6 +114,7 @@ class FillingQuestionnaireForm(forms.Form):
     sur_name = forms.CharField(
         required=False,
         label='Отчество',
+        max_length=40,
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Отчество'
@@ -143,7 +146,7 @@ class FillingQuestionnaireForm(forms.Form):
         required=True,
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Серия паспорта'
+                'placeholder': 'Почта'
             }
         )
     )
@@ -168,23 +171,25 @@ class FillingQuestionnaireForm(forms.Form):
         cleaned_data = super(FillingQuestionnaireForm, self).clean()
 
         name = cleaned_data.get('name')
-        if not is_valid_(name):
+        if is_valid_(name) is False:
             self.add_error('name', 'Укажите корректное имя')
 
         last_name = cleaned_data.get('last_name')
-        if not is_valid_(last_name):
+        if is_valid_(last_name) is False:
             self.add_error('last_name', 'Укажите корректную фамилию')
 
         sur_name = cleaned_data.get('sur_name')
-        if not is_valid_(sur_name):
+        if is_valid_(sur_name) is False:
             self.add_error('sur_name', 'Укажите корректное отчество')
 
         series_passport = cleaned_data.get('series_passport')
-        if are_there_ru_words(series_passport):
+        if is_int(series_passport) is False:
             self.add_error('series_passport', 'Некорректная серия')
+        # if are_there_ru_words(series_passport):
+        #     self.add_error('series_passport', 'Некорректная серия')
 
         num_passport = cleaned_data.get('num_passport')
-        if are_there_ru_words(num_passport):
+        if is_int(num_passport) is False:
             self.add_error('num_passport', 'Некорректный номер')
 
         check_box = cleaned_data.get('check_box')
@@ -192,7 +197,7 @@ class FillingQuestionnaireForm(forms.Form):
             self.add_error('check_box', 'Подтвердите согласие на обработку персональных данных')
 
         phone = cleaned_data['phone']
-        if are_there_ru_words(phone):
+        if is_int(phone[2:]) is False:
             self.add_error('phone', 'Укажите корректный номер телефона')
 
         contract = Contract.objects.get(number=self.form_contract_number)
