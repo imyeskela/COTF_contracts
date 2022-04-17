@@ -209,7 +209,6 @@ class FillingQuestionnaireForm(forms.Form):
 
         user_code = cleaned_data.get('code')
 
-
         if str(user_code) != str(codes):
             self.add_error('code', 'Неверный код')
 

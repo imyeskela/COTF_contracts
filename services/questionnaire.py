@@ -39,7 +39,7 @@ def get_data_from_forms(self, request, contract_number):
         date_created = contract.date_created
         generated_date = format_date(date_created, 'd MMMM yyyy', locale='ru')
         phone = request.POST['phone']
-        passport = request.POST['series_passport'] +  request.POST['num_passport']
+        passport = request.POST['series_passport'] + request.POST['num_passport']
         email = request.POST['email']
         company = contract.contract_template.company
         if sur_name:
