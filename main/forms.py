@@ -146,11 +146,7 @@ class FillingQuestionnaireForm(forms.Form):
         required=True,
         widget=forms.TextInput(
             attrs={
-<<<<<<< HEAD
                 'placeholder': 'Почта'
-=======
-                'placeholder': 'Email'
->>>>>>> 23780cb11020e98b8c870db39a4f88c87568a5f0
             }
         )
     )
