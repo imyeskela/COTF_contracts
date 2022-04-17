@@ -409,19 +409,20 @@ def send_sms(self, request, contract_number):
 
 def get_time_for_resend_sms(self, request, contract_number):
     actual_code = get_actual_code(self, phone=get_data_from_forms(self, request, contract_number).get('phone'))
-    print()
+    unix_time = float(actual_code.date_generated_code)
+
     attempts = actual_code.number_of_attempts
 
     if attempts is None:
-        resend_time = 0
+        resend_time = float(time.time())
     elif attempts == 0:
-        resend_time = 30
+        resend_time = unix_time + 30.0
     elif attempts == 1:
-        resend_time = 120
+        resend_time = unix_time + 120.0
     elif attempts == 2:
-        resend_time = 600
+        resend_time = unix_time + 600.0
     else:
-        resend_time = 3600
+        resend_time = unix_time + 3600.0
 
     return resend_time
 
