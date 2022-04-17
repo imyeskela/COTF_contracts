@@ -208,17 +208,8 @@ class FillingQuestionnaireForm(forms.Form):
         except:
             codes = None
 
-        print(cleaned_data.keys())
 
-<<<<<<< HEAD
-        user_code = cleaned_data.get('code')
-
-=======
-        # if 'code' in cleaned_data.keys():
-        #     pass
 
         user_code = cleaned_data.get('code')
-        print(user_code)
->>>>>>> ac45ae5ddbe83fa098e4f6ac2fe7e50ed73528d7
         if str(user_code) != str(codes):
             self.add_error('code', 'Неверный код')
