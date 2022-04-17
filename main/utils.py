@@ -217,7 +217,6 @@ class FillingQuestionnaireMixin:
 
         elif 'qr_code' in request.POST:
             img_base = finally_rich(self, request, contract_number)
-            get_sign_img(self, request, contract_number)
             change_contract_status(self)
             send_email_contract_signed(self, request, contract_number)
             return render(request, self.template_name, {

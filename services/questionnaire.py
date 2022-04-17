@@ -7,9 +7,11 @@ from django.core.files.base import ContentFile
 import os
 from docxtpl import DocxTemplate
 from docxtpl import InlineImage
+
+from PIL import Image as PilImage
+
+
 from babel.dates import format_date
-from PIL import Image
-# from PIL import Image
 from docx.shared import Mm, Inches, Pt
 import qrcode
 from openpyxl import load_workbook
@@ -108,13 +110,10 @@ def form_questionnaire(self, request, contract_number):
     return result
 
 
-def get_sign_img(self, request, contract_number):
-    if request.method == 'POST':
-        img = request.POST['sign']
-        print(img)
-        img = img[23:]
-        return img
-
+def get_sign_img(request):
+    img = request.POST['sign']
+    img = img[23:]
+    return img
 
 def change_contract_status(self):
     contract = get_contract(self)
@@ -211,7 +210,7 @@ def finally_rich(self, request, contract_number):
 
         path_payment = os.path.join(BASE_DIR, 'upload/payment/счет_' + id_contract + '.xlsx')
         workbook.save(path_payment)
-        sign_img_base = get_sign_img(self, request, contract_number)
+        sign_img_base = get_sign_img(request)
         sign_img = ContentFile(base64.b64decode(sign_img_base))
         if type == 'Основной':
 
@@ -282,7 +281,7 @@ def finally_rich(self, request, contract_number):
 
         path_payment = os.path.join(BASE_DIR, 'upload/payment/счет_' + id_contract + '.xlsx')
         workbook.save(path_payment)
-        sign_img_base = get_sign_img(self, request, contract_number)
+        sign_img_base = get_sign_img(request)
         sign_img = ContentFile(base64.b64decode(sign_img_base))
         if type == 'Основной':
             basic_vars['signature'] = InlineImage(docx, sign_img, width=Mm(30), height=Mm(20))
