@@ -211,7 +211,8 @@ class FillingQuestionnaireMixin:
 
                 return render(request, self.template_name, {
                     'form': form,
-                    'step': 'resend_sms'
+                    'step': 'resend_sms',
+                    'show_errors': True
                 })
 
         elif 'qr_code' in request.POST:
@@ -225,14 +226,21 @@ class FillingQuestionnaireMixin:
             })
 
         elif 'code' in request.POST:
-            create_new_code_obj(self, request, contract_number)
-            send_sms(self, request, contract_number)
-            time_sms = get_time_for_resend_sms(self, request, contract_number)
+            if len(form.errors) == 0 or len(form.errors) == 1 and form.errors.get('code'):
+                create_new_code_obj(self, request, contract_number)
+                send_sms(self, request, contract_number)
+                time_sms = get_time_for_resend_sms(self, request, contract_number)
 
-            return render(request, self.template_name, {
-                'form': form,
-                'time_sms': time_sms,
-                'step': 'resend_sms'
-            })
+                return render(request, self.template_name, {
+                    'form': form,
+                    'show_errors': False,
+                    'time_sms': time_sms,
+                    'step': 'resend_sms'
+                })
+            else:
+                return render(request, self.template_name, {
+                    'form': form,
+                    'step': 'send_sms'
+                })
 
         return render(request, self.template_name, {'form': form})
