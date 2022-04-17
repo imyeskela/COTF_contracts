@@ -31,6 +31,25 @@ input, select, textarea {
   box-shadow: none;
 }
 
+.alert_wrapper{
+    position:absolute;
+}
+.alert{
+    background-color:#171619;
+    color: #F7F9FB;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    margin-left:-8px;
+    margin-top:-8px;
+    .btn{
+        color: #F7F9FB;
+        background:none!important;
+        opacity:1!important;
+        padding:14px!important;
+    }
+}
+
 .left-menu {
   width: 276px;
   background: linear-gradient(#000000, #63316B);
@@ -114,7 +133,7 @@ input, select, textarea {
 
       .icons {
         img {
-          margin: 0 18px;
+          margin: 0 16px;
         }
       }
     }
@@ -187,6 +206,10 @@ input, select, textarea {
   font-weight: 500;
 }
 
+.icon-search {
+   cursor: pointer;
+}
+
 .table-container {
   width: 100%;
 
@@ -207,7 +230,6 @@ input, select, textarea {
         position: absolute;
         right: 12px;
         top: 8px;
-
         &:before {
           color: #000;
         }

@@ -3361,7 +3361,9 @@ function copy_url(elem, url) {
   contract_url_input.select();
   navigator.clipboard.writeText(contract_url_input.value);
   var alert = elem.querySelector(".alert");
+  var copy_success_alert = document.querySelector(".copy_success_alert");
   alert.classList.add("show");
+  copy_success_alert.classList.add("show");
   setTimeout(function () {
     alert.classList.remove("show");
   }, 1500);
@@ -3443,6 +3445,12 @@ if (wizard) {
     }
   });
 }
+
+document.querySelectorAll(".icon-search").forEach(function (item) {
+  item.addEventListener("click", function () {
+    this.parentNode.submit();
+  });
+});
 
 /***/ }),
 

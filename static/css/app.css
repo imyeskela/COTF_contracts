@@ -29,6 +29,26 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   box-shadow: none;
 }
 
+.alert_wrapper {
+  position: absolute;
+}
+
+.alert {
+  background-color: #171619;
+  color: #F7F9FB;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  margin-left: -8px;
+  margin-top: -8px;
+}
+.alert .btn {
+  color: #F7F9FB;
+  background: none !important;
+  opacity: 1 !important;
+  padding: 14px !important;
+}
+
 .left-menu {
   width: 276px;
   background: linear-gradient(#000000, #63316B);
@@ -108,7 +128,7 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   color: #BAB8B2;
 }
 .main-content .nav .nav-left .icons img {
-  margin: 0 18px;
+  margin: 0 16px;
 }
 .main-content .nav .nav-right {
   padding: 18px 35px;
@@ -168,6 +188,10 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   font-size: 12px;
   border-radius: 2px;
   font-weight: 500;
+}
+
+.icon-search {
+  cursor: pointer;
 }
 
 .table-container {

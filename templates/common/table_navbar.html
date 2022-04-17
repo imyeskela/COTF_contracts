@@ -3,8 +3,8 @@
         <div class="search-box">
             <form action="." method="GET">
                 <input class="search" placeholder="Поиск..." name="search">
+                <i class="icon-search"></i>
             </form>
-            <i class="icon-search"></i>
         </div>
         <a class="btn {% if request.path == '/' %}active{% endif %}" href="{% url 'contract_template_list' %}">
             Договоры

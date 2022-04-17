@@ -139,6 +139,16 @@
                 </tbody>
             </table>
         </div>
+        <div class="alert_wrapper">
+            <div class="alert alert-dismissible fade copy_success_alert" role="alert">
+          Добавлена новая запись во вкладке Договоры.<br>
+            Сформированная ссылка скопирована в буфер обмена.
+          <button type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Close">
+              <img src="{% static 'icon/close.svg' %}">
+          </button>
+        </div>
+        </div>
+
         <div class="d-flex justify-content-end">
             {% include 'common/pagination.html' with items=contract_template_list %}
         </div>
@@ -191,6 +201,7 @@
             </div>
         </div>
     </div>
+
     <form action="" id="contract_update_form" method="POST">
         <input name="csrfmiddlewaretoken" type="hidden" value="{{ csrf_token }}">
     </form>
