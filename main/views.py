@@ -17,13 +17,13 @@ from main.utils import (
 from main.forms import ContractTemplateCreateForm, FillingQuestionnaireForm
 from services.getting_form import get_contract_form, get_filling_questionnaire_form, get_contract_template_create_form, \
     get_contract_template_form, get_contract_list_form
-from services.ordering import get_ordered_contracts
+from services.ordering import get_ordered_contracts, get_ordered_templates
 
 
 class ContractTemplateListAndCreateView(ContractTemplateListAndCreateContractMixin, View):
     """Отображение всех контрактов"""
 
-    queryset = get_template_contracts()
+    queryset = get_ordered_templates
     form_contract = get_contract_form()
     form_contract_template = get_contract_template_create_form()
     form_contract_template_change = get_contract_template_form()
