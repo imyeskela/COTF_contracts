@@ -113,7 +113,7 @@ input, select, textarea {
       }
 
       .icons {
-        i {
+        img {
           margin: 0 18px;
         }
       }
@@ -240,7 +240,11 @@ input, select, textarea {
     }
 
     .btn_plus {
-      padding: 6px 17px;
+      padding: 9px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
     }
   }
 
@@ -337,7 +341,7 @@ input, select, textarea {
           display: flex;
           align-items: center;
           position: relative;
-
+          margin-left: -6px;
           .cancel {
             position: absolute;
             top: 22px;
@@ -506,7 +510,7 @@ input, select, textarea {
   h1 {
     margin: 20px 0;
     font-weight: 700;
-    font-size: 28px;
+    font-size: 32px;
     line-height: 30px;
   }
 
@@ -753,6 +757,10 @@ input, select, textarea {
         color: #171619;
       }
 
+      strong{
+        font-weight: 700;
+      }
+
       p {
         font-weight: 300;
         font-size: 14px;
@@ -840,7 +848,12 @@ input, select, textarea {
       text-align: center;
     }
   }
-
+  @media only screen and (max-width: 576px) {
+    h1{
+      font-size: 28px;
+      line-height: 30px;
+    }
+  }
   @media only screen and (min-width: 575px) {
     .tab-content {
       margin-bottom: 40px;
