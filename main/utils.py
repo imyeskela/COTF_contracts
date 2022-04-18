@@ -22,10 +22,9 @@ class ContractTemplateListAndCreateContractMixin:
     form_contract_template_change = None
 
     def get(self, request):
-        paginator = Paginator(self.queryset, 20)
+        paginator = Paginator(self.queryset(), 20)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
-        queryset = self.queryset
         form_contract_template_change = self.form_contract_template_change()
         return render(request, self.template_name, {'contract_template_list': page_obj,
                                                     'form_contract': self.form_contract,
