@@ -30,7 +30,9 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
 }
 
 .alert_wrapper {
-  position: absolute;
+  position: fixed;
+  left: 300px;
+  bottom: 30px;
 }
 
 .alert {
@@ -39,14 +41,30 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
-  margin-left: -8px;
-  margin-top: -8px;
+  margin-bottom: 0;
 }
 .alert .btn {
   color: #F7F9FB;
   background: none !important;
   opacity: 1 !important;
   padding: 14px !important;
+}
+
+.copy_alert {
+  position: absolute;
+  right: 13px;
+  bottom: auto;
+  left: auto;
+  top: 0;
+  display: none;
+  background: #17161A;
+  box-shadow: 0px 4px 15px rgba(23, 22, 26, 0.3);
+  color: #fff;
+  padding: 6px 12px;
+  margin: 0;
+}
+.copy_alert.show {
+  display: block;
 }
 
 .left-menu {
@@ -199,7 +217,6 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
 }
 .table-container .table-wrapper {
   width: 100%;
-  overflow-x: auto;
 }
 .table-container .table-controls {
   display: flex;
@@ -339,11 +356,13 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   top: 22px;
   right: 5px;
   background-color: #ffffff;
-  border: 1px solid #D8DEEC;
-  border-radius: 2px;
   padding: 10px 15px;
   display: none;
   cursor: pointer;
+  border: 1px solid rgba(216, 222, 236, 0.8);
+  box-sizing: border-box;
+  box-shadow: 0 10px 25px 3px rgba(51, 53, 79, 0.1);
+  border-radius: 2px;
   align-items: center;
   justify-content: center;
 }
@@ -385,21 +404,6 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
 .url_copy_btn {
   cursor: pointer;
   position: relative;
-}
-.url_copy_btn .alert {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-85%);
-  display: none;
-  background: #17161A;
-  box-shadow: 0px 4px 15px rgba(23, 22, 26, 0.3);
-  color: #fff;
-  padding: 6px 12px;
-  margin: 0;
-  top: 20px;
-}
-.url_copy_btn .alert.show {
-  display: block;
 }
 
 .nav-pagination {
@@ -915,8 +919,15 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   background-color: #fff3dd;
 }
 
-.tr_contracts_client .url_copy_btn .alert {
-  left: -10px;
-  transform: translateX(0);
-  top: 14px;
+.tr_contract .cancel {
+  left: -20px;
+  justify-content: start !important;
+  right: auto !important;
+}
+.tr_contract .cancel img {
+  margin-right: 7px;
+}
+.tr_contract .cancel span {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
