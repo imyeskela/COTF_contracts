@@ -20,20 +20,43 @@ document.addEventListener('DOMContentLoaded', function(){
     }
     let contract_client_form = document.getElementById("contract_client_form");
     document.querySelectorAll(".tr_contract").forEach(function (tr){
-        tr.querySelectorAll(".dropdown").forEach(function (dropdown){
-            dropdown.querySelectorAll(".dropdown-item").forEach(function (item){
-                item.addEventListener("click",function (){
-                    let input = dropdown.querySelector("input");
-                    input.value = capitalize(this.innerText.toLowerCase());
-                    let form = document.getElementById("contract_update_form");
-                    let pk_input = tr.querySelector("input[name='contract_template_pk']");
-                    form.appendChild(input);
-                    form.appendChild(pk_input);
-                    form.submit();
-                });
+        let status = tr.querySelector("input[name=status]").value;
+        let status_box = tr.querySelector(".status_box");
+        status_box.addEventListener("click",function (){
+            let cancel = status_box.querySelector(".cancel");
+            cancel.classList.add("show");
+            cancel.addEventListener("click",function () {
+                console.log(status_box);
+                let input = status_box.querySelector("input");
+                let form = document.getElementById("contract_update_form");
+                let pk_input = tr.querySelector("input[name='contract_template_pk']");
+                form.appendChild(input);
+                form.appendChild(pk_input);
+                form.submit();
             })
+            setTimeout(function (){
+                document.querySelector("body").addEventListener("click",function (){
+                    cancel.classList.remove("show");
+                })
+            },10);
+
         });
-        let url_copy_btn = tr.querySelector(".url_copy_btn")
+
+        // tr.querySelector(".status_box").forEach(function (dropdown){
+        //     dropdown.querySelectorAll(".dropdown-item").forEach(function (item){
+        //         item.addEventListener("click",function (){
+        //             let input = dropdown.querySelector("input");
+        //             input.value = capitalize(this.innerText.toLowerCase());
+        //             let form = document.getElementById("contract_update_form");
+        //             let pk_input = tr.querySelector("input[name='contract_template_pk']");
+        //             form.appendChild(input);
+        //             form.appendChild(pk_input);
+        //             form.submit();
+        //         });
+        //     })
+        // });
+        let url_copy_btn = tr.querySelector(".url_copy_btn");
+
         url_copy_btn.addEventListener("click",function (e){
             if (url_copy_btn.dataset.status === 'Актуально') {
                 let data = {"create_contract" : true};
@@ -75,6 +98,11 @@ document.addEventListener('DOMContentLoaded', function(){
                     contract_client_form.appendChild(input_status);
                     contract_client_form.submit();
                 })
+                setTimeout(function (){
+                    document.querySelector("body").addEventListener("click",function (){
+                        cancel.classList.remove("show");
+                    })
+                },10);
             })
         })
         tr.querySelector(".download_button").addEventListener("click",function () {
@@ -127,6 +155,7 @@ if(document.getElementById("paint")){
     c.isDrawingMode = true;
     c.freeDrawingBrush.width = 3;
     c.freeDrawingBrush.color = "#000";
+    c.backgroundColor = "#ffffff";
     document.querySelector("#clearCanvas").addEventListener("click",() => {
         c.clear();
     })
@@ -140,13 +169,21 @@ function copy_url(elem, url) {
     contract_url_input.value = url;
     contract_url_input.select();
     navigator.clipboard.writeText(contract_url_input.value);
-    let alert = elem.querySelector(".alert");
+
+    let top = parseInt(elem.getBoundingClientRect().top) + 65;
+
+    let alert = document.querySelector(".copy_alert");
+    if(alert){
+        alert.style.top = top + "px";
+        alert.classList.add("show");
+        setTimeout(function () {
+            alert.classList.remove("show");
+        },1500);
+    }
     let copy_success_alert = document.querySelector(".copy_success_alert");
-    alert.classList.add("show");
-    copy_success_alert.classList.add("show");
-    setTimeout(function () {
-        alert.classList.remove("show");
-    },1500);
+    if(copy_success_alert){
+        copy_success_alert.classList.add("show");
+    }
 }
 
 let modal = document.getElementById("contract_add_modal");
@@ -194,7 +231,8 @@ if(acceptButton){
 
 let timer = document.getElementById("timer");
 if(timer){
-    let seconds = parseInt(timer.innerText);
+    let seconds = parseInt(timer.innerText) - parseInt(Date.now() / 1000);
+    console.log(timer.innerText);
     let interval = setInterval(function (){
         seconds--;
         if(seconds === 0){

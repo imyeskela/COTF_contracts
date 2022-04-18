@@ -31,23 +31,43 @@ input, select, textarea {
   box-shadow: none;
 }
 
-.alert_wrapper{
-    position:absolute;
+.alert_wrapper {
+  position: fixed;
+  left: 300px;
+  bottom: 30px;
 }
-.alert{
-    background-color:#171619;
+
+.alert {
+  background-color: #171619;
+  color: #F7F9FB;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  margin-bottom: 0;
+
+  .btn {
     color: #F7F9FB;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
-    margin-left:-8px;
-    margin-top:-8px;
-    .btn{
-        color: #F7F9FB;
-        background:none!important;
-        opacity:1!important;
-        padding:14px!important;
-    }
+    background: none !important;
+    opacity: 1 !important;
+    padding: 14px !important;
+  }
+}
+
+.copy_alert {
+  position: absolute;
+  right: 13px;
+  bottom: auto;
+  left: auto;
+  top: 0;
+  display: none;
+  background: #17161A;
+  box-shadow: 0px 4px 15px rgba(23, 22, 26, 0.3);
+  color: #fff;
+  padding: 6px 12px;
+  margin: 0;
+  &.show {
+    display: block;
+  }
 }
 
 .left-menu {
@@ -207,7 +227,7 @@ input, select, textarea {
 }
 
 .icon-search {
-   cursor: pointer;
+  cursor: pointer;
 }
 
 .table-container {
@@ -215,7 +235,6 @@ input, select, textarea {
 
   .table-wrapper {
     width: 100%;
-    overflow-x: auto;
   }
 
   .table-controls {
@@ -230,6 +249,7 @@ input, select, textarea {
         position: absolute;
         right: 12px;
         top: 8px;
+
         &:before {
           color: #000;
         }
@@ -263,10 +283,10 @@ input, select, textarea {
 
     .btn_plus {
       padding: 9px 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
     }
   }
 
@@ -297,18 +317,21 @@ input, select, textarea {
             font-size: 7px;
             margin-top: -2px;
             margin-left: 3px;
-            form{
+
+            form {
               display: flex;
               flex-direction: column;
               justify-content: center;
             }
-            button{
+
+            button {
               background: none;
               border: none;
               padding: 0;
               margin: 0;
               outline: none;
             }
+
             .down {
               margin-top: -9px;
             }
@@ -364,24 +387,24 @@ input, select, textarea {
           align-items: center;
           position: relative;
           margin-left: -6px;
+
           .cancel {
             position: absolute;
             top: 22px;
             right: 5px;
             background-color: #ffffff;
-            border: 1px solid #D8DEEC;
-            border-radius: 2px;
             padding: 10px 15px;
             display: none;
             cursor: pointer;
-
+            border: 1px solid rgba(216, 222, 236, 0.8);
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px 3px rgba(51, 53, 79, 0.1);
+            border-radius: 2px;
+            align-items: center;
+            justify-content: center;
             &.show {
               display: flex;
             }
-
-            align-items: center;
-            justify-content: center;
-
             span {
               font-size: 12px;
               color: #6A728A;
@@ -427,23 +450,6 @@ input, select, textarea {
 .url_copy_btn {
   cursor: pointer;
   position: relative;
-
-  .alert {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-85%);
-    display: none;
-    background: #17161A;
-    box-shadow: 0px 4px 15px rgba(23, 22, 26, 0.3);
-    color: #fff;
-    padding: 6px 12px;
-    margin: 0;
-    top: 20px;
-
-    &.show {
-      display: block;
-    }
-  }
 }
 
 .nav-pagination {
@@ -536,7 +542,7 @@ input, select, textarea {
     line-height: 30px;
   }
 
-  .btn_check_code{
+  .btn_check_code {
     width: 100%;
   }
 
@@ -612,17 +618,21 @@ input, select, textarea {
       }
     }
   }
-  #nav-1{
+
+  #nav-1 {
     position: relative;
-    &.m_open{
+
+    &.m_open {
       height: 650px;
       overflow: hidden;
-      .step_1_modal{
+
+      .step_1_modal {
         display: block;
       }
     }
   }
-  .step_1_modal{
+
+  .step_1_modal {
     position: absolute;
     top: 0;
     left: 0;
@@ -631,11 +641,13 @@ input, select, textarea {
     bottom: 0;
     height: calc(100% - 100px);
     display: none;
-    .treaty{
+
+    .treaty {
       background-color: #F5F5F5;
       height: 100%;
     }
   }
+
   .tab-content {
     margin-bottom: 20px;
 
@@ -737,7 +749,8 @@ input, select, textarea {
           width: 133px;
           margin-right: 20px;
         }
-        & ~ .form-group{
+
+        & ~ .form-group {
           width: 100%;
         }
       }
@@ -745,6 +758,7 @@ input, select, textarea {
 
     .code_1 {
       margin-bottom: 20px;
+
       .a {
         color: rgba(144, 45, 110, 1);
         font-weight: 500;
@@ -779,7 +793,7 @@ input, select, textarea {
         color: #171619;
       }
 
-      strong{
+      strong {
         font-weight: 700;
       }
 
@@ -870,8 +884,9 @@ input, select, textarea {
       text-align: center;
     }
   }
+
   @media only screen and (max-width: 576px) {
-    h1{
+    h1 {
       font-size: 28px;
       line-height: 30px;
     }
@@ -929,14 +944,15 @@ input, select, textarea {
   }
 }
 
-.form-group{
+.form-group {
   .errorlist li {
     margin-top: 0.25rem;
     font-size: 0.8rem;
     color: #dc3545;
   }
+
   input.invalid {
-    border-color: #dc3545!important;
+    border-color: #dc3545 !important;
   }
 }
 
@@ -1022,21 +1038,26 @@ input, select, textarea {
 
 
 .bg-signed {
-    background-color: #deecf1;
-}
-.bg-sent {
-    background-color: #fff3dd;
-}
-.bg-canceled {
-    background-color: #fff3dd;
+  background-color: #deecf1;
 }
 
-.tr_contracts_client {
-  .url_copy_btn {
-    .alert {
-      left: -10px;
-      transform: translateX(0);
-      top: 14px;
-    }
+.bg-sent {
+  background-color: #fff3dd;
+}
+
+.bg-canceled {
+  background-color: #fff3dd;
+}
+
+.tr_contract .cancel{
+  left: -20px;
+  justify-content: start!important;
+  right: auto!important;
+  img{
+    margin-right: 7px;
   }
+  span{
+    margin-left: 0!important;
+    margin-right: 0!important;
+}
 }

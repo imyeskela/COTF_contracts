@@ -81,7 +81,7 @@ class ContractTemplateListAndCreateContractMixin:
                     )
 
             elif 'status' in request.POST:
-                contract_template = self.queryset.get(pk=request.POST.get('contract_template_pk'))
+                contract_template = self.queryset().get(pk=request.POST.get('contract_template_pk'))
                 form_contract_template_change = self.form_contract_template_change(request.POST, instance=contract_template)
                 if form_contract_template_change.is_valid():
                     form_contract_template_change = form_contract_template_change.save(commit=False)

@@ -188,7 +188,6 @@
                         <div class="url_copy_btn">
                             <img src="{% static 'icon/file.svg' %}">
                             <input name="contract_url" type="hidden" value="random_url">
-                            <div class="alert">Ссылка скопирована</div>
                         </div>
                     </td>
                     <td>#{{ contracts.number }}</td>
@@ -233,4 +232,11 @@
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
     </form>
 </div>
+<div class="alert_wrapper">
+    <div class="alert alert-dismissible fade copy_success_alert" role="alert">
+        Ссылка скопирована в буфер обмена.
+        <button type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <img src="{% static 'icon/close.svg' %}">
+        </button>
+    </div>
 {% endblock %}

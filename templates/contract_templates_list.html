@@ -102,19 +102,20 @@
                     <td>{{ contract.name }}</td>
                     <td class="light">Договор {{ contract.pk }}</td>
                     <td id="status">
-                        <div class="dropdown">
-                            <input name="status" type="hidden" value="{{ contract.status }}">
-                            <button aria-expanded="false"
-                                    class="btn {% if contract.status == 'Актуально' %}btn_cyan{% else %}btn_gray{% endif %}"
-                                    data-bs-toggle="dropdown" data-id="status_{{ contract.pk }}"
-                                    id="status_button">
+                        <div class="dropdown status_box">
+                            <input name="status" type="hidden" value="{% if contract.status == 'Актуально' %}Устарело{% else %}Актуально{% endif %}">
+                            <button class="btn {% if contract.status == 'Актуально' %}btn_cyan{% else %}btn_gray{% endif %}">
                                 {{ contract.status }}
                                 <i class="icon-select"></i>
                             </button>
-                            <ul aria-labelledby="status_button" class="dropdown-menu">
-                                <li><a class="dropdown-item">Актуально</a></li>
-                                <li><a class="dropdown-item">Устарело</a></li>
-                            </ul>
+                            <div class="cancel">
+                                {% if contract.status == 'Устарело' %}
+                                    <img src="{% static 'icon/actual.svg' %}">
+                                    <span>Сделать актуальным</span>
+                                {% else %}
+                                    <span>Устарело</span>
+                                {% endif %}
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -131,7 +132,6 @@
                         <div class="url_copy_btn" data-status="{{ contract.status }}">
                             <img src="{% static 'icon/file.svg' %}">
                             <input name="contract_url" type="hidden" value="random_url">
-                            <div class="alert">Ссылка скопирована</div>
                         </div>
                     </td>
                 </tr>
@@ -206,4 +206,5 @@
         <input name="csrfmiddlewaretoken" type="hidden" value="{{ csrf_token }}">
     </form>
 </div>
+<div class="copy_alert alert">Ссылка скопирована</div>
 {% endblock %}
