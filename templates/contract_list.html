@@ -9,14 +9,14 @@
             <h1>Договоры</h1>
         </div>
     </div>
-    <div class="table-container container-fluid">
+    <div class="table-container container-fluid table-contracts-list">
         {% include 'common/table_navbar.html' %}
         <div class="table-wrapper">
             <table class="table">
                 <thead>
                 <tr>
-                    <td style="min-width: 54px;"></td>
-                    <td style="min-width: 125px;">
+                    <td style="min-width: 35px;"></td>
+                    <td style="min-width: 108px;">
                         <div class="table_title">
                             <span class="col-title">№ договора</span>
                             <div class="sort_controls">
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                     </td>
-                    <td style="min-width: 143px;">
+                    <td style="min-width: 125px;">
                         <div class="table_title">
                             <span class="col-title">Идентификатор</span>
                             <div class="sort_controls">
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </td>
-                    <td style="min-width: 200px;">
+                    <td style="min-width: 160px;">
                         <div class="table_title">
                             <span class="col-title">ФИО</span>
                             <div class="sort_controls">
@@ -61,17 +61,11 @@
                             </div>
                         </div>
                     </td>
-                    <td style="min-width: 133px;">
+                    {% comment %}
+
+                    <td style="min-width: 125px;">
                         <div class="table_title">
                             <span class="col-title">Паспортные<br>данные</span>
-<!--                            <div class="sort_controls">-->
-<!--                                <a class="up" href="#">-->
-<!--                                    <i class="icon-arrow_up"></i>-->
-<!--                                </a>-->
-<!--                                <a class="down" href="#">-->
-<!--                                    <i class="icon-arrow_down"></i>-->
-<!--                                </a>-->
-<!--                            </div>-->
                         </div>
                     </td>
                     <td style="min-width: 180px;">
@@ -92,27 +86,22 @@
                     <td style="min-width: 170px;">
                         <div class="table_title">
                             <span class="col-title">Мобильный телефон</span>
-<!--                            <div class="sort_controls">-->
-<!--                                <a class="up" href="#">-->
-<!--                                    <i class="icon-arrow_up"></i>-->
-<!--                                </a>-->
-<!--                                <a class="down" href="#">-->
-<!--                                    <i class="icon-arrow_down"></i>-->
-<!--                                </a>-->
-<!--                            </div>-->
                         </div>
                     </td>
-                    <td style="min-width: 137px;">
+
+                    {% endcomment %}
+
+                    <td style="min-width: 112px;">
                         <div class="table_title">
                             <span class="col-title">Договор</span>
-<!--                            <div class="sort_controls">-->
-<!--                                <a class="up" href="#">-->
-<!--                                    <i class="icon-arrow_up"></i>-->
-<!--                                </a>-->
-<!--                                <a class="down" href="#">-->
-<!--                                    <i class="icon-arrow_down"></i>-->
-<!--                                </a>-->
-<!--                            </div>-->
+                            <!--                            <div class="sort_controls">-->
+                            <!--                                <a class="up" href="#">-->
+                            <!--                                    <i class="icon-arrow_up"></i>-->
+                            <!--                                </a>-->
+                            <!--                                <a class="down" href="#">-->
+                            <!--                                    <i class="icon-arrow_down"></i>-->
+                            <!--                                </a>-->
+                            <!--                            </div>-->
                         </div>
                     </td>
                     <td style="min-width: 90px;">
@@ -130,7 +119,7 @@
                             </div>
                         </div>
                     </td>
-                    <td style="min-width: 120px;">
+                    <td style="min-width: 102px;">
                         <div class="table_title">
                             <span class="col-title">Дата<br>генерации</span>
                             <div class="sort_controls">
@@ -145,7 +134,7 @@
                             </div>
                         </div>
                     </td>
-                    <td style="min-width: 113px;">
+                    <td style="min-width: 103px;">
                         <div class="table_title">
                             <span class="col-title">Дата<br>подписания</span>
                             <div class="sort_controls">
@@ -160,7 +149,7 @@
                             </div>
                         </div>
                     </td>
-                    <td style="min-width: 110px;">
+                    <td style="min-width: 90px;">
                         <div class="table_title">
                             <span class="col-title">Статус</span>
                             <div class="sort_controls">
@@ -184,7 +173,7 @@
                 <tr class="tr_contracts_client {% if contracts.status == 'Подписан' %}bg-signed{% elif contracts.status == 'Направлен' %}bg-sent{% elif contracts.status == 'Аннулирован' %}bg-canceled{% endif %}"
                     data-pk="{{ contracts.pk }}"
                     data-contract-number="{{ contracts.number }}">
-                    <td>
+                    <td style="padding-right: 4px">
                         <div class="url_copy_btn">
                             <img src="{% static 'icon/file.svg' %}">
                             <input name="contract_url" type="hidden" value="random_url">
@@ -193,24 +182,26 @@
                     <td>#{{ contracts.number }}</td>
                     <td class="light">{{ contracts.identifier }}</td>
                     <td class="light">{{ contracts.full_name }}</td>
+                    {% comment %}
                     <td class="light">{{ contracts.passport }}</td>
                     <td class="light">{{ contracts.email }}</td>
                     <td class="light">{{ contracts.phone }}</td>
+                    {% endcomment %}
                     <td class="light">Имя договора</td>
                     <td class="light">{{ contracts.amount }}</td>
-                    <td class="light">{{ contracts.date_created }}</td>
-                    <td class="light">{{ contracts.date_signed }}</td>
+                    <td class="light">{{ contracts.date_created | date:"d/m/Y" }}</td>
+                    <td class="light">{{ contracts.date_signed | date:"d/m/Y"}}</td>
                     <td class="light">
                         <div class="status_box">
                             <i class="icon-more"></i>
                             {% if contracts.status == "Подписан" %}
-                                <button class="btn btn_cyan">{{ contracts.status }}</button>
+                            <button class="btn btn_cyan">{{ contracts.status }}</button>
                             {% elif contracts.status == "Направлен" %}
-                                <button class="btn btn_yellow">{{ contracts.status }}</button>
+                            <button class="btn btn_yellow">{{ contracts.status }}</button>
                             {% elif contracts.status == "Аннулирован" %}
-                                <button class="btn btn_gray">{{ contracts.status }}</button>
+                            <button class="btn btn_gray">{{ contracts.status }}</button>
                             {% else %}
-                                <button class="btn btn_pink">{{ contracts.status }}</button>
+                            <button class="btn btn_pink">{{ contracts.status }}</button>
                             {% endif %}
                             <div class="cancel">
                                 <i class="icon-otkaz"></i>
@@ -218,7 +209,7 @@
                             </div>
                         </div>
                     </td>
-                    <td class="light"><a class="download_button" href="#"><img src="{% static 'icon/download.svg' %}"></a></td>
+                    <td class="light" style="padding-left: 4px"><a class="download_button" href="#"><img src="{% static 'icon/download.svg' %}"></a></td>
                 </tr>
                 {% endfor %}
                 </tbody>
@@ -239,4 +230,4 @@
             <img src="{% static 'icon/close.svg' %}">
         </button>
     </div>
-{% endblock %}
+    {% endblock %}

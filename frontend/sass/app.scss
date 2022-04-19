@@ -65,12 +65,14 @@ input, select, textarea {
   color: #fff;
   padding: 6px 12px;
   margin: 0;
+
   &.show {
     display: block;
   }
 }
 
 .left-menu {
+  z-index: 999999;
   width: 276px;
   background: linear-gradient(#000000, #63316B);
   height: 100vh;
@@ -297,7 +299,7 @@ input, select, textarea {
 
     thead {
       td {
-        padding: 6px 17px;
+        padding: 13px 13px;
         vertical-align: middle;
 
         .table_title {
@@ -355,7 +357,7 @@ input, select, textarea {
         font-weight: 400;
         font-size: 12px;
         line-height: 14px;
-        padding: 23px 17px;
+        padding: 28px 12px;
         white-space: nowrap;
 
         &.light {
@@ -363,7 +365,7 @@ input, select, textarea {
         }
 
         .btn {
-          padding: 5px 8px;
+          padding: 5px;
           color: #fff;
           font-weight: 500;
           font-size: 10px;
@@ -402,9 +404,11 @@ input, select, textarea {
             border-radius: 2px;
             align-items: center;
             justify-content: center;
+
             &.show {
               display: flex;
             }
+
             span {
               font-size: 12px;
               color: #6A728A;
@@ -1049,15 +1053,21 @@ input, select, textarea {
   background-color: #fff3dd;
 }
 
-.tr_contract .cancel{
+.tr_contract .cancel {
   left: -20px;
-  justify-content: start!important;
-  right: auto!important;
-  img{
+  justify-content: start !important;
+  right: auto !important;
+
+  img {
     margin-right: 7px;
   }
-  span{
-    margin-left: 0!important;
-    margin-right: 0!important;
+
+  span {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }
+
+.table-contracts-list{
+  padding-right: 12px;
 }

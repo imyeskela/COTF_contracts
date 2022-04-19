@@ -232,15 +232,17 @@ if(acceptButton){
 let timer = document.getElementById("timer");
 if(timer){
     let seconds = parseInt(timer.innerText) - parseInt(Date.now() / 1000);
-    console.log(timer.innerText);
+    let text = humanTime(seconds);
+    timer.innerText = text;
+    timer.style.opacity = "1";
     let interval = setInterval(function (){
         seconds--;
+        let text = humanTime(seconds);
         if(seconds === 0){
-            clearInterval(interval);
             document.querySelector(".btn_new_code").removeAttribute("disabled");
             timer.parentElement.remove();
         }
-        timer.innerText = seconds;
+        timer.innerText = text;
     },1000);
 }
 
@@ -256,3 +258,52 @@ if(wizard){
 document.querySelectorAll(".icon-search").forEach(function(item){
     item.addEventListener("click",function(){this.parentNode.submit()})
 })
+
+function humanTime(seconds){
+    let str = "";
+    let minut = parseInt(seconds / 60);
+    let second = seconds - 60 * parseInt(seconds / 60);
+    if(minut > 0){
+        str += minut + " ";
+        if(minut == 1){
+            str += "минуту"
+        }else if(minut <= 4){
+            str += "минуты"
+        }else if(minut <= 20){
+            str += "минут"
+        }else{
+            let last = minut % 10;
+            if(last == 1){
+                str += "минуту"
+            }else if(last <= 4){
+                str += "минуты"
+            }else{
+                str += "минут"
+            }
+        }
+    }
+    if(second > 0){
+        if(str.length > 0){
+            console.log(1);
+            str += " ";
+        }
+        str += second + " ";
+        if(second == 1){
+            str += "секунду"
+        }else if(second <= 4){
+            str += "секунды"
+        }else if(second <= 20){
+            str += "секунд"
+        }else{
+            let last = second % 10;
+            if(last == 1){
+                str += "секунду"
+            }else if(last <= 4){
+                str += "секунды"
+            }else{
+                str += "секунд"
+            }
+        }
+    }
+    return str;
+}

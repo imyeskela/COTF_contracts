@@ -3455,17 +3455,19 @@ var timer = document.getElementById("timer");
 
 if (timer) {
   var seconds = parseInt(timer.innerText) - parseInt(Date.now() / 1000);
-  console.log(timer.innerText);
+  var text = humanTime(seconds);
+  timer.innerText = text;
+  timer.style.opacity = "1";
   var interval = setInterval(function () {
     seconds--;
+    var text = humanTime(seconds);
 
     if (seconds === 0) {
-      clearInterval(interval);
       document.querySelector(".btn_new_code").removeAttribute("disabled");
       timer.parentElement.remove();
     }
 
-    timer.innerText = seconds;
+    timer.innerText = text;
   }, 1000);
 }
 
@@ -3487,6 +3489,63 @@ document.querySelectorAll(".icon-search").forEach(function (item) {
     this.parentNode.submit();
   });
 });
+
+function humanTime(seconds) {
+  var str = "";
+  var minut = parseInt(seconds / 60);
+  var second = seconds - 60 * parseInt(seconds / 60);
+
+  if (minut > 0) {
+    str += minut + " ";
+
+    if (minut == 1) {
+      str += "минуту";
+    } else if (minut <= 4) {
+      str += "минуты";
+    } else if (minut <= 20) {
+      str += "минут";
+    } else {
+      var last = minut % 10;
+
+      if (last == 1) {
+        str += "минуту";
+      } else if (last <= 4) {
+        str += "минуты";
+      } else {
+        str += "минут";
+      }
+    }
+  }
+
+  if (second > 0) {
+    if (str.length > 0) {
+      console.log(1);
+      str += " ";
+    }
+
+    str += second + " ";
+
+    if (second == 1) {
+      str += "секунду";
+    } else if (second <= 4) {
+      str += "секунды";
+    } else if (second <= 20) {
+      str += "секунд";
+    } else {
+      var _last = second % 10;
+
+      if (_last == 1) {
+        str += "секунду";
+      } else if (_last <= 4) {
+        str += "секунды";
+      } else {
+        str += "секунд";
+      }
+    }
+  }
+
+  return str;
+}
 
 /***/ }),
 
