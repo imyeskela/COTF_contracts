@@ -229,6 +229,7 @@ def finally_rich(self, request, contract_number):
         result.file.save(path_pdf)
         os.remove(new_path_docx)
         contract.identifier = get_data_from_forms(self, request, contract_number).get('short_name')
+        contract.full_name = f'{last_name} {name} {sur_name}'
         contract.email = email
         contract.series_passport = get_data_from_forms(self, request, contract_number).get('series_passport')
         contract.num_passport = get_data_from_forms(self, request, contract_number).get('num_passport')
@@ -299,6 +300,7 @@ def finally_rich(self, request, contract_number):
         result.file.save(path_pdf)
         os.remove(new_path_docx)
         contract.identifier = get_data_from_forms(self, request, contract_number).get('short_name')
+        contract.full_name = f'{last_name} {name} {sur_name}'
         contract.email = email
         contract.series_passport = get_data_from_forms(self, request, contract_number).get('series_passport')
         contract.num_passport = get_data_from_forms(self, request, contract_number).get('num_passport')
