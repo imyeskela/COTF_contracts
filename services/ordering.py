@@ -53,6 +53,9 @@ def get_ordered_contracts(self):
     contract_number_min = self.request.GET.get('contract_number_min')
     contract_number_max = self.request.GET.get('contract_number_max')
 
+    identifier_min = self.request.GET.get('identifier_min')
+    identifier_max = self.request.GET.get('identifier_max')
+
     full_name_min = self.request.GET.get('full_name_min')
     full_name_max = self.request.GET.get('full_name_max')
 
@@ -77,6 +80,11 @@ def get_ordered_contracts(self):
         qs_contracts = qs_contracts.order_by('number')
     if _is_valid(contract_number_max):
         qs_contracts = qs_contracts.order_by('-number')
+
+    if _is_valid(identifier_min):
+        qs_contracts = qs_contracts.order_by('identifier')
+    if _is_valid(identifier_max):
+        qs_contracts = qs_contracts.order_by('-identifier')
 
     if _is_valid(full_name_min):
         qs_contracts = qs_contracts.order_by('full_name')
