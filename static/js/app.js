@@ -3250,24 +3250,14 @@ document.addEventListener('DOMContentLoaded', function () {
         form.submit();
       });
       setTimeout(function () {
-        document.querySelector("body").addEventListener("click", function () {
+        var listener = function listener() {
           cancel.classList.remove("show");
-        });
-      }, 10);
-    }); // tr.querySelector(".status_box").forEach(function (dropdown){
-    //     dropdown.querySelectorAll(".dropdown-item").forEach(function (item){
-    //         item.addEventListener("click",function (){
-    //             let input = dropdown.querySelector("input");
-    //             input.value = capitalize(this.innerText.toLowerCase());
-    //             let form = document.getElementById("contract_update_form");
-    //             let pk_input = tr.querySelector("input[name='contract_template_pk']");
-    //             form.appendChild(input);
-    //             form.appendChild(pk_input);
-    //             form.submit();
-    //         });
-    //     })
-    // });
+          document.querySelector("body").removeEventListener("click", listener, false);
+        };
 
+        document.querySelector("body").addEventListener("click", listener, false);
+      }, 10);
+    });
     var url_copy_btn = tr.querySelector(".url_copy_btn");
     url_copy_btn.addEventListener("click", function (e) {
       if (url_copy_btn.dataset.status === 'Актуально') {
@@ -3313,9 +3303,12 @@ document.addEventListener('DOMContentLoaded', function () {
           contract_client_form.submit();
         });
         setTimeout(function () {
-          document.querySelector("body").addEventListener("click", function () {
+          var listener = function listener() {
             cancel.classList.remove("show");
-          });
+            document.querySelector("body").removeEventListener("click", listener, false);
+          };
+
+          document.querySelector("body").addEventListener("click", listener, false);
         }, 10);
       });
     });
@@ -3500,16 +3493,16 @@ function humanTime(seconds) {
 
     if (minut == 1) {
       str += "минуту";
-    } else if (minut <= 4) {
+    } else if (minut > 1 && minut <= 4) {
       str += "минуты";
-    } else if (minut <= 20) {
+    } else if (minut > 4 && minut <= 20) {
       str += "минут";
     } else {
       var last = minut % 10;
 
       if (last == 1) {
         str += "минуту";
-      } else if (last <= 4) {
+      } else if (last > 1 && last <= 4) {
         str += "минуты";
       } else {
         str += "минут";
@@ -3527,16 +3520,16 @@ function humanTime(seconds) {
 
     if (second == 1) {
       str += "секунду";
-    } else if (second <= 4) {
+    } else if (second > 1 && second <= 4) {
       str += "секунды";
-    } else if (second <= 20) {
+    } else if (second > 4 && second <= 20) {
       str += "секунд";
     } else {
       var _last = second % 10;
 
       if (_last == 1) {
         str += "секунду";
-      } else if (_last <= 4) {
+      } else if (_last > 4 && _last <= 4) {
         str += "секунды";
       } else {
         str += "секунд";
@@ -3545,6 +3538,20 @@ function humanTime(seconds) {
   }
 
   return str;
+}
+
+var main_mobile_form = document.getElementById("main_mobile_form");
+
+if (main_mobile_form) {
+  var checkbox = main_mobile_form.querySelector("#id_check_box");
+  checkbox.removeAttribute("required");
+
+  main_mobile_form.onsubmit = function () {
+    if (!checkbox.checked) {
+      main_mobile_form.querySelector('label[for="id_check_box"]').classList.add("invalid");
+      return false;
+    }
+  };
 }
 
 /***/ }),

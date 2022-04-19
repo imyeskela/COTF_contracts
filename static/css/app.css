@@ -653,12 +653,37 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
 .wizard-wrapper .tab-content .form-group.checkbox .fake_checkbox {
   width: 16px;
   height: 16px;
-  border: 1px solid #000000;
+  border: 1px solid #D8DEEC;
   border-radius: 2px;
   margin-right: 11px;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+.wizard-wrapper .tab-content .form-group.checkbox .fake_checkbox .error_message {
+  display: none;
+}
+.wizard-wrapper .tab-content .form-group.checkbox .fake_checkbox.invalid .error_message {
+  display: block;
+  position: absolute;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  left: 32px;
+  padding: 10px 14px;
+  background-color: #fff;
+  border-radius: 8px;
+  color: #171619;
+}
+.wizard-wrapper .tab-content .form-group.checkbox .fake_checkbox.invalid .error_message:before {
+  content: " ";
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #FFFFFF;
+  position: absolute;
+  left: -10px;
 }
 .wizard-wrapper .tab-content .form-group.checkbox .fake_checkbox img {
   display: none;
