@@ -376,7 +376,6 @@ def get_actual_code(self, phone):
         return None
 
 
-
 def create_new_code_obj(self, request, contract_number):
     phone = get_data_from_forms(self, request, contract_number).get('phone')
     contract_pk = get_data_from_forms(self, request, contract_number).get('contract_pk')
@@ -391,7 +390,7 @@ def create_new_code_obj(self, request, contract_number):
                                                 number_of_attempts=new_attempts
                                                 )
 
-    return new_obj
+    return
 
 
 def send_sms(self, request, contract_number):

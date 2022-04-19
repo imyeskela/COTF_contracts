@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 
 from services.main_logic import generator_num_contract, get_template_contracts
 from services.questionnaire import form_questionnaire, finally_rich, get_sign_img, create_new_code_obj, \
-    change_confirmation, change_contract_status, get_time_for_resend_sms, send_sms, send_email_contract_signed
+    change_confirmation, change_contract_status, send_sms, send_email_contract_signed, get_time_for_resend_sms
 from services.download import get_contract_and_payment, download
 
 from main.models import Contract, ContractTemplate

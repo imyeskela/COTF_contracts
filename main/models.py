@@ -133,7 +133,7 @@ class Contract(models.Model):
 class AuthenticationCode(models.Model):
     code = models.PositiveIntegerField('Код', null=False, unique=True, max_length=5)
     number_of_attempts = models.PositiveSmallIntegerField('Количество попыток ввода', default=0)
-    date_generated_code = models.CharField('Секунды генерации кода', default=time.time(), max_length=200)
+    date_generated_code = models.CharField('Секунды генерации кода', default=time.time(), max_length=1000)
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE, null=False)
     phone = models.CharField('Номер телефона', max_length=12)
     confirmation = models.BooleanField('Флаг подтверждения', default=False)
