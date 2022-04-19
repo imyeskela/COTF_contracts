@@ -3239,6 +3239,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var status_box = tr.querySelector(".status_box");
     status_box.addEventListener("click", function () {
       var cancel = status_box.querySelector(".cancel");
+
+      if (cancel.classList.contains("show")) {
+        cancel.classList.remove("show");
+        return true;
+      }
+
       cancel.classList.add("show");
       cancel.addEventListener("click", function () {
         console.log(status_box);
@@ -3286,10 +3292,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     tr.querySelectorAll(".status_box").forEach(function (status_box) {
       status_box.querySelector(".icon-more").addEventListener("click", function () {
-        document.querySelectorAll(".status_box").forEach(function (item) {
-          item.querySelector(".cancel").classList.remove("show");
-        });
         var cancel = status_box.querySelector(".cancel");
+
+        if (cancel.classList.contains("show")) {
+          cancel.classList.remove("show");
+          return true;
+        }
+
         cancel.classList.add("show");
         cancel.addEventListener("click", function () {
           var input_pk = document.createElement("input");

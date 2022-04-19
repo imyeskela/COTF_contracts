@@ -77,6 +77,7 @@
                                 {{ form.check_box }}
                                 {{ form.non_field_errors }}
                                 <label class="fake_checkbox" for="id_check_box">
+                                    <div class="error_message">Заполните это поле</div>
                                     <img src="{% static 'icon/check.svg' %}">
                                 </label>
                                 <span class="label"> Я согласен на <a href="#" onclick="document.getElementById('nav-1').classList.add('m_open')">обработку персональных данных</a></span>
