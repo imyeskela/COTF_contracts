@@ -21,7 +21,7 @@ class ContractTemplateCreateForm(forms.ModelForm):
 
     class Meta:
         model = ContractTemplate
-        fields = ['template_of_contract', 'amount', 'status', 'type', 'company']
+        fields = ['template_of_contract', 'amount', 'status', 'type', 'company', 'city']
 
     def clean(self):
         cleaned_data = super(ContractTemplateCreateForm, self).clean()

@@ -163,28 +163,43 @@
                     {{ form_contract_template.create_form }}
 
                     <div class="form-group">
-                        {{ form_contract_template.amount }}
-                        {{ form_contract_template.amount.errors }}
-                    </div>
-
-                    <div class="form-group">
-                        {{ form_contract_template.status }}
-                        {{ form_contract_template.status.errors }}
-                    </div>
-                    <div class="form-group">
+                        <label for="id_type">
+                            {{ form_contract_template.type.label }}*
+                        </label><br>
                         {{ form_contract_template.type }}
                         {{ form_contract_template.type.errors }}
                     </div>
+
                     <div class="form-group">
+                        <label for="id_city">
+                            {{ form_contract_template.city.label }}*
+                        </label><br>
+                        {{ form_contract_template.city }}
+                        {{ form_contract_template.city.errors }}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_company">
+                            {{ form_contract_template.company.label }}*
+                        </label><br>
                         {{ form_contract_template.company }}
                         {{ form_contract_template.company.errors }}
                     </div>
+
                     <div class="d-flex justify-content-between">
                         <label for="id_template_of_contract">+ Загрузить договор</label>
                         <div class="d-flex">
                             <span class="refresh"><img src="{% static 'icon/refresh-ccw.svg' %}"></span>
                             <span class="clear"><img src="{% static 'icon/x-circle.svg' %}"></span>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_amount">
+                            {{ form_contract_template.amount.label }}*
+                        </label><br>
+                        {{ form_contract_template.amount }}
+                        {{ form_contract_template.amount.errors }}
                     </div>
 
                     {{ form_contract_template.template_of_contract }}

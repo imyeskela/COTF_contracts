@@ -8,6 +8,12 @@ from django.utils import timezone
 from babel.dates import format_date
 
 
+cities = [
+    (1, 'Москва'),
+    (2, 'Санкт-Петербург')
+]
+
+
 def check_format_of_file(value):
     """Проверка формата на docx"""
 
@@ -61,11 +67,13 @@ class ContractTemplate(models.Model):
         CMS = 'ООО "КМС"', ('ООО "КМС"')
         DC = 'ООО "ДЕЛОВОЙ КЛУБ"', ('ООО "ДЕЛОВОЙ КЛУБ"')
 
+    city = models.CharField('Город', choices=cities, null=True, max_length=50, default='Москва')
+
     name = models.CharField('Название', null=False, max_length=50, blank=True)
     template_of_contract = models.FileField('Шаблон договора', null=False, upload_to='upload/', validators=[check_format_of_file])
     amount = models.PositiveIntegerField('Сумма', null=True)
     status = models.CharField('Статус', choices=Statuses.choices, default=Statuses.actual, max_length=100)
-    type = models.CharField('Тип', choices=Types.choices, null=False, max_length=50)
+    type = models.CharField('Тип', choices=Types.choices, null=False, max_length=50, default='Основной')
     # branch = models.ForeignKey('Branch', on_delete=models.CASCADE, blank=True)
     company = models.CharField('Компания', choices=Companies.choices, null=False, max_length=50)
 
