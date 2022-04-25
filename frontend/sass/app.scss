@@ -1000,13 +1000,36 @@ input, select, textarea {
   }
 
   .modal-content {
+    ._alert{
+      border-radius: 2px;
+      display: flex;
+      padding: 7px;
+      max-width: 336px;
+      align-items: start;
+      .msg{
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 15px;
+        color: #6A728A;
+      }
+      img{
+        margin-right: 7px;
+      }
+    }
+
     input, select {
       @extend .input;
     }
 
     border-radius: 0;
     padding: 28px 70px;
-
+    margin-bottom: 50px;
+    .form-group{
+      width: 336px;
+      .errorlist{
+        text-align: right;
+      }
+    }
     form {
       width: 100%;
       display: flex;
@@ -1039,7 +1062,7 @@ input, select, textarea {
     }
 
     .input {
-      width: 300px;
+      width: 336px;
     }
 
     .buttons {
@@ -1101,4 +1124,17 @@ input, select, textarea {
 
 .table-contracts-list {
   padding-right: 12px;
+}
+
+.input_file_name{
+  padding-right: 30px!important;
+}
+
+.label_file_name{
+  position: relative;
+  img{
+    position: absolute;
+    right: 10px;
+    top: 35px;
+  }
 }

@@ -157,7 +157,7 @@
     <div aria-hidden="true" class="modal fade" id="contract_add_modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <h2>Создать договор</h2>
+                <h2>Создать шаблон</h2>
                 <form action="" enctype="multipart/form-data" method="post">
                     {% csrf_token %}
                     {{ form_contract_template.create_form }}
@@ -186,30 +186,53 @@
                         {{ form_contract_template.company.errors }}
                     </div>
 
-                    <div class="d-flex justify-content-between">
-                        <label for="id_template_of_contract">+ Загрузить договор</label>
-                        <div class="d-flex">
-                            <span class="refresh"><img src="{% static 'icon/refresh-ccw.svg' %}"></span>
-                            <span class="clear"><img src="{% static 'icon/x-circle.svg' %}"></span>
-                        </div>
+                    <div class="form-group">
+                        <label for="id_doc" class="label_file_name">
+                            Договор*<br>
+                            <input readonly class="input_file_name" name="id_doc">
+                            <img src="{% static 'icon/upload.svg' %}">
+                        </label>
                     </div>
 
                     <div class="form-group">
                         <label for="id_amount">
-                            {{ form_contract_template.amount.label }}*
+                            {{ form_contract_template.amount.label }}
                         </label><br>
                         {{ form_contract_template.amount }}
                         {{ form_contract_template.amount.errors }}
                     </div>
 
-                    {{ form_contract_template.template_of_contract }}
-                    {{ form_contract_template.template_of_contract.errors }}
+                    <div class="d-flex justify-content-between">
+                        <label for="id_template_of_contract">+ Загрузить договор</label>
+                    </div>
 
-                    {{ form_contract_template.check_file }}
+                    {{ form_contract_template.template_of_contract }}
+
+
                     {{ message }}
+                    {% if valid %}
+                        <div class="_alert alert-success">
+                            <img src="{% static 'icon/success.svg' %}">
+                            <div class="msg">Все переменные указаны верно</div>
+                        </div>
+                    {% endif %}
+                    {% if template_errors %}
+                        <div class="_alert alert-danger">
+                                <img src="{% static 'icon/danger.svg' %}">
+                                <div class="msg">
+                                    <span>Отсутствуют или внесены неверно переменные:</span><br>
+                                    <span>{{ form_contract_template.template_of_contract.errors }}</span><br>
+                                    <span>Пожалуйста, загрузите исправленный документ и выполните проверку повторно</span>
+                                </div>
+                        </div>
+                    {% endif %}
                     <div class="buttons">
                         <button class="btn" data-bs-dismiss="modal" type="button">Отмена</button>
-                        <button class="btn btn_grd">Отправить</button>
+                        {% if valid %}
+                            <button class="btn btn_grd" name="save">Сохранить</button>
+                        {% else %}
+                            <button class="btn btn_grd" name="check_file">Проверить</button>
+                        {% endif %}
                     </div>
 
                 </form>

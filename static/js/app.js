@@ -3410,12 +3410,18 @@ var modal = document.getElementById("contract_add_modal");
 
 if (modal) {
   var template_of_contract = document.getElementById('id_template_of_contract');
-  var file_label = document.querySelector("label[for='id_template_of_contract']");
+  var file_label = modal.querySelector("label[for='id_template_of_contract']");
+  var label_file_name = modal.querySelector("label.label_file_name");
+  var input_file_name = modal.querySelector("input.input_file_name");
+  label_file_name.addEventListener("click", function () {
+    template_of_contract.click();
+  });
 
   if (template_of_contract) {
     template_of_contract.onchange = function () {
       var file_name = this.value.split("\\").pop();
       file_label.innerText = file_name;
+      input_file_name.value = file_name;
     };
   }
 

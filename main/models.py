@@ -1,5 +1,4 @@
 import time
-import uuid
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -9,8 +8,8 @@ from babel.dates import format_date
 
 
 cities = [
-    (1, 'Москва'),
-    (2, 'Санкт-Петербург')
+    ('Москва', 'Москва'),
+    ('Санкт-Петербург', 'Санкт-Петербург')
 ]
 
 
@@ -71,7 +70,7 @@ class ContractTemplate(models.Model):
 
     name = models.CharField('Название', null=False, max_length=50, blank=True)
     template_of_contract = models.FileField('Шаблон договора', null=False, upload_to='upload/', validators=[check_format_of_file])
-    amount = models.PositiveIntegerField('Сумма', null=True)
+    amount = models.PositiveIntegerField('Сумма', null=True, default=None)
     status = models.CharField('Статус', choices=Statuses.choices, default=Statuses.actual, max_length=100)
     type = models.CharField('Тип', choices=Types.choices, null=False, max_length=50, default='Основной')
     # branch = models.ForeignKey('Branch', on_delete=models.CASCADE, blank=True)

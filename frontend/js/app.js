@@ -185,11 +185,17 @@ function copy_url(elem, url) {
 let modal = document.getElementById("contract_add_modal");
 if(modal){
     let template_of_contract = document.getElementById('id_template_of_contract');
-    let file_label = document.querySelector("label[for='id_template_of_contract']");
+    let file_label = modal.querySelector("label[for='id_template_of_contract']");
+    let label_file_name = modal.querySelector("label.label_file_name");
+    let input_file_name = modal.querySelector("input.input_file_name");
+    label_file_name.addEventListener("click",function (){
+        template_of_contract.click();
+    })
     if(template_of_contract){
         template_of_contract.onchange = function () {
             let file_name = this.value.split("\\").pop();
             file_label.innerText = file_name;
+            input_file_name.value = file_name;
         };
     }
     let form = modal.querySelector("form");

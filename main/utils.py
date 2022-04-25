@@ -36,7 +36,7 @@ class ContractTemplateListAndCreateContractMixin:
         if request.POST:
             form_contract = self.form_contract(request.POST)
             form_contract_template = self.form_contract_template(request.POST, request.FILES)
-
+            print(request.POST)
             if 'create_form' in request.POST:
                 paginator = Paginator(self.queryset(), 20)
                 page_number = request.GET.get('page')
@@ -45,25 +45,25 @@ class ContractTemplateListAndCreateContractMixin:
 
                 if form_contract_template.is_valid():
                     if 'check_file' in request.POST:
-                        if request.POST['check_file'] == 'true':
-                            print('AAA')
-                            return render(
-                                request,
-                                self.template_name,
-                                {
-                                    'show_modal': True,
-                                    'contract_template_list': page_obj,
-                                    'form_contract': self.form_contract,
-                                    'form_contract_template': form_contract_template,
-                                    'form_contract_template_change': form_contract_template_change,
-                                    'message': 'Form is valid!'
-                                }
-                            )
-                        else:
-                            form_contract_template = form_contract_template.save(commit=False)
-                            form_contract_template.save()
-                    return redirect('contract_template_list')
+                        print('AAA')
+                        return render(
+                            request,
+                            self.template_name,
+                            {
+                                'show_modal': True,
+                                'contract_template_list': page_obj,
+                                'form_contract': self.form_contract,
+                                'form_contract_template': form_contract_template,
+                                'form_contract_template_change': form_contract_template_change,
+                                'valid': True
+                            }
+                        )
+                    if 'save' in request.POST:
+                        form_contract_template = form_contract_template.save(commit=False)
+                        form_contract_template.save()
+                        return redirect('contract_template_list')
                 else:
+                    print(form_contract_template.errors)
                     for field_name, field in form_contract_template.fields.items():
                         if field_name in form_contract_template.errors:
                             field.widget.attrs['class'] = 'invalid'
@@ -77,6 +77,8 @@ class ContractTemplateListAndCreateContractMixin:
                             'form_contract': self.form_contract,
                             'form_contract_template': form_contract_template,
                             'form_contract_template_change': form_contract_template_change,
+                            'valid': False,
+                            'template_errors': form_contract_template.errors.get('input_file_name')
                         }
                     )
 

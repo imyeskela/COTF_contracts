@@ -881,6 +881,29 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
 #contract_add_modal .modal-content {
   border-radius: 0;
   padding: 28px 70px;
+  margin-bottom: 50px;
+}
+#contract_add_modal .modal-content ._alert {
+  border-radius: 2px;
+  display: flex;
+  padding: 7px;
+  max-width: 336px;
+  align-items: start;
+}
+#contract_add_modal .modal-content ._alert .msg {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: #6A728A;
+}
+#contract_add_modal .modal-content ._alert img {
+  margin-right: 7px;
+}
+#contract_add_modal .modal-content .form-group {
+  width: 336px;
+}
+#contract_add_modal .modal-content .form-group .errorlist {
+  text-align: right;
 }
 #contract_add_modal .modal-content form {
   width: 100%;
@@ -909,7 +932,7 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
   margin-bottom: 22px;
 }
 #contract_add_modal .modal-content .input, #contract_add_modal .modal-content input, #contract_add_modal .modal-content select {
-  width: 300px;
+  width: 336px;
 }
 #contract_add_modal .modal-content .buttons {
   margin-top: 40px;
@@ -961,4 +984,17 @@ input:focus, input:active, input:focus-visible, select:focus, select:active, sel
 
 .table-contracts-list {
   padding-right: 12px;
+}
+
+.input_file_name {
+  padding-right: 30px !important;
+}
+
+.label_file_name {
+  position: relative;
+}
+.label_file_name img {
+  position: absolute;
+  right: 10px;
+  top: 35px;
 }
